@@ -152,6 +152,7 @@ def build_method_contracts(
         for method_id in intent.get("allowed_methods", []):
             business_by_method[method_id].append(intent["business_intent_id"])
 
+    soft_required_slot_ids = {"filter_criteria", "metric", "segment_criteria"}
     contracts = []
     for method in method_candidates:
         method_id = method["method_id"]
@@ -196,6 +197,7 @@ def build_method_contracts(
                 "required": True,
             }
             for slot_id in method.get("required_parameters", [])
+            if slot_id not in soft_required_slot_ids
         ]
         optional_slots = [
             {
@@ -203,7 +205,11 @@ def build_method_contracts(
                 "value_type": slot_by_id.get(slot_id, {}).get("value_type", "unknown"),
                 "required": False,
             }
-            for slot_id in method.get("optional_parameters", [])
+            for slot_id in sorted(set(method.get("optional_parameters", []) + [
+                item
+                for item in method.get("required_parameters", [])
+                if item in soft_required_slot_ids
+            ]))
         ]
 
         required_semantics = sorted({

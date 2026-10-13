@@ -215,6 +215,16 @@ python scripts/build_method_contracts_hybrid.py \
   --use-llm
 ```
 
+Build semantic policies:
+
+```bash
+python scripts/build_semantic_policies.py \
+  --database-id omnichannel_retail \
+  --method-contract-dir offline_artifacts/omnichannel_retail/04_method_contracts \
+  --task-ontology-dir offline_artifacts/omnichannel_retail/03_business_task_ontology \
+  --output-dir offline_artifacts/omnichannel_retail/05_semantic_policies
+```
+
 Luồng offline mục tiêu:
 
 ```text

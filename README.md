@@ -237,6 +237,18 @@ python scripts/build_retrieval_indexes.py \
   --output-dir offline_artifacts/omnichannel_retail/06_retrieval_indexes
 ```
 
+Build benchmark cases:
+
+```bash
+python scripts/build_benchmark_cases.py \
+  --database-id omnichannel_retail \
+  --inventory-dir offline_artifacts/omnichannel_retail/01_database_inventory \
+  --task-ontology-dir offline_artifacts/omnichannel_retail/03_business_task_ontology \
+  --method-contract-dir offline_artifacts/omnichannel_retail/04_method_contracts \
+  --semantic-policy-dir offline_artifacts/omnichannel_retail/05_semantic_policies \
+  --output-dir offline_artifacts/omnichannel_retail/07_benchmark_cases
+```
+
 Luồng offline mục tiêu:
 
 ```text

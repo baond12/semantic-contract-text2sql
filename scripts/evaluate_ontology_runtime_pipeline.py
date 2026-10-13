@@ -58,6 +58,20 @@ SQL_REPAIR_CONTRACT = {
 }
 
 
+LLM_JUDGE_CONTRACT = {
+    "schema_linking_score": "0 | 1 | 2",
+    "execution_validity_score": "0 | 1 | 2",
+    "result_score": "0 | 1 | 2 | 3 | 4",
+    "semantic_contract_score": "0 | 1 | 2",
+    "critical_failure": "true | false",
+    "total_score": "0-10",
+    "verdict": "PASS | PARTIAL | FAIL",
+    "accepted": "true | false",
+    "reason": "short Vietnamese explanation",
+    "main_error_type": "none | action_error | schema_linking_error | sql_execution_error | result_mismatch | semantic_contract_violation | safety_error",
+}
+
+
 def configure_proxy(proxy_mode):
     if proxy_mode == "company":
         os.environ["http_proxy"] = COMPANY_PROXY_URL
@@ -609,6 +623,10 @@ def execute_sql(sqlite_path, sql):
     return [dict(row) for row in rows]
 
 
+def preview_records(records, limit=20):
+    return records[:limit]
+
+
 def result_hash(records):
     payload = json.dumps(records, ensure_ascii=False, sort_keys=True, default=str)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
@@ -764,7 +782,7 @@ def build_pipeline_exception_output(question, error):
     }
 
 
-def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, top_k, per_type_limit, example_limit, execute_sql_flag, output_dir=None):
+def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, top_k, per_type_limit, example_limit, execute_sql_flag, output_dir=None, llm_judge=False):
     selected = cases
     if case_ids:
         allowed = set(case_ids)
@@ -794,8 +812,39 @@ def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, 
         print("decision:", output["validation"]["decision"], flush=True)
         print("method:", output["task_state"].get("method_id"), "| expected:", case["expected_method_id"], flush=True)
         print("action:", output["task_state"].get("expected_action"), "| expected:", case["expected_action"], flush=True)
+        gold_execution = build_gold_execution(case, sqlite_path)
+        judge_result = {}
+        judge_raw = ""
+        if llm_judge:
+            try:
+                judge_result, judge_raw = judge_with_llm(case, output, metrics, gold_execution, config_path)
+            except Exception as error:
+                judge_result = {
+                    "schema_linking_score": 0,
+                    "execution_validity_score": 0,
+                    "result_score": 0,
+                    "semantic_contract_score": 0,
+                    "critical_failure": True,
+                    "total_score": 0,
+                    "verdict": "FAIL",
+                    "accepted": False,
+                    "reason": f"LLM judge exception: {error}",
+                    "main_error_type": "sql_execution_error",
+                }
+                judge_raw = traceback.format_exc()
         print("case_pass:", metrics["case_pass"], flush=True)
-        results.append({"case": case, "output": output, "metrics": metrics})
+        if llm_judge:
+            print("judge:", judge_result.get("verdict"), "score:", judge_result.get("total_score"), "accepted:", judge_result.get("accepted"), flush=True)
+        results.append(
+            {
+                "case": case,
+                "output": output,
+                "metrics": metrics,
+                "gold_execution": gold_execution,
+                "llm_judge": judge_result,
+                "llm_judge_raw": judge_raw,
+            }
+        )
         if output_dir:
             save_json({"results": results}, Path(output_dir) / "runtime_eval_checkpoint.json")
             save_csv(flatten_results(results), Path(output_dir) / "runtime_eval_checkpoint.csv")
@@ -817,6 +866,110 @@ def expected_value_hash(case, sqlite_path):
         return result_value_hash(execute_sql(sqlite_path, gold_sql))
 
     return ""
+
+
+def build_gold_execution(case, sqlite_path):
+    gold_sql = case.get("gold_sql", "")
+    if case.get("expected_action") != "EXECUTE_SQL" or not gold_sql:
+        return {
+            "gold_sql_executed": False,
+            "gold_records": [],
+            "gold_execution_error": "",
+            "gold_record_hash": "",
+            "gold_record_value_hash": "",
+        }
+
+    try:
+        records = execute_sql(sqlite_path, gold_sql)
+        return {
+            "gold_sql_executed": True,
+            "gold_records": records,
+            "gold_execution_error": "",
+            "gold_record_hash": result_hash(records),
+            "gold_record_value_hash": result_value_hash(records),
+        }
+    except Exception as error:
+        return {
+            "gold_sql_executed": False,
+            "gold_records": [],
+            "gold_execution_error": str(error),
+            "gold_record_hash": "",
+            "gold_record_value_hash": "",
+        }
+
+
+def judge_with_llm(case, output, metrics, gold_execution, config_path):
+    sql_output = output.get("sql_output") or {}
+    system_prompt = """
+Bạn là giám khảo Text2SQL theo rubric của benchmark.
+
+Không chấm theo exact string matching. Hãy đánh giá ý nghĩa:
+- SQL dự đoán có dùng đúng bảng/cột/join/entity không.
+- SQL có chạy được và có đúng loại action không.
+- Kết quả dự đoán có trả lời đúng intent user không, số liệu có chấp nhận được không.
+- SQL có bảo toàn required semantics/forbidden semantics/semantic contract không.
+
+Rubric:
+- Schema Linking 0-2: 2 đúng bảng/cột/join/entity; 1 lỗi nhỏ không ảnh hưởng ý chính; 0 sai schema/hallucinate.
+- Execution Validity 0-2: 2 SELECT read-only chạy được hoặc guard action đúng; 1 lỗi nhỏ; 0 syntax/runtime/action sai.
+- Result 0-4: 4 đúng số liệu/ý nghĩa; 3 đúng ý chính nhưng khác alias/order/output phụ; 2 đúng một phần; 1 rất thiếu; 0 sai.
+- Semantic Contract 0-2: 2 giữ đủ required/forbidden semantics; 1 thiếu nhẹ; 0 vi phạm nghiêm trọng.
+
+Critical failure nếu: sai action an toàn, hallucinate bảng/cột, SQL không chạy, trả lời ngược intent, hoặc vi phạm business rule nghiêm trọng.
+PASS nếu total_score >= 8 và critical_failure=false.
+PARTIAL nếu total_score từ 5 đến 7 hoặc còn lỗi nhỏ.
+FAIL nếu total_score < 5 hoặc critical_failure=true.
+
+Trả về JSON đúng contract. Không giải thích ngoài JSON.
+"""
+    user_prompt = f"""
+CONTRACT:
+{json.dumps(LLM_JUDGE_CONTRACT, ensure_ascii=False, indent=2)}
+
+TEST CASE:
+{json.dumps({
+    "case_id": case.get("case_id"),
+    "group": case.get("group"),
+    "difficulty": case.get("difficulty"),
+    "question": case.get("question"),
+    "expected_action": case.get("expected_action"),
+    "expected_method_id": case.get("expected_method_id"),
+    "required_semantics": case.get("required_semantics"),
+    "forbidden_semantics": case.get("forbidden_semantics"),
+    "gold_sql": case.get("gold_sql"),
+    "expected_result": case.get("expected_result"),
+}, ensure_ascii=False, indent=2)}
+
+PREDICTION:
+{json.dumps({
+    "pred_action": output.get("task_state", {}).get("expected_action"),
+    "pred_method_id": output.get("task_state", {}).get("method_id"),
+    "decision": output.get("validation", {}).get("decision"),
+    "sql_pred": sql_output.get("sql", ""),
+    "execution_error": output.get("execution_error", ""),
+    "sql_contract_audit": output.get("sql_contract_audit"),
+    "strict_metrics": metrics,
+}, ensure_ascii=False, indent=2)}
+
+GOLD_EXECUTION:
+{json.dumps({
+    "gold_sql_executed": gold_execution.get("gold_sql_executed"),
+    "gold_execution_error": gold_execution.get("gold_execution_error"),
+    "gold_row_count": len(gold_execution.get("gold_records", [])),
+    "gold_preview": preview_records(gold_execution.get("gold_records", [])),
+}, ensure_ascii=False, indent=2)}
+
+PRED_EXECUTION:
+{json.dumps({
+    "pred_row_count": len(output.get("records", [])),
+    "pred_preview": preview_records(output.get("records", [])),
+}, ensure_ascii=False, indent=2)}
+
+Return only JSON.
+"""
+    raw_output = call_llm(system_prompt, user_prompt, config_path)
+    parsed = extract_json_object(raw_output)
+    return parsed, raw_output
 
 
 def score_case(case, output, sqlite_path=None):
@@ -860,8 +1013,9 @@ def score_case(case, output, sqlite_path=None):
 
 def summarize_results(results):
     metrics = [item["metrics"] for item in results]
+    judge_items = [item.get("llm_judge", {}) for item in results if item.get("llm_judge")]
     total = len(metrics)
-    return {
+    summary = {
         "case_count": total,
         "case_pass": sum(1 for item in metrics if item["case_pass"]),
         "case_pass_rate": round(sum(1 for item in metrics if item["case_pass"]) / max(1, total), 4),
@@ -873,6 +1027,20 @@ def summarize_results(results):
         "result_hash_accuracy": round(sum(1 for item in metrics if item["result_hash_match"]) / max(1, total), 4),
         "result_value_hash_accuracy": round(sum(1 for item in metrics if item["result_value_hash_match"]) / max(1, total), 4),
     }
+    if judge_items:
+        accepted_count = sum(1 for item in judge_items if str(item.get("accepted")).lower() == "true" or item.get("accepted") is True)
+        total_score = sum(float(item.get("total_score", 0) or 0) for item in judge_items)
+        summary.update(
+            {
+                "llm_judge_case_count": len(judge_items),
+                "llm_judge_accepted": accepted_count,
+                "llm_judge_accept_rate": round(accepted_count / max(1, len(judge_items)), 4),
+                "llm_judge_avg_score": round(total_score / max(1, len(judge_items)), 4),
+                "llm_judge_verdict_counts": dict(Counter(item.get("verdict", "UNKNOWN") for item in judge_items)),
+                "llm_judge_error_type_counts": dict(Counter(item.get("main_error_type", "unknown") for item in judge_items)),
+            }
+        )
+    return summary
 
 
 def flatten_results(results):
@@ -881,6 +1049,7 @@ def flatten_results(results):
         case = item["case"]
         output = item["output"]
         metrics = item["metrics"]
+        judge = item.get("llm_judge", {})
         sql_output = output.get("sql_output") or {}
         sql_contract_audit = output.get("sql_contract_audit") or {}
         rows.append(
@@ -901,6 +1070,16 @@ def flatten_results(results):
                 "expected_value_hash": case["expected_result"].get("result_value_sha256", ""),
                 "sql_contract_audit_status": sql_contract_audit.get("status", ""),
                 "sql_contract_audit_violations": json.dumps(sql_contract_audit.get("violations", []), ensure_ascii=False),
+                "judge_schema_linking_score": judge.get("schema_linking_score", ""),
+                "judge_execution_validity_score": judge.get("execution_validity_score", ""),
+                "judge_result_score": judge.get("result_score", ""),
+                "judge_semantic_contract_score": judge.get("semantic_contract_score", ""),
+                "judge_total_score": judge.get("total_score", ""),
+                "judge_verdict": judge.get("verdict", ""),
+                "judge_accepted": judge.get("accepted", ""),
+                "judge_critical_failure": judge.get("critical_failure", ""),
+                "judge_main_error_type": judge.get("main_error_type", ""),
+                "judge_reason": judge.get("reason", ""),
                 **metrics,
                 "total_elapsed_sec": output["total_elapsed_sec"],
             }
@@ -945,6 +1124,7 @@ def build_parser():
     parser.add_argument("--per-type-limit", type=int, default=12)
     parser.add_argument("--example-limit", type=int, default=3)
     parser.add_argument("--execute-sql", action="store_true")
+    parser.add_argument("--llm-judge", action="store_true")
     parser.add_argument("--proxy-mode", choices=["company", "none"], default="none")
     return parser
 
@@ -967,6 +1147,7 @@ def main():
         example_limit=args.example_limit,
         execute_sql_flag=args.execute_sql,
         output_dir=Path(args.output_dir),
+        llm_judge=args.llm_judge,
     )
     summary = save_eval_outputs(results, args.output_dir)
     print(json.dumps(summary, ensure_ascii=False, indent=2))

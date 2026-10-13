@@ -203,6 +203,18 @@ python scripts/build_business_task_ontology_hybrid.py \
   --use-llm
 ```
 
+Build method contracts hybrid:
+
+```bash
+python scripts/build_method_contracts_hybrid.py \
+  --database-id omnichannel_retail \
+  --inventory-dir offline_artifacts/omnichannel_retail/01_database_inventory \
+  --object-ontology-dir offline_artifacts/omnichannel_retail/02_object_ontology \
+  --task-ontology-dir offline_artifacts/omnichannel_retail/03_business_task_ontology \
+  --output-dir offline_artifacts/omnichannel_retail/04_method_contracts \
+  --use-llm
+```
+
 Luồng offline mục tiêu:
 
 ```text

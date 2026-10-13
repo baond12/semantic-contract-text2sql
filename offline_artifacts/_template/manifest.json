@@ -1,0 +1,17 @@
+{
+  "artifact_type": "offline_artifact_template",
+  "version": "v01",
+  "description": "Standard offline workspace structure for one Text2SQL database.",
+  "folders": [
+    "00_sources",
+    "01_database_inventory",
+    "02_object_ontology",
+    "03_business_task_ontology",
+    "04_method_contracts",
+    "05_semantic_policies",
+    "06_retrieval_indexes",
+    "07_benchmark_cases",
+    "08_audit_reports"
+  ]
+}
+

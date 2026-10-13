@@ -59,6 +59,7 @@ semantic-contract-text2sql/
 ├── docs/                            # Tài liệu nghiên cứu và thiết kế
 ├── notebooks/                       # Notebook demo và audit
 ├── ontology/                        # Ontology artifacts
+├── offline_artifacts/               # Template workspace offline cho từng database
 ├── benchmarks/                      # Dữ liệu benchmark và kết quả audit
 ├── src/semantic_contract_text2sql/   # Python package tối giản
 ├── tests/                           # Unit tests về sau
@@ -148,6 +149,42 @@ python -m semantic_contract_text2sql --help
 python scripts/print_audit_summary.py benchmarks/vietnamese_admin_units/results/audit_v01_1/audit_summary.json
 ```
 
+## Khởi tạo offline workspace cho một database
+
+Master plan offline nằm ở:
+
+```text
+docs/offline_artifact_master_plan.md
+```
+
+Tạo workspace chuẩn:
+
+```bash
+python scripts/init_offline_artifacts.py \
+  --database-id vietnamese_admin_units \
+  --output-root offline_artifacts
+```
+
+Validate cấu trúc:
+
+```bash
+python scripts/validate_offline_artifacts.py offline_artifacts/vietnamese_admin_units
+```
+
+Luồng offline mục tiêu:
+
+```text
+00_sources
+-> 01_database_inventory
+-> 02_object_ontology
+-> 03_business_task_ontology
+-> 04_method_contracts
+-> 05_semantic_policies
+-> 06_retrieval_indexes
+-> 07_benchmark_cases
+-> 08_audit_reports
+```
+
 ## GitHub Pages
 
 Landing page nằm ở:
@@ -167,4 +204,3 @@ Sau khi push lên GitHub, có thể bật GitHub Pages từ folder `/landing` ho
 5. Chạy contract audit trên benchmark bán lẻ.
 6. Xây runtime v02: structured intent -> ontology planner -> guarded SQL template.
 7. Đánh giá với execution accuracy + semantic contract metrics.
-

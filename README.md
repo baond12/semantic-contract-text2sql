@@ -171,6 +171,17 @@ Validate cấu trúc:
 python scripts/validate_offline_artifacts.py offline_artifacts/vietnamese_admin_units
 ```
 
+Build database inventory từ SQLite/schema/spec:
+
+```bash
+python scripts/build_database_inventory.py \
+  --database-id omnichannel_retail \
+  --sqlite-path offline_artifacts/omnichannel_retail/00_sources/Text2SQL_Demo_Package_v01/text2sql_omnichannel_retail.sqlite \
+  --schema-path offline_artifacts/omnichannel_retail/00_sources/Text2SQL_Demo_Package_v01/text2sql_schema.sql \
+  --benchmark-spec-path offline_artifacts/omnichannel_retail/00_sources/Text2SQL_Demo_Package_v01/text2sql_benchmark_spec.json \
+  --output-dir offline_artifacts/omnichannel_retail/01_database_inventory
+```
+
 Luồng offline mục tiêu:
 
 ```text

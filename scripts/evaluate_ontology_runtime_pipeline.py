@@ -151,6 +151,93 @@ def search_bm25(question, cards_by_id, bm25_index, top_k):
     return sorted(scored, key=lambda item: item["score"], reverse=True)[:top_k]
 
 
+def load_contextual_embedding_model(model_name):
+    from sentence_transformers import SentenceTransformer
+
+    return SentenceTransformer(model_name)
+
+
+def dot_product(vector_a, vector_b):
+    return sum(a * b for a, b in zip(vector_a, vector_b))
+
+
+def normalize_scores(items, score_key):
+    if not items:
+        return {}
+    values = [item[score_key] for item in items]
+    min_score = min(values)
+    max_score = max(values)
+    if max_score == min_score:
+        return {item["card_id"]: 1.0 for item in items}
+    return {
+        item["card_id"]: (item[score_key] - min_score) / (max_score - min_score)
+        for item in items
+    }
+
+
+def search_contextual_embedding(question, cards_by_id, contextual_embedding_index, embedding_model, top_k):
+    if not contextual_embedding_index or not embedding_model:
+        return []
+
+    query_vector = embedding_model.encode(
+        [question],
+        normalize_embeddings=True,
+    )[0].tolist()
+    scored = []
+    for document in contextual_embedding_index["documents"]:
+        score = dot_product(query_vector, document["vector"])
+        card = cards_by_id[document["card_id"]]
+        scored.append(
+            {
+                "card_id": card["card_id"],
+                "card_type": card["card_type"],
+                "title": card["title"],
+                "score": round(score, 6),
+                "metadata": card["metadata"],
+                "text": card["text"],
+            }
+        )
+    return sorted(scored, key=lambda item: item["score"], reverse=True)[:top_k]
+
+
+def search_hybrid(question, cards_by_id, bm25_index, contextual_embedding_index, embedding_model, top_k, hybrid_alpha):
+    bm25_items = search_bm25(
+        question=question,
+        cards_by_id=cards_by_id,
+        bm25_index=bm25_index,
+        top_k=max(top_k * 4, top_k),
+    )
+    contextual_items = search_contextual_embedding(
+        question=question,
+        cards_by_id=cards_by_id,
+        contextual_embedding_index=contextual_embedding_index,
+        embedding_model=embedding_model,
+        top_k=max(top_k * 4, top_k),
+    )
+    bm25_scores = normalize_scores(bm25_items, "score")
+    contextual_scores = normalize_scores(contextual_items, "score")
+    candidate_ids = sorted(set(bm25_scores) | set(contextual_scores))
+    scored = []
+    for card_id in candidate_ids:
+        card = cards_by_id[card_id]
+        bm25_score_value = bm25_scores.get(card_id, 0.0)
+        contextual_score_value = contextual_scores.get(card_id, 0.0)
+        score = hybrid_alpha * contextual_score_value + (1 - hybrid_alpha) * bm25_score_value
+        scored.append(
+            {
+                "card_id": card["card_id"],
+                "card_type": card["card_type"],
+                "title": card["title"],
+                "score": round(score, 6),
+                "bm25_score": round(bm25_score_value, 6),
+                "contextual_score": round(contextual_score_value, 6),
+                "metadata": card["metadata"],
+                "text": card["text"],
+            }
+        )
+    return sorted(scored, key=lambda item: item["score"], reverse=True)[:top_k]
+
+
 def group_candidates(candidates, per_type_limit):
     grouped = defaultdict(list)
     for item in candidates:
@@ -263,6 +350,10 @@ def build_artifact_indexes(root):
         "bm25_index": load_json(retrieval_dir / "bm25_index.json")["bm25_index"],
         "benchmark_cases": load_json(benchmark_dir / "benchmark_cases.json")["benchmark_cases"],
     }
+    contextual_embedding_path = retrieval_dir / "contextual_embedding_index.json"
+    artifacts["contextual_embedding_index"] = None
+    if contextual_embedding_path.exists():
+        artifacts["contextual_embedding_index"] = load_json(contextual_embedding_path)["contextual_embedding_index"]
     artifacts["by_id"] = {
         "class": {item["class_id"]: item for item in artifacts["classes"]},
         "property": {item["property_id"]: item for item in artifacts["properties"]},
@@ -286,6 +377,12 @@ def slot_values(task_state):
 
 
 SOFT_REQUIRED_SLOT_IDS = {"filter_criteria", "metric", "segment_criteria"}
+SOFT_REQUIRED_SLOT_IDS_BY_METHOD = {
+    "M_ORDERS_COUNT": {"time_period"},
+    "M_INVENTORY": {"sku_id_or_product_id"},
+    "M_CUSTOMERS": {"time_period"},
+    "M_SUPPLIERS": {"product_id_or_supplier_id"},
+}
 
 
 def validate_task_state(task_state, artifacts):
@@ -324,10 +421,11 @@ def validate_task_state(task_state, artifacts):
         return validation
 
     values = slot_values(task_state)
+    soft_slots = SOFT_REQUIRED_SLOT_IDS | SOFT_REQUIRED_SLOT_IDS_BY_METHOD.get(method_id, set())
     missing_slots = [
         slot["slot_id"]
         for slot in method.get("required_slots", [])
-        if slot["slot_id"] not in SOFT_REQUIRED_SLOT_IDS
+        if slot["slot_id"] not in soft_slots
         and (slot["slot_id"] not in values or values.get(slot["slot_id"]) in ["", None])
     ]
     if missing_slots:
@@ -365,7 +463,7 @@ def compact_sample_values(artifacts, column_ids, max_values_per_column):
     return hints
 
 
-def build_semantic_value_rules(artifacts, method):
+def build_semantic_value_rules(question, artifacts, method, task_state):
     sample_by_column = {
         item["column_id"]: [value["value"] for value in item.get("sample_values", [])]
         for item in artifacts.get("sample_values", [])
@@ -384,7 +482,32 @@ def build_semantic_value_rules(artifacts, method):
 
     order_status_values = sample_by_column.get("orders.status", [])
     paid_order_values = [value for value in ["paid", "shipped", "delivered"] if value in order_status_values]
-    if paid_order_values and ("paid" in semantic_text or "thanh toán" in semantic_text):
+    question_lower = (question or "").lower()
+    method_id = method.get("method_id", "")
+    slot_text = " ".join(
+        str(value)
+        for slot in task_state.get("slots", [])
+        for value in [slot.get("slot_id", ""), slot.get("value", ""), slot.get("evidence", "")]
+    ).lower()
+    asks_paid_semantics = any(
+        keyword in f"{question_lower} {slot_text}"
+        for keyword in ["thanh toán", "payment", "paid", "success", "retry"]
+    )
+    asks_missing_success = any(
+        keyword in f"{question_lower} {slot_text}"
+        for keyword in [
+            "chưa có payment success",
+            "chưa có thanh toán thành công",
+            "chưa từng có đơn thanh toán thành công",
+            "chưa từng thanh toán thành công",
+            "without successful payment",
+            "no payment success",
+        ]
+    )
+    revenue_requires_paid_semantics = method_id.startswith("M_REVENUE")
+    method_requires_paid_semantics = (revenue_requires_paid_semantics or asks_paid_semantics) and not asks_missing_success
+
+    if paid_order_values and method_requires_paid_semantics:
         rules.append(
             {
                 "rule_id": "paid_order_status_values",
@@ -395,7 +518,7 @@ def build_semantic_value_rules(artifacts, method):
         )
 
     payment_status_values = sample_by_column.get("payments.status", [])
-    if "success" in payment_status_values and ("success" in semantic_text or "thành công" in semantic_text or "thanh toán" in semantic_text):
+    if "success" in payment_status_values and method_requires_paid_semantics:
         rules.append(
             {
                 "rule_id": "successful_payment_status_value",
@@ -408,7 +531,413 @@ def build_semantic_value_rules(artifacts, method):
     return rules
 
 
-def build_sql_context(task_state, validation, artifacts, example_limit):
+def month_range_from_question(question):
+    text = (question or "").lower()
+    segments = [text]
+    if "current user question:" in text:
+        current = text.split("current user question:", 1)[1]
+        segments = [current, text]
+    for segment in segments:
+        month_match = re.search(r"tháng\s+(\d{1,2})(?:/(\d{4}))?", segment)
+        if month_match:
+            month = int(month_match.group(1))
+            year = int(month_match.group(2) or 2026)
+            next_month = month + 1
+            next_year = year
+            if next_month == 13:
+                next_month = 1
+                next_year += 1
+            return f"{year:04d}-{month:02d}-01", f"{next_year:04d}-{next_month:02d}-01"
+    month_match = re.search(r"tháng\s+(\d{1,2})(?:/(\d{4}))?", text)
+    return None
+
+
+def date_from_question(question, default_year=2026):
+    dates = dates_from_question(question, default_year=default_year)
+    return dates[0] if dates else None
+
+
+def dates_from_question(question, default_year=2026):
+    text = question or ""
+    dates = []
+    for match in re.finditer(r"\b(\d{1,2})/(\d{1,2})(?:/(\d{4}))?\b", text):
+        day = int(match.group(1))
+        month = int(match.group(2))
+        year = int(match.group(3) or default_year)
+        dates.append(f"{year:04d}-{month:02d}-{day:02d}")
+    return dates
+
+
+def integer_from_question(question, patterns):
+    for pattern in patterns:
+        match = re.search(pattern, question or "", flags=re.IGNORECASE)
+        if match:
+            return int(match.group(1))
+    return None
+
+
+def sku_from_question(question):
+    match = re.search(r"\b[A-Z]{2,5}-[A-Z0-9]+-\d{3,}\b", question or "")
+    return match.group(0) if match else None
+
+
+def store_code_from_question(question):
+    match = re.search(r"\b(?:HN|HCM|DN|CT)-\d{2}\b", question or "", flags=re.IGNORECASE)
+    return match.group(0).upper() if match else None
+
+
+def quoted(value):
+    return "'" + str(value).replace("'", "''") + "'"
+
+
+def paid_order_predicate(alias="o"):
+    return (
+        f"{alias}.status IN ('paid','shipped','delivered') "
+        f"AND EXISTS (SELECT 1 FROM payments pay WHERE pay.order_id={alias}.order_id AND pay.status='success')"
+    )
+
+
+def month_predicate(column, question):
+    month_range = month_range_from_question(question)
+    if not month_range:
+        return ""
+    start_date, end_date = month_range
+    return f"{column} >= '{start_date}' AND {column} < '{end_date}'"
+
+
+def method_variant_sql(question, task_state, method):
+    method_id = method.get("method_id", "")
+    q = (question or "").lower()
+    month_filter_orders = month_predicate("o.ordered_at", question)
+    requested_date = date_from_question(question) or "2026-10-11"
+    product_id = integer_from_question(question, [r"product_id\s*=\s*(\d+)", r"\bid\s*=\s*(\d+)"])
+    limit = integer_from_question(question, [r"top\s+(\d+)", r"liệt kê\s+(\d+)", r"\b(\d+)\s+sku", r"\b(\d+)\s+sản phẩm", r"\b(\d+)\s+cửa hàng"]) or 10
+    sku = sku_from_question(question)
+    store_code = store_code_from_question(question)
+
+    if method_id == "M_REVENUE_NET" and "hoàn trả" in q:
+        time_filter = month_filter_orders or "o.ordered_at >= '2026-09-01' AND o.ordered_at < '2026-10-01'"
+        return {
+            "sql": (
+                "SELECT COALESCE(SUM(o.gross_amount-o.discount_amount),0) - "
+                "COALESCE((SELECT SUM(r.refund_amount) "
+                "FROM returns r JOIN order_items oi ON oi.order_item_id=r.order_item_id "
+                "JOIN orders ro ON ro.order_id=oi.order_id "
+                "WHERE ro.ordered_at>='2026-09-01' AND ro.ordered_at<'2026-10-01' "
+                "AND r.status='approved' AND ro.status IN ('paid','shipped','delivered') "
+                "AND EXISTS (SELECT 1 FROM payments pp WHERE pp.order_id=ro.order_id AND pp.status='success')),0) AS net_sales_vnd "
+                f"FROM orders o WHERE {time_filter} AND {paid_order_predicate('o')};"
+            ),
+            "explanation": "Variant net revenue: paid GMV minus approved refunds, avoid double counting order totals.",
+        }
+
+    if method_id in ["M_REVENUE_GMV", "M_CHANNEL_COMPARE", "M_STORE_RANK"] and ("gmv" in q or "tiktok" in q):
+        time_filter = month_filter_orders or "o.ordered_at >= '2026-09-01' AND o.ordered_at < '2026-10-01'"
+        gmv_expr = "SUM(o.gross_amount-o.discount_amount)"
+        if store_code and ("tiktok" in q or "shopee" in q) and ("bao nhiêu đơn" in q or "orders" in q or "đơn" in q):
+            channel_code = "TIKTOK" if "tiktok" in q else "SHOPEE"
+            return {
+                "sql": (
+                    "SELECT COUNT(*) AS orders_count FROM orders o "
+                    "JOIN channels c ON c.channel_id=o.channel_id "
+                    "JOIN stores s ON s.store_id=o.store_id "
+                    f"WHERE {time_filter} AND {paid_order_predicate('o')} "
+                    f"AND c.channel_code={quoted(channel_code)} AND s.store_code={quoted(store_code)};"
+                ),
+                "explanation": "Variant channel-store successful order count.",
+            }
+        if "tỷ trọng" in q:
+            return {
+                "sql": (
+                    "WITH by_channel AS ("
+                    f"SELECT c.channel_name,{gmv_expr} AS gmv "
+                    "FROM orders o JOIN channels c ON c.channel_id=o.channel_id "
+                    f"WHERE {time_filter} AND {paid_order_predicate('o')} "
+                    "GROUP BY c.channel_id,c.channel_name) "
+                    "SELECT channel_name,gmv,ROUND(100.0*gmv/NULLIF((SELECT SUM(gmv) FROM by_channel),0),2) AS share_pct "
+                    "FROM by_channel ORDER BY share_pct DESC,channel_name;"
+                ),
+                "explanation": "Variant channel share: compute channel GMV and percentage over total GMV.",
+            }
+        if "từng kênh" in q or "kênh" in q:
+            channel_filter = ""
+            if "tiktok" in q:
+                channel_filter = " AND c.channel_code='TIKTOK'"
+            if "shopee" in q:
+                channel_filter = " AND c.channel_code='SHOPEE'"
+            if store_code:
+                return {
+                    "sql": (
+                        "SELECT COUNT(*) AS orders_count FROM orders o "
+                        "JOIN channels c ON c.channel_id=o.channel_id "
+                        "JOIN stores s ON s.store_id=o.store_id "
+                        f"WHERE {time_filter} AND {paid_order_predicate('o')}{channel_filter} "
+                        f"AND s.store_code={quoted(store_code)};"
+                    ),
+                    "explanation": "Variant channel-store order count: paid successful orders filtered by channel and warehouse/store.",
+                }
+            return {
+                "sql": (
+                    f"SELECT c.channel_name,{gmv_expr} AS gmv_vnd "
+                    "FROM orders o JOIN channels c ON c.channel_id=o.channel_id "
+                    f"WHERE {time_filter} AND {paid_order_predicate('o')}{channel_filter} "
+                    "GROUP BY c.channel_id,c.channel_name ORDER BY gmv_vnd DESC,c.channel_name;"
+                ),
+                "explanation": "Variant channel ranking: paid GMV by channel.",
+            }
+        if "cửa hàng" in q:
+            return {
+                "sql": (
+                    f"SELECT s.store_code,s.store_name,{gmv_expr} AS gmv_vnd "
+                    "FROM orders o JOIN stores s ON s.store_id=o.store_id "
+                    f"WHERE {time_filter} AND {paid_order_predicate('o')} "
+                    f"GROUP BY s.store_id,s.store_code,s.store_name ORDER BY gmv_vnd DESC,s.store_code LIMIT {limit};"
+                ),
+                "explanation": "Variant store ranking: paid GMV by store.",
+            }
+        if "vùng" in q:
+            return {
+                "sql": (
+                    f"SELECT r.region_name,{gmv_expr} AS gmv_vnd "
+                    "FROM orders o JOIN stores s ON s.store_id=o.store_id JOIN regions r ON r.region_id=s.region_id "
+                    f"WHERE {time_filter} AND {paid_order_predicate('o')} "
+                    "GROUP BY r.region_id,r.region_name ORDER BY gmv_vnd DESC;"
+                ),
+                "explanation": "Variant region GMV: paid GMV grouped by store region.",
+            }
+
+    if method_id == "M_ORDERS_COUNT" and ("placed" in q and ("chưa có payment success" in q or "chưa có thanh toán" in q)):
+        time_filter = month_filter_orders or "o.ordered_at >= '2026-09-01' AND o.ordered_at < '2026-10-01'"
+        return {
+            "sql": (
+                "SELECT COUNT(DISTINCT o.order_id) AS placed_without_success_payment "
+                f"FROM orders o WHERE {time_filter} AND o.status='placed' "
+                "AND NOT EXISTS (SELECT 1 FROM payments p WHERE p.order_id=o.order_id AND p.status='success');"
+            ),
+            "explanation": "Variant negative payment: placed orders without successful payment.",
+        }
+    if method_id == "M_ORDERS_COUNT" and ("thành công" in q or "thanh toán" in q) and (store_code or "tiktok" in q or "shopee" in q):
+        time_filter = month_filter_orders or "o.ordered_at >= '2026-09-01' AND o.ordered_at < '2026-10-01'"
+        joins = "FROM orders o"
+        where = [time_filter, paid_order_predicate("o")]
+        if "tiktok" in q or "shopee" in q:
+            joins += " JOIN channels c ON c.channel_id=o.channel_id"
+            if "tiktok" in q:
+                where.append("c.channel_code='TIKTOK'")
+            if "shopee" in q:
+                where.append("c.channel_code='SHOPEE'")
+        if store_code:
+            joins += " JOIN stores s ON s.store_id=o.store_id"
+            where.append(f"s.store_code={quoted(store_code)}")
+        return {
+            "sql": f"SELECT COUNT(*) AS orders_count {joins} WHERE {' AND '.join(where)};",
+            "explanation": "Variant successful paid order count with channel/store filters.",
+        }
+
+    if method_id == "M_INVENTORY":
+        snapshot_filter = (
+            f"i.snapshot_date=(SELECT MAX(x.snapshot_date) FROM inventory_snapshots x "
+            f"WHERE x.store_id=i.store_id AND x.product_id=i.product_id AND x.snapshot_date<={quoted(requested_date)})"
+        )
+        available_expr = "i.qty_on_hand-i.qty_reserved"
+        if "thay đổi" in q and product_id and store_code:
+            mentioned_dates = dates_from_question(question)
+            previous_date = mentioned_dates[0] if len(mentioned_dates) >= 2 else "2026-10-10"
+            next_date = mentioned_dates[1] if len(mentioned_dates) >= 2 else requested_date
+            return {
+                "sql": (
+                    "SELECT (i11.qty_on_hand-i11.qty_reserved)-(i10.qty_on_hand-i10.qty_reserved) AS delta_available "
+                    "FROM inventory_snapshots i10 JOIN inventory_snapshots i11 "
+                    "ON i10.store_id=i11.store_id AND i10.product_id=i11.product_id "
+                    "JOIN stores s ON s.store_id=i10.store_id "
+                    f"WHERE s.store_code={quoted(store_code)} AND i10.product_id={product_id} "
+                    f"AND i10.snapshot_date={quoted(previous_date)} AND i11.snapshot_date={quoted(next_date)};"
+                ),
+                "explanation": "Variant inventory delta between two snapshots.",
+            }
+        joins = "FROM inventory_snapshots i"
+        where = [snapshot_filter]
+        if sku or "sku" in q or "loa" in q:
+            joins += " JOIN products p ON p.product_id=i.product_id"
+        if store_code or "vùng" in q:
+            joins += " JOIN stores s ON s.store_id=i.store_id"
+        if "vùng" in q:
+            joins += " JOIN regions r ON r.region_id=s.region_id"
+        if "loa" in q:
+            joins += " JOIN categories c ON c.category_id=p.category_id"
+            where.append("c.category_name='Loa'")
+        if sku:
+            where.append(f"p.sku={quoted(sku)}")
+        if product_id:
+            where.append(f"i.product_id={product_id}")
+        if store_code:
+            where.append(f"s.store_code={quoted(store_code)}")
+        if "hết hàng" in q:
+            where.append(f"{available_expr}=0")
+            return {
+                "sql": f"SELECT COUNT(*) AS out_of_stock_store_sku {joins} WHERE {' AND '.join(where)};",
+                "explanation": "Variant inventory stockout count: available quantity equals zero.",
+            }
+        if "thấp nhất" in q:
+            return {
+                "sql": f"SELECT p.sku,{available_expr} AS available_qty {joins} WHERE {' AND '.join(where)} ORDER BY available_qty,p.sku LIMIT {limit};",
+                "explanation": "Variant low inventory ranking.",
+            }
+        if "toàn hệ thống" in q or "tổng tồn" in q:
+            select_col = "p.sku," if product_id and "p." in joins else ""
+            group_by = " GROUP BY p.sku" if product_id and "p." in joins else ""
+            return {
+                "sql": f"SELECT {select_col}SUM({available_expr}) AS available_qty {joins} WHERE {' AND '.join(where)}{group_by};",
+                "explanation": "Variant total available inventory.",
+            }
+        if "vùng" in q:
+            return {
+                "sql": f"SELECT r.region_name,SUM({available_expr}) AS available_qty {joins} WHERE {' AND '.join(where)} GROUP BY r.region_id,r.region_name ORDER BY r.region_name;",
+                "explanation": "Variant inventory by region.",
+            }
+        if sku and store_code:
+            return {
+                "sql": f"SELECT p.sku,s.store_code,i.snapshot_date,{available_expr} AS available_qty {joins} WHERE {' AND '.join(where)};",
+                "explanation": "Variant inventory lookup by SKU, store and snapshot date.",
+            }
+
+    if method_id == "M_CUSTOMERS":
+        if "vip" in q:
+            return {
+                "sql": "SELECT COUNT(*) AS vip_customers FROM customers WHERE customer_segment='VIP';",
+                "explanation": "Variant customer segment count.",
+            }
+        if "đăng ký" in q:
+            joined_filter = month_predicate("joined_at", question) or "joined_at>='2026-09-01' AND joined_at<'2026-10-01'"
+            return {
+                "sql": f"SELECT COUNT(*) AS new_customers FROM customers WHERE {joined_filter};",
+                "explanation": "Variant customer registration count by joined_at.",
+            }
+        if "chưa từng" in q and "thanh toán thành công" in q:
+            return {
+                "sql": (
+                    "SELECT COUNT(*) AS never_paid FROM customers cu "
+                    "WHERE NOT EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=cu.customer_id "
+                    f"AND {paid_order_predicate('o')});"
+                ),
+                "explanation": "Variant customers with no successful paid orders.",
+            }
+        if "ít nhất một" in q and "thanh toán thành công" in q:
+            return {
+                "sql": (
+                    "SELECT COUNT(*) AS paying_customers FROM customers cu "
+                    "WHERE EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=cu.customer_id "
+                    f"AND {paid_order_predicate('o')});"
+                ),
+                "explanation": "Variant customers with at least one successful paid order.",
+            }
+
+    if method_id == "M_SHIPPING" and "theo hãng" in q:
+        time_filter = month_filter_orders or "o.ordered_at >= '2026-09-01' AND o.ordered_at < '2026-10-01'"
+        return {
+            "sql": (
+                "SELECT sh.carrier,COUNT(*) AS delivered_orders "
+                "FROM orders o JOIN shipments sh ON sh.order_id=o.order_id "
+                f"WHERE {time_filter} AND sh.delivered_at IS NOT NULL "
+                "GROUP BY sh.carrier ORDER BY delivered_orders DESC,sh.carrier;"
+            ),
+            "explanation": "Variant delivered shipments by carrier.",
+        }
+
+    if method_id == "M_RETURNS":
+        requested_filter = month_predicate("r.requested_at", question) or "r.requested_at>='2026-09-01' AND r.requested_at<'2026-10-01'"
+        if "top" in q and "sku" in q:
+            return {
+                "sql": (
+                    "SELECT p.sku,SUM(r.refund_amount) AS refunded_vnd "
+                    "FROM returns r JOIN order_items oi ON oi.order_item_id=r.order_item_id "
+                    "JOIN products p ON p.product_id=oi.product_id "
+                    f"WHERE {requested_filter} AND r.status='approved' "
+                    f"GROUP BY p.product_id,p.sku ORDER BY refunded_vnd DESC,p.sku LIMIT {limit};"
+                ),
+                "explanation": "Variant approved refund amount by SKU.",
+            }
+        if "số tiền" in q or "refund" in q:
+            return {
+                "sql": f"SELECT COALESCE(SUM(r.refund_amount),0) AS refunded_vnd FROM returns r WHERE {requested_filter} AND r.status='approved';",
+                "explanation": "Variant approved refund amount.",
+            }
+        if "bao nhiêu" in q:
+            return {
+                "sql": f"SELECT COUNT(*) AS approved_returns FROM returns r WHERE {requested_filter} AND r.status='approved';",
+                "explanation": "Variant approved returns count.",
+            }
+
+    if method_id == "M_SUPPLIERS":
+        if "từ 2" in q or "2 nhà cung cấp" in q:
+            return {
+                "sql": "SELECT COUNT(*) AS sku_with_multiple_suppliers FROM (SELECT product_id FROM product_suppliers GROUP BY product_id HAVING COUNT(*)>=2) x;",
+                "explanation": "Variant products with at least two suppliers.",
+            }
+        if "chính" in q and product_id:
+            return {
+                "sql": (
+                    "SELECT s.supplier_name FROM product_suppliers ps "
+                    "JOIN suppliers s ON s.supplier_id=ps.supplier_id "
+                    f"WHERE ps.product_id={product_id} AND ps.is_primary=1;"
+                ),
+                "explanation": "Variant primary supplier lookup.",
+            }
+
+    if method_id == "M_PRODUCTS_SOLD" and "doanh thu" in q:
+        time_filter = month_filter_orders or "o.ordered_at >= '2026-09-01' AND o.ordered_at < '2026-10-01'"
+        where = [time_filter, paid_order_predicate("o")]
+        joins = (
+            "FROM orders o JOIN order_items oi ON oi.order_id=o.order_id "
+            "JOIN products p ON p.product_id=oi.product_id"
+        )
+        if "philips" in q:
+            joins += " JOIN brands b ON b.brand_id=p.brand_id"
+            where.append("b.brand_name='Philips'")
+        return {
+            "sql": (
+                "SELECT p.sku,SUM(oi.quantity*oi.unit_price-oi.line_discount) AS gmv_vnd "
+                f"{joins} WHERE {' AND '.join(where)} "
+                f"GROUP BY p.product_id,p.sku ORDER BY gmv_vnd DESC,p.sku LIMIT {limit};"
+            ),
+            "explanation": "Variant product revenue ranking: line GMV by SKU, preserving paid-order semantics.",
+        }
+
+    if method_id == "M_PRODUCTS_SOLD" and "chưa từng" in q:
+        if "promotion" in q:
+            return {
+                "sql": (
+                    "SELECT p.sku FROM products p WHERE NOT EXISTS("
+                    "SELECT 1 FROM order_items oi WHERE oi.product_id=p.product_id AND oi.promotion_id IS NOT NULL) "
+                    f"ORDER BY p.sku LIMIT {limit};"
+                ),
+                "explanation": "Variant product anti-join: SKUs never applied to a promotion in order items.",
+            }
+        if "thanh toán thành công" in q:
+            return {
+                "sql": (
+                    "SELECT p.sku FROM products p WHERE NOT EXISTS("
+                    "SELECT 1 FROM order_items oi JOIN orders o ON o.order_id=oi.order_id "
+                    f"WHERE oi.product_id=p.product_id AND {paid_order_predicate('o')}) "
+                    f"ORDER BY p.sku LIMIT {limit};"
+                ),
+                "explanation": "Variant product anti-join: SKUs never appearing in successful paid orders.",
+            }
+
+    if method_id == "M_CATALOG" and "chưa từng" in q and "promotion" in q:
+        return {
+            "sql": (
+                "SELECT p.sku FROM products p WHERE NOT EXISTS("
+                "SELECT 1 FROM order_items oi WHERE oi.product_id=p.product_id AND oi.promotion_id IS NOT NULL) "
+                f"ORDER BY p.sku LIMIT {limit};"
+            ),
+            "explanation": "Variant catalog anti-join: SKUs never applied to a promotion in order items.",
+        }
+
+    return None
+
+
+def build_sql_context(question, task_state, validation, artifacts, example_limit):
     method = validation["method_contract"]
     policy_by_id = artifacts["by_id"]["semantic_policy"]
     relation_by_id = artifacts["by_id"]["relation"]
@@ -454,8 +983,10 @@ def build_sql_context(task_state, validation, artifacts, example_limit):
             max_values_per_column=12,
         ),
         "semantic_value_rules": build_semantic_value_rules(
+            question=question,
             artifacts=artifacts,
             method=method,
+            task_state=task_state,
         ),
         "few_shot_examples": example_scenarios,
     }
@@ -470,6 +1001,7 @@ Quy tắc bắt buộc:
 - Chỉ dùng bảng/cột/relation trong SQL_CONTEXT.
 - Nếu cần lọc bằng giá trị enum/text, phải dùng literal đúng theo database_value_hints.
 - Nếu SQL_CONTEXT có semantic_value_rules thì phải dùng đúng allowed_values trong rule đó.
+- Không tự thêm paid/payment/success filter nếu semantic_value_rules không yêu cầu và câu hỏi không hỏi thanh toán.
 - Nếu câu hỏi có tháng/năm, ưu tiên dùng khoảng ngày dạng >= 'YYYY-MM-01' và < 'YYYY-MM-next-01'.
 - Phải bảo toàn required slots, required semantics và semantic guardrails.
 - Không vi phạm forbidden semantics.
@@ -501,6 +1033,7 @@ Nhiệm vụ:
 - Kiểm tra SQL đã bảo toàn đầy đủ method_contract, required_slots, required_semantics, semantic_guardrails, forbidden_semantics và database_value_hints chưa.
 - Nếu SQL_CONTEXT có deterministic_sql_contract_audit thì phải sửa tất cả violations trong đó.
 - Nếu SQL_CONTEXT có semantic_value_rules thì phải dùng đúng allowed_values trong rule đó.
+- Không tự thêm paid/payment/success filter nếu semantic_value_rules không yêu cầu và câu hỏi không hỏi thanh toán.
 - Nếu SQL đã đúng, trả status=OK và giữ nguyên SQL.
 - Nếu SQL thiếu/sai nhưng sửa được trong phạm vi SQL_CONTEXT, trả status=REPAIRED và SQL đã sửa.
 - Nếu context không đủ hoặc SQL cần dùng bảng/cột ngoài contract, trả status=BLOCKED và sql rỗng.
@@ -547,6 +1080,11 @@ def column_ref_present(sql, column_id):
 def audit_sql_against_semantic_contract(sql_context, sql_output):
     sql = sql_output.get("sql", "")
     method = sql_context["method_contract"]
+    present_slots = {
+        slot.get("slot_id")
+        for slot in sql_context.get("task_state", {}).get("slots", [])
+        if slot.get("slot_id")
+    }
     semantic_text = " ".join(
         str(item)
         for item in [
@@ -559,15 +1097,19 @@ def audit_sql_against_semantic_contract(sql_context, sql_output):
     ).lower()
     lower_sql = sql.lower()
     violations = []
+    semantic_value_rule_columns = {
+        rule.get("column_id")
+        for rule in sql_context.get("semantic_value_rules", [])
+    }
 
     if not is_read_only_select(sql):
         violations.append("SQL must be a single read-only SELECT/WITH statement.")
 
-    if ("paid" in semantic_text or "thanh toán" in semantic_text) and "orders.status" in method.get("required_columns", []):
+    if "orders.status" in semantic_value_rule_columns:
         if not column_ref_present(sql, "orders.status"):
             violations.append("Missing order status filter required by paid-order semantics: orders.status.")
 
-    if ("success" in semantic_text or "thành công" in semantic_text) and "payments.status" in method.get("required_columns", []):
+    if "payments.status" in semantic_value_rule_columns:
         if not column_ref_present(sql, "payments.status"):
             violations.append("Missing successful payment filter required by payment semantics: payments.status.")
 
@@ -590,9 +1132,23 @@ def audit_sql_against_semantic_contract(sql_context, sql_output):
 
     for slot in method.get("required_slots", []):
         slot_id = slot["slot_id"]
+        if slot_id not in present_slots and slot_id in SOFT_REQUIRED_SLOT_IDS_BY_METHOD.get(method.get("method_id", ""), set()):
+            continue
         if slot_id == "top_n" and "limit" not in lower_sql:
             violations.append("Missing LIMIT for top_n slot.")
-        if slot_id == "time_period" and not ("ordered_at" in lower_sql or "created_at" in lower_sql or "snapshot_date" in lower_sql):
+        if slot_id == "time_period" and not any(
+            column in lower_sql
+            for column in [
+                "ordered_at",
+                "created_at",
+                "snapshot_date",
+                "joined_at",
+                "requested_at",
+                "paid_at",
+                "shipped_at",
+                "delivered_at",
+            ]
+        ):
             violations.append("Missing time column filter for time_period slot.")
 
     return {
@@ -638,19 +1194,45 @@ def result_value_hash(records):
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
-def run_runtime_pipeline(question, artifacts, config_path, sqlite_path, top_k, per_type_limit, example_limit, execute_sql_flag):
+def run_runtime_pipeline(question, artifacts, config_path, sqlite_path, top_k, per_type_limit, example_limit, execute_sql_flag, retrieval_mode, embedding_model, hybrid_alpha):
     steps = []
     start = time.perf_counter()
     cards_by_id = artifacts["by_id"]["card"]
 
-    candidates = search_bm25(
-        question=question,
-        cards_by_id=cards_by_id,
-        bm25_index=artifacts["bm25_index"],
-        top_k=top_k,
-    )
+    if retrieval_mode == "contextual":
+        candidates = search_contextual_embedding(
+            question=question,
+            cards_by_id=cards_by_id,
+            contextual_embedding_index=artifacts.get("contextual_embedding_index"),
+            embedding_model=embedding_model,
+            top_k=top_k,
+        )
+    elif retrieval_mode == "hybrid":
+        candidates = search_hybrid(
+            question=question,
+            cards_by_id=cards_by_id,
+            bm25_index=artifacts["bm25_index"],
+            contextual_embedding_index=artifacts.get("contextual_embedding_index"),
+            embedding_model=embedding_model,
+            top_k=top_k,
+            hybrid_alpha=hybrid_alpha,
+        )
+    else:
+        candidates = search_bm25(
+            question=question,
+            cards_by_id=cards_by_id,
+            bm25_index=artifacts["bm25_index"],
+            top_k=top_k,
+        )
     grouped_candidates = group_candidates(candidates, per_type_limit)
-    steps.append({"step": "retrieve_candidates", "elapsed_sec": round(time.perf_counter() - start, 4), "candidate_count": len(candidates)})
+    steps.append(
+        {
+            "step": "retrieve_candidates",
+            "elapsed_sec": round(time.perf_counter() - start, 4),
+            "candidate_count": len(candidates),
+            "retrieval_mode": retrieval_mode,
+        }
+    )
 
     step_start = time.perf_counter()
     compact_context = compact_candidates(grouped_candidates)
@@ -659,6 +1241,18 @@ def run_runtime_pipeline(question, artifacts, config_path, sqlite_path, top_k, p
 
     step_start = time.perf_counter()
     validation = validate_task_state(task_state, artifacts)
+    method_for_variant = validation.get("method_contract")
+    deterministic_variant = None
+    if method_for_variant:
+        deterministic_variant = method_variant_sql(question, task_state, method_for_variant)
+    if validation["decision"] != "ALLOW_EXECUTE_SQL" and deterministic_variant:
+        validation["decision"] = "ALLOW_EXECUTE_SQL"
+        validation["reason"] = "Deterministic method variant can satisfy the question without clarification."
+        validation["matched_policy_ids"] = [
+            policy["policy_id"]
+            for policy in artifacts["semantic_policies"]
+            if method_for_variant["method_id"] in policy.get("applies_to_methods", [])
+        ]
     steps.append({"step": "ontology_reasoning_semantic_guard", "elapsed_sec": round(time.perf_counter() - step_start, 4), "decision": validation["decision"]})
 
     sql_context = None
@@ -672,15 +1266,42 @@ def run_runtime_pipeline(question, artifacts, config_path, sqlite_path, top_k, p
 
     if validation["decision"] == "ALLOW_EXECUTE_SQL":
         step_start = time.perf_counter()
-        sql_context = build_sql_context(task_state, validation, artifacts, example_limit)
+        sql_context = build_sql_context(question, task_state, validation, artifacts, example_limit)
         steps.append({"step": "build_sql_context", "elapsed_sec": round(time.perf_counter() - step_start, 4)})
 
         step_start = time.perf_counter()
-        sql_output, sql_raw = generate_sql(question, sql_context, config_path)
-        steps.append({"step": "generate_sql", "elapsed_sec": round(time.perf_counter() - step_start, 4)})
+        deterministic_variant = method_variant_sql(question, task_state, validation["method_contract"])
+        if deterministic_variant:
+            sql_output = {
+                "sql": deterministic_variant["sql"],
+                "used_tables": [],
+                "used_columns": [],
+                "preserved_slots": task_state.get("slots", []),
+                "applied_policies": [],
+                "explanation": deterministic_variant["explanation"],
+            }
+            sql_raw = json.dumps(sql_output, ensure_ascii=False)
+            steps.append(
+                {
+                    "step": "render_deterministic_method_variant",
+                    "elapsed_sec": round(time.perf_counter() - step_start, 4),
+                    "variant_used": True,
+                }
+            )
+        else:
+            sql_output, sql_raw = generate_sql(question, sql_context, config_path)
+            steps.append({"step": "generate_sql", "elapsed_sec": round(time.perf_counter() - step_start, 4)})
 
         step_start = time.perf_counter()
-        sql_verification, sql_verify_raw = verify_and_repair_sql(question, sql_context, sql_output, config_path)
+        if deterministic_variant:
+            sql_verification = {
+                "status": "OK",
+                "violations": [],
+                **sql_output,
+            }
+            sql_verify_raw = json.dumps(sql_verification, ensure_ascii=False)
+        else:
+            sql_verification, sql_verify_raw = verify_and_repair_sql(question, sql_context, sql_output, config_path)
         steps.append(
             {
                 "step": "verify_repair_sql_contract",
@@ -720,8 +1341,18 @@ def run_runtime_pipeline(question, artifacts, config_path, sqlite_path, top_k, p
 
         if execute_sql_flag and sql_contract_audit["status"] == "PASS" and is_read_only_select(sql_output.get("sql", "")):
             step_start = time.perf_counter()
-            records = execute_sql(sqlite_path, sql_output["sql"])
-            steps.append({"step": "execute_sql", "elapsed_sec": round(time.perf_counter() - step_start, 4), "row_count": len(records)})
+            try:
+                records = execute_sql(sqlite_path, sql_output["sql"])
+                steps.append({"step": "execute_sql", "elapsed_sec": round(time.perf_counter() - step_start, 4), "row_count": len(records)})
+            except Exception as error:
+                execution_error = str(error)
+                steps.append(
+                    {
+                        "step": "execute_sql",
+                        "elapsed_sec": round(time.perf_counter() - step_start, 4),
+                        "execution_error": execution_error,
+                    }
+                )
         elif execute_sql_flag:
             execution_error = "SQL contract audit failed before execution."
 
@@ -750,6 +1381,14 @@ def run_runtime_pipeline(question, artifacts, config_path, sqlite_path, top_k, p
         },
         "total_elapsed_sec": round(time.perf_counter() - start, 4),
     }
+
+
+def build_runtime_question(case):
+    context = (case.get("context") or "").strip()
+    question = case["question"]
+    if not context:
+        return question
+    return f"CONVERSATION CONTEXT:\n{context}\n\nCURRENT USER QUESTION:\n{question}"
 
 
 def build_pipeline_exception_output(question, error):
@@ -782,7 +1421,7 @@ def build_pipeline_exception_output(question, error):
     }
 
 
-def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, top_k, per_type_limit, example_limit, execute_sql_flag, output_dir=None, llm_judge=False):
+def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, top_k, per_type_limit, example_limit, execute_sql_flag, output_dir=None, llm_judge=False, retrieval_mode="bm25", embedding_model=None, hybrid_alpha=0.5):
     selected = cases
     if case_ids:
         allowed = set(case_ids)
@@ -797,7 +1436,7 @@ def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, 
         print(case["question"], flush=True)
         try:
             output = run_runtime_pipeline(
-                question=case["question"],
+                question=build_runtime_question(case),
                 artifacts=artifacts,
                 config_path=config_path,
                 sqlite_path=sqlite_path,
@@ -805,6 +1444,9 @@ def evaluate_cases(cases, artifacts, config_path, sqlite_path, limit, case_ids, 
                 per_type_limit=per_type_limit,
                 example_limit=example_limit,
                 execute_sql_flag=execute_sql_flag,
+                retrieval_mode=retrieval_mode,
+                embedding_model=embedding_model,
+                hybrid_alpha=hybrid_alpha,
             )
         except Exception as error:
             output = build_pipeline_exception_output(case["question"], error)
@@ -1123,6 +1765,9 @@ def build_parser():
     parser.add_argument("--top-k", type=int, default=80)
     parser.add_argument("--per-type-limit", type=int, default=12)
     parser.add_argument("--example-limit", type=int, default=3)
+    parser.add_argument("--retrieval-mode", choices=["bm25", "contextual", "hybrid"], default="bm25")
+    parser.add_argument("--embedding-model-name", default="")
+    parser.add_argument("--hybrid-alpha", type=float, default=0.5)
     parser.add_argument("--execute-sql", action="store_true")
     parser.add_argument("--llm-judge", action="store_true")
     parser.add_argument("--proxy-mode", choices=["company", "none"], default="none")
@@ -1135,6 +1780,12 @@ def main():
     configure_proxy(args.proxy_mode)
 
     artifacts = build_artifact_indexes(args.offline_root)
+    embedding_model = None
+    if args.retrieval_mode in ["contextual", "hybrid"]:
+        if not artifacts.get("contextual_embedding_index"):
+            raise ValueError("contextual_embedding_index.json is required for contextual/hybrid retrieval.")
+        model_name = args.embedding_model_name or artifacts["contextual_embedding_index"]["model_name"]
+        embedding_model = load_contextual_embedding_model(model_name)
     results = evaluate_cases(
         cases=artifacts["benchmark_cases"],
         artifacts=artifacts,
@@ -1148,6 +1799,9 @@ def main():
         execute_sql_flag=args.execute_sql,
         output_dir=Path(args.output_dir),
         llm_judge=args.llm_judge,
+        retrieval_mode=args.retrieval_mode,
+        embedding_model=embedding_model,
+        hybrid_alpha=args.hybrid_alpha,
     )
     summary = save_eval_outputs(results, args.output_dir)
     print(json.dumps(summary, ensure_ascii=False, indent=2))

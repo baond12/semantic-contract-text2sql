@@ -1,0 +1,88 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "version": "v01",
+  "relations": [
+    {
+      "relation_id": "Province.hasAdministrativeUnitType",
+      "relation_name": "hasAdministrativeUnitType",
+      "source_class": "Province",
+      "target_class": "AdministrativeUnitType",
+      "cardinality": "N:1",
+      "inverse_relation": "AdministrativeUnitType.classifiesProvince",
+      "source_property": "Province.administrativeUnitTypeId",
+      "target_property": "AdministrativeUnitType.id",
+      "database_mapping": {"left": "provinces.administrative_unit_id", "right": "administrative_units.id", "join_type": "INNER"},
+      "description": "A province-level unit has one administrative unit type."
+    },
+    {
+      "relation_id": "AdministrativeUnitType.classifiesProvince",
+      "relation_name": "classifiesProvince",
+      "source_class": "AdministrativeUnitType",
+      "target_class": "Province",
+      "cardinality": "1:N",
+      "inverse_relation": "Province.hasAdministrativeUnitType",
+      "source_property": "AdministrativeUnitType.id",
+      "target_property": "Province.administrativeUnitTypeId",
+      "database_mapping": {"left": "administrative_units.id", "right": "provinces.administrative_unit_id", "join_type": "LEFT"},
+      "description": "An administrative unit type can classify many province-level units."
+    },
+    {
+      "relation_id": "CommuneLevelUnit.belongsToProvince",
+      "relation_name": "belongsToProvince",
+      "source_class": "CommuneLevelUnit",
+      "target_class": "Province",
+      "cardinality": "N:1",
+      "inverse_relation": "Province.hasCommuneLevelUnits",
+      "source_property": "CommuneLevelUnit.provinceCode",
+      "target_property": "Province.code",
+      "database_mapping": {"left": "wards.province_code", "right": "provinces.code", "join_type": "INNER"},
+      "description": "A commune-level unit belongs to one province-level unit."
+    },
+    {
+      "relation_id": "Province.hasCommuneLevelUnits",
+      "relation_name": "hasCommuneLevelUnits",
+      "source_class": "Province",
+      "target_class": "CommuneLevelUnit",
+      "cardinality": "1:N",
+      "inverse_relation": "CommuneLevelUnit.belongsToProvince",
+      "source_property": "Province.code",
+      "target_property": "CommuneLevelUnit.provinceCode",
+      "database_mapping": {"left": "provinces.code", "right": "wards.province_code", "join_type": "LEFT"},
+      "description": "A province-level unit can have many commune-level units."
+    },
+    {
+      "relation_id": "CommuneLevelUnit.hasAdministrativeUnitType",
+      "relation_name": "hasAdministrativeUnitType",
+      "source_class": "CommuneLevelUnit",
+      "target_class": "AdministrativeUnitType",
+      "cardinality": "N:1",
+      "inverse_relation": "AdministrativeUnitType.classifiesCommuneLevelUnit",
+      "source_property": "CommuneLevelUnit.administrativeUnitTypeId",
+      "target_property": "AdministrativeUnitType.id",
+      "database_mapping": {"left": "wards.administrative_unit_id", "right": "administrative_units.id", "join_type": "INNER"},
+      "description": "A commune-level unit has one administrative unit type."
+    },
+    {
+      "relation_id": "AdministrativeUnitType.classifiesCommuneLevelUnit",
+      "relation_name": "classifiesCommuneLevelUnit",
+      "source_class": "AdministrativeUnitType",
+      "target_class": "CommuneLevelUnit",
+      "cardinality": "1:N",
+      "inverse_relation": "CommuneLevelUnit.hasAdministrativeUnitType",
+      "source_property": "AdministrativeUnitType.id",
+      "target_property": "CommuneLevelUnit.administrativeUnitTypeId",
+      "database_mapping": {"left": "administrative_units.id", "right": "wards.administrative_unit_id", "join_type": "LEFT"},
+      "description": "An administrative unit type can classify many commune-level units."
+    }
+  ],
+  "unsupported_relations": [
+    {
+      "relation_id": "AdministrativeRegion.hasProvinces",
+      "reason": "No column links administrative_regions to provinces in the current database."
+    },
+    {
+      "relation_id": "Province.belongsToAdministrativeRegion",
+      "reason": "No column links provinces to administrative_regions in the current database."
+    }
+  ]
+}

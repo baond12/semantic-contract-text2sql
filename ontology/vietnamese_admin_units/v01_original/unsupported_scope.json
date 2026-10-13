@@ -1,0 +1,30 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "version": "v01",
+  "unsupported_scopes": [
+    {
+      "scope_id": "missing_area_data",
+      "signals": ["rộng nhất", "diện tích", "lớn nhất về diện tích"],
+      "reason": "Database does not contain area columns.",
+      "user_message": "Database hiện tại không có dữ liệu diện tích nên không thể trả lời chính xác."
+    },
+    {
+      "scope_id": "missing_population_data",
+      "signals": ["dân cư", "dân số", "nhiều dân nhất", "ít dân nhất"],
+      "reason": "Database does not contain population columns.",
+      "user_message": "Database hiện tại không có dữ liệu dân số nên không thể trả lời chính xác."
+    },
+    {
+      "scope_id": "missing_region_province_relation",
+      "signals": ["vùng nào có nhiều tỉnh", "tỉnh thuộc vùng nào", "thuộc vùng hành chính nào"],
+      "reason": "No relation links provinces to administrative_regions.",
+      "user_message": "Database hiện tại chưa có quan hệ giữa tỉnh/thành phố và vùng hành chính."
+    },
+    {
+      "scope_id": "ambiguous_administrative_unit",
+      "signals": ["mỗi đơn vị hành chính có bao nhiêu phường"],
+      "reason": "The phrase 'đơn vị hành chính' may refer to a Province or an AdministrativeUnitType.",
+      "user_message": "Câu hỏi đang mơ hồ: bạn muốn đếm phường theo tỉnh/thành phố hay theo loại đơn vị hành chính?"
+    }
+  ]
+}

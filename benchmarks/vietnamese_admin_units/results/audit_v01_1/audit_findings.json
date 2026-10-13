@@ -1,0 +1,419 @@
+[
+  {
+    "finding_id": "AUDIT-001",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "AdministrativeUnitType.countProvinces",
+    "template_id": "sql.administrative_unit_type.count_provinces",
+    "expected": {
+      "parameters_preserved": {
+        "limit": 5
+      }
+    },
+    "actual": {
+      "variant_id": "default",
+      "unfulfilled_parameters": [
+        "limit"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-002",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "AdministrativeUnitType.countCommuneLevelUnits",
+    "template_id": "sql.administrative_unit_type.count_commune_level_units",
+    "expected": {
+      "parameters_preserved": {
+        "order": "asc"
+      }
+    },
+    "actual": {
+      "variant_id": "default",
+      "unfulfilled_parameters": [
+        "order"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-003",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "AdministrativeUnitType.countCommuneLevelUnits",
+    "template_id": "sql.administrative_unit_type.count_commune_level_units",
+    "expected": {
+      "parameters_preserved": {
+        "order": "desc"
+      }
+    },
+    "actual": {
+      "variant_id": "default",
+      "unfulfilled_parameters": [
+        "order"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-004",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "AdministrativeUnitType.countCommuneLevelUnits",
+    "template_id": "sql.administrative_unit_type.count_commune_level_units",
+    "expected": {
+      "parameters_preserved": {
+        "limit": 5
+      }
+    },
+    "actual": {
+      "variant_id": "default",
+      "unfulfilled_parameters": [
+        "limit"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-005",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "asc"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-006",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "asc",
+        "childAdministrativeUnitType": "Phường"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-007",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "asc",
+        "childAdministrativeUnitType": "Xã"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-008",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "asc",
+        "childAdministrativeUnitType": "Đặc khu tại hải đảo"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-009",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "desc"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-010",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "desc",
+        "childAdministrativeUnitType": "Phường"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-011",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "desc",
+        "childAdministrativeUnitType": "Xã"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-012",
+    "category": "template_variant_coverage",
+    "severity": "HIGH",
+    "title": "No SQL template variant can satisfy a valid method parameter combination.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": {
+      "valid_method_parameters": {
+        "order": "desc",
+        "childAdministrativeUnitType": "Đặc khu tại hải đảo"
+      }
+    },
+    "actual": "no matching SQL variant",
+    "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-013",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "CommuneLevelUnit.list",
+    "template_id": "sql.commune_level_unit.list",
+    "expected": {
+      "parameters_preserved": {
+        "outputProperty": "name"
+      }
+    },
+    "actual": {
+      "variant_id": "default_full_name",
+      "unfulfilled_parameters": [
+        "outputProperty"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-014",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "CommuneLevelUnit.list",
+    "template_id": "sql.commune_level_unit.list",
+    "expected": {
+      "parameters_preserved": {
+        "outputProperty": "name",
+        "administrativeUnitType": "Phường"
+      }
+    },
+    "actual": {
+      "variant_id": "with_type_filter",
+      "unfulfilled_parameters": [
+        "outputProperty"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-015",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "CommuneLevelUnit.list",
+    "template_id": "sql.commune_level_unit.list",
+    "expected": {
+      "parameters_preserved": {
+        "outputProperty": "name",
+        "administrativeUnitType": "Xã"
+      }
+    },
+    "actual": {
+      "variant_id": "with_type_filter",
+      "unfulfilled_parameters": [
+        "outputProperty"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-016",
+    "category": "method_template_contract",
+    "severity": "HIGH",
+    "title": "SQL template variant does not preserve all semantic parameters.",
+    "artifact": "sql_templates.json",
+    "method_id": "CommuneLevelUnit.list",
+    "template_id": "sql.commune_level_unit.list",
+    "expected": {
+      "parameters_preserved": {
+        "outputProperty": "name",
+        "administrativeUnitType": "Đặc khu tại hải đảo"
+      }
+    },
+    "actual": {
+      "variant_id": "with_type_filter",
+      "unfulfilled_parameters": [
+        "outputProperty"
+      ]
+    },
+    "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-017",
+    "category": "projection_mismatch",
+    "severity": "HIGH",
+    "title": "Runtime guard blocked method call because outputProperty was not preserved.",
+    "artifact": "sql_templates.json",
+    "method_id": "CommuneLevelUnit.list",
+    "template_id": "sql.commune_level_unit.list",
+    "expected": "outputProperty=name is preserved by SQL projection",
+    "actual": {
+      "status": "blocked",
+      "error_code": "SEMANTIC_CONTRACT_VIOLATION",
+      "reason": "SQL variant does not preserve all semantic parameters.",
+      "method_call": {
+        "method_id": "CommuneLevelUnit.list",
+        "parameters": {
+          "outputProperty": "name",
+          "administrativeUnitType": "Phường"
+        }
+      },
+      "variant_id": "with_type_filter",
+      "unfulfilled_parameters": [
+        "outputProperty"
+      ],
+      "sql_executed": false
+    },
+    "recommendation": "Add a SQL variant for CommuneLevelUnit.list(outputProperty=name, administrativeUnitType=...).",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-018",
+    "category": "modeling_gap",
+    "severity": "HIGH",
+    "title": "Method contract cannot express simultaneous parent and child administrative unit type filters.",
+    "artifact": "ontology_methods.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": null,
+    "expected": "parentAdministrativeUnitType and childAdministrativeUnitType can be represented separately.",
+    "actual": {
+      "status": "blocked",
+      "error_code": "UNSUPPORTED_PARAMETER",
+      "reason": "Parameter parentAdministrativeUnitType is not declared by method Province.rankByCommuneLevelUnitCount",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "parentAdministrativeUnitType": "Thành phố trực thuộc trung ương",
+          "childAdministrativeUnitType": "Phường",
+          "order": "desc",
+          "limit": 5
+        }
+      },
+      "unfulfilled_parameters": [
+        "parentAdministrativeUnitType"
+      ],
+      "sql_executed": false
+    },
+    "recommendation": "Extend structured query intent and method contract with scoped filters.",
+    "status": "DETECTED"
+  },
+  {
+    "finding_id": "AUDIT-019",
+    "category": "aggregation_semantics",
+    "severity": "HIGH",
+    "title": "Ranking SQL drops zero-count province in execution fixture.",
+    "artifact": "sql_templates.json",
+    "method_id": "Province.rankByCommuneLevelUnitCount",
+    "template_id": "sql.province.rank_by_commune_level_unit_count",
+    "expected": "Province with zero matching wards is preserved when ranking ascending by count.",
+    "actual": {
+      "records": [
+        {
+          "province": "Tỉnh Có Một Phường",
+          "commune_level_unit_count": 1
+        }
+      ],
+      "guard_result": {
+        "status": "allowed",
+        "error_code": "",
+        "reason": "",
+        "method_call": {
+          "method_id": "Province.rankByCommuneLevelUnitCount",
+          "parameters": {
+            "childAdministrativeUnitType": "Phường",
+            "order": "asc",
+            "limit": 5
+          }
+        },
+        "variant_id": "with_child_type_filter",
+        "sql": "SELECT p.full_name AS province, COUNT(w.code) AS commune_level_unit_count FROM provinces p JOIN wards w ON w.province_code = p.code JOIN administrative_units au ON w.administrative_unit_id = au.id WHERE au.full_name = :childAdministrativeUnitType GROUP BY p.code, p.full_name ORDER BY commune_level_unit_count ASC LIMIT 5;",
+        "sql_executed": false
+      },
+      "sql_executed": true
+    },
+    "recommendation": "Define ranking population and include_zero_count policy; use LEFT JOIN with child filter in ON/subquery/conditional aggregation.",
+    "status": "DETECTED"
+  }
+]

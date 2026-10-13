@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semantic Contract Text2SQL</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Ontology-based Semantic Contract Audit</p>
+        <h1>Text2SQL không chỉ cần chạy được SQL. Nó cần đúng ngữ nghĩa.</h1>
+        <p class="lead">
+          Dự án này nghiên cứu cách dùng ontology, method contract và semantic audit
+          để kiểm soát quá trình sinh SQL: từ câu hỏi tự nhiên đến truy vấn có thể kiểm chứng.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/baond12/semantic-contract-text2sql">GitHub Repo</a>
+          <a class="button secondary" href="#approach">Xem hướng tiếp cận</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Pipeline">
+        <div class="pipeline-step">Natural Language</div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">Ontology</div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step strong">Semantic Contract</div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">SQL Template</div>
+        <div class="pipeline-arrow">↓</div>
+        <div class="pipeline-step">Audit & Evaluation</div>
+      </div>
+    </section>
+
+    <section class="problem">
+      <div>
+        <p class="section-label">Problem</p>
+        <h2>SQL hợp lệ vẫn có thể trả lời sai.</h2>
+      </div>
+      <div class="problem-grid">
+        <article>
+          <span>01</span>
+          <h3>Projection mismatch</h3>
+          <p>User hỏi tên ngắn nhưng SQL trả full name.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Filter dropped</h3>
+          <p>User hỏi phường nhưng SQL đếm cả xã và đặc khu.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Aggregation risk</h3>
+          <p>INNER JOIN có thể làm mất các entity có count bằng 0.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Business rule ambiguity</h3>
+          <p>GMV, net sales, refund và order count cần contract riêng.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="approach" class="approach">
+      <p class="section-label">Approach</p>
+      <h2>Semantic layer có thể kiểm chứng.</h2>
+      <div class="approach-layout">
+        <div class="code-card">
+<pre><code>{
+  "target_class": "Province",
+  "operation": "rank",
+  "aggregation": {
+    "function": "count",
+    "target_class": "CommuneLevelUnit"
+  },
+  "filters": [
+    {
+      "scope": "child",
+      "property": "administrativeUnitType",
+      "value": "Phường"
+    }
+  ],
+  "order": "desc",
+  "limit": 5
+}</code></pre>
+        </div>
+        <div class="approach-text">
+          <p>
+            Thay vì để LLM sinh SQL tự do, hệ thống chuyển câu hỏi thành
+            <strong>structured query intent</strong>, sau đó map vào ontology method và SQL template.
+          </p>
+          <p>
+            Semantic Contract Audit kiểm tra method, parameter, projection, filter,
+            relation, aggregation và unsupported scope trước khi xem kết quả là hợp lệ.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="results">
+      <p class="section-label">Current Evidence</p>
+      <h2>Phase 1 audit đã phát hiện ontology chưa sẵn sàng.</h2>
+      <div class="metrics">
+        <div><strong>14/14</strong><span>contract tests pass</span></div>
+        <div><strong>19</strong><span>HIGH findings</span></div>
+        <div><strong>7</strong><span>root-cause groups</span></div>
+        <div><strong>NOT READY</strong><span>ontology readiness</span></div>
+      </div>
+    </section>
+
+    <section class="case-studies">
+      <p class="section-label">Case Studies</p>
+      <h2>Hai domain để kiểm chứng từng bước.</h2>
+      <div class="case-grid">
+        <article>
+          <h3>Vietnamese Admin Units</h3>
+          <p>
+            Domain nhỏ để thiết kế ontology hướng đối tượng, runtime PoC và audit framework.
+          </p>
+          <ul>
+            <li>Class, property, relation, method, SQL template.</li>
+            <li>Unsupported relation như vùng - tỉnh.</li>
+            <li>Projection/filter/zero-count audit.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Omnichannel Retail Analytics</h3>
+          <p>
+            Domain bán lẻ đa kênh để thử semantic ambiguity và business rules.
+          </p>
+          <ul>
+            <li>17 bảng, 85 test cases, 70 gold SQL.</li>
+            <li>GMV, net sales, refund, inventory, cohort.</li>
+            <li>Clarify, unsupported, refuse và negative examples.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="roadmap">
+      <p class="section-label">Roadmap</p>
+      <h2>Từ audit framework đến runtime v02.</h2>
+      <ol>
+        <li>Chuẩn hóa semantic policies.</li>
+        <li>Tạo ontology fixed candidate.</li>
+        <li>Re-run semantic contract audit v01.1.</li>
+        <li>Thiết kế ontology cho Omnichannel Retail.</li>
+        <li>Xây runtime v02 dùng ontology làm semantic control layer.</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
+

@@ -1,0 +1,18 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "version": "v01",
+  "artifact_type": "object_oriented_ontology",
+  "files": [
+    "ontology_classes.json",
+    "ontology_properties.json",
+    "ontology_relations.json",
+    "ontology_methods.json",
+    "intent_method_rules.json",
+    "sql_templates.json",
+    "unsupported_scope.json",
+    "ontology_runtime_config.json"
+  ],
+  "source_design_doc": "docs/vietnamese_admin_units_object_ontology_design_v01.md",
+  "design_status": "manual_draft_approved_until_step_8",
+  "next_step": "Build a small ontology runtime that maps user intent to method calls, validates them, renders SQL templates, and executes SQL."
+}

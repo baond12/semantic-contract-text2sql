@@ -1,0 +1,21 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "version": "v01",
+  "default_language": "vi",
+  "default_display_policy": {
+    "AdministrativeRegion": "name",
+    "AdministrativeUnitType": "fullName",
+    "Province": "fullName",
+    "CommuneLevelUnit": "fullName"
+  },
+  "llm_role": "method_selector_only",
+  "allow_free_sql_generation": false,
+  "ask_clarification_on_ambiguous_intent": true,
+  "reject_unsupported_scope": true,
+  "method_composition_policy": "compose_atomic_methods",
+  "notes": [
+    "CommuneLevelUnit maps to physical table wards.",
+    "AdministrativeRegion has no relation to Province in the current database.",
+    "When user asks for 'tên', default display property is used."
+  ]
+}

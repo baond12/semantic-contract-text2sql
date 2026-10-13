@@ -1,0 +1,96 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "version": "v01",
+  "rules": [
+    {
+      "rule_id": "intent.administrative_region.count",
+      "signals": {"objects": ["vùng hành chính", "vùng địa lý"], "actions": ["bao nhiêu", "tổng cộng", "có tất cả bao nhiêu"]},
+      "method_id": "AdministrativeRegion.count",
+      "parameter_mapping": {},
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.administrative_region.list",
+      "signals": {"objects": ["vùng hành chính", "vùng địa lý"], "actions": ["liệt kê", "kể tên", "danh sách"]},
+      "method_id": "AdministrativeRegion.list",
+      "parameter_mapping": {},
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.administrative_unit_type.count",
+      "signals": {"objects": ["loại đơn vị hành chính", "loại hành chính"], "actions": ["bao nhiêu", "tổng cộng", "có tất cả bao nhiêu"]},
+      "method_id": "AdministrativeUnitType.count",
+      "parameter_mapping": {},
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.administrative_unit_type.list",
+      "signals": {"objects": ["loại đơn vị hành chính", "loại hành chính"], "actions": ["liệt kê", "kể tên", "danh sách"]},
+      "method_id": "AdministrativeUnitType.list",
+      "parameter_mapping": {},
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.province.count",
+      "signals": {"objects": ["tỉnh", "thành phố trực thuộc trung ương", "cấp tỉnh"], "actions": ["bao nhiêu", "tổng cộng", "có tất cả bao nhiêu"]},
+      "method_id": "Province.count",
+      "parameter_mapping": {
+        "tỉnh": {"administrativeUnitType": "Tỉnh"},
+        "thành phố trực thuộc trung ương": {"administrativeUnitType": "Thành phố trực thuộc trung ương"}
+      },
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.province.list",
+      "signals": {"objects": ["tỉnh", "thành phố trực thuộc trung ương", "cấp tỉnh"], "actions": ["liệt kê", "kể tên", "danh sách"]},
+      "method_id": "Province.list",
+      "parameter_mapping": {"tên": {"outputProperty": "fullName"}, "tên ngắn": {"outputProperty": "name"}},
+      "confidence": 0.85
+    },
+    {
+      "rule_id": "intent.province.find_by_code",
+      "signals": {"objects": ["tỉnh", "thành phố trực thuộc trung ương", "cấp tỉnh"], "actions": ["mã"]},
+      "method_id": "Province.findByCode",
+      "parameter_mapping": {"code_pattern": "\\b\\d{2}\\b"},
+      "confidence": 0.85
+    },
+    {
+      "rule_id": "intent.province.rank_by_commune_level_unit_count",
+      "signals": {"objects": ["tỉnh", "thành phố trực thuộc trung ương", "cấp tỉnh"], "related_objects": ["phường", "xã", "đặc khu", "cấp xã"], "actions": ["nhiều nhất", "ít nhất", "top", "xếp hạng"]},
+      "method_id": "Province.rankByCommuneLevelUnitCount",
+      "parameter_mapping": {
+        "phường": {"childAdministrativeUnitType": "Phường"},
+        "xã": {"childAdministrativeUnitType": "Xã"},
+        "đặc khu": {"childAdministrativeUnitType": "Đặc khu tại hải đảo"},
+        "nhiều nhất": {"order": "desc"},
+        "ít nhất": {"order": "asc"}
+      },
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.commune_level_unit.count",
+      "signals": {"objects": ["phường", "xã", "đặc khu", "cấp xã"], "actions": ["bao nhiêu", "tổng cộng", "có tất cả bao nhiêu"]},
+      "method_id": "CommuneLevelUnit.count",
+      "parameter_mapping": {
+        "phường": {"administrativeUnitType": "Phường"},
+        "xã": {"administrativeUnitType": "Xã"},
+        "đặc khu": {"administrativeUnitType": "Đặc khu tại hải đảo"}
+      },
+      "confidence": 0.9
+    },
+    {
+      "rule_id": "intent.commune_level_unit.find_by_code",
+      "signals": {"objects": ["phường", "xã", "đặc khu", "cấp xã"], "actions": ["mã"]},
+      "method_id": "CommuneLevelUnit.findByCode",
+      "parameter_mapping": {"code_pattern": "\\b\\d{5}\\b"},
+      "confidence": 0.85
+    }
+  ],
+  "composition_policy": {
+    "multiple_actions": "Create multiple atomic method calls instead of a new combined method.",
+    "example": {
+      "question": "Có tất cả bao nhiêu vùng hành chính và kể tên",
+      "method_calls": ["AdministrativeRegion.count", "AdministrativeRegion.list"]
+    }
+  }
+}

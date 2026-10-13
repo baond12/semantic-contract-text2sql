@@ -1,0 +1,367 @@
+[
+  {
+    "test_id": "T01",
+    "test_name": "projection_mismatch_commune_level_unit_list_name",
+    "expected_behavior": "Block execution because outputProperty=name is not preserved.",
+    "actual_behavior": {
+      "status": "blocked",
+      "error_code": "SEMANTIC_CONTRACT_VIOLATION",
+      "reason": "SQL variant does not preserve all semantic parameters.",
+      "method_call": {
+        "method_id": "CommuneLevelUnit.list",
+        "parameters": {
+          "outputProperty": "name",
+          "administrativeUnitType": "Phường"
+        }
+      },
+      "variant_id": "with_type_filter",
+      "unfulfilled_parameters": [
+        "outputProperty"
+      ],
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [
+      "AUDIT-017"
+    ],
+    "notes": ""
+  },
+  {
+    "test_id": "T02",
+    "test_name": "filter_preservation_child_type_rank",
+    "expected_behavior": "Allowed SQL must preserve childAdministrativeUnitType.",
+    "actual_behavior": {
+      "status": "allowed",
+      "error_code": "",
+      "reason": "",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "childAdministrativeUnitType": "Phường",
+          "order": "desc",
+          "limit": 5
+        }
+      },
+      "variant_id": "with_child_type_filter",
+      "sql": "SELECT p.full_name AS province, COUNT(w.code) AS commune_level_unit_count FROM provinces p JOIN wards w ON w.province_code = p.code JOIN administrative_units au ON w.administrative_unit_id = au.id WHERE au.full_name = :childAdministrativeUnitType GROUP BY p.code, p.full_name ORDER BY commune_level_unit_count DESC LIMIT 5;",
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": ""
+  },
+  {
+    "test_id": "T03",
+    "test_name": "parent_child_filter_modeling_gap",
+    "expected_behavior": "Block method call and identify unsupported parentAdministrativeUnitType parameter.",
+    "actual_behavior": {
+      "status": "blocked",
+      "error_code": "UNSUPPORTED_PARAMETER",
+      "reason": "Parameter parentAdministrativeUnitType is not declared by method Province.rankByCommuneLevelUnitCount",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "parentAdministrativeUnitType": "Thành phố trực thuộc trung ương",
+          "childAdministrativeUnitType": "Phường",
+          "order": "desc",
+          "limit": 5
+        }
+      },
+      "unfulfilled_parameters": [
+        "parentAdministrativeUnitType"
+      ],
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [
+      "AUDIT-018"
+    ],
+    "notes": ""
+  },
+  {
+    "test_id": "T04",
+    "test_name": "zero_count_ranking_behavior",
+    "expected_behavior": "Detect that current SQL executes and drops zero-count province.",
+    "actual_behavior": {
+      "records": [
+        {
+          "province": "Tỉnh Có Một Phường",
+          "commune_level_unit_count": 1
+        }
+      ],
+      "guard_result": {
+        "status": "allowed",
+        "error_code": "",
+        "reason": "",
+        "method_call": {
+          "method_id": "Province.rankByCommuneLevelUnitCount",
+          "parameters": {
+            "childAdministrativeUnitType": "Phường",
+            "order": "asc",
+            "limit": 5
+          }
+        },
+        "variant_id": "with_child_type_filter",
+        "sql": "SELECT p.full_name AS province, COUNT(w.code) AS commune_level_unit_count FROM provinces p JOIN wards w ON w.province_code = p.code JOIN administrative_units au ON w.administrative_unit_id = au.id WHERE au.full_name = :childAdministrativeUnitType GROUP BY p.code, p.full_name ORDER BY commune_level_unit_count ASC LIMIT 5;",
+        "sql_executed": false
+      },
+      "sql_executed": true
+    },
+    "test_status": "PASS",
+    "finding_ids": [
+      "AUDIT-019"
+    ],
+    "notes": ""
+  },
+  {
+    "test_id": "T05",
+    "test_name": "unsupported_region_province_relation",
+    "expected_behavior": "Reject region-province questions because ontology has no Province-AdministrativeRegion relation.",
+    "actual_behavior": {
+      "relation_exists": false,
+      "unsupported_declared": true
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": ""
+  },
+  {
+    "test_id": "T06",
+    "test_name": "independent_method_composition_plan",
+    "expected_behavior": "Produce two independent atomic method calls and allow both without requiring relation between Province and AdministrativeRegion.",
+    "actual_behavior": {
+      "question": "Có bao nhiêu tỉnh và bao nhiêu vùng hành chính?",
+      "method_calls": [
+        {
+          "method_id": "Province.count",
+          "parameters": {}
+        },
+        {
+          "method_id": "AdministrativeRegion.count",
+          "parameters": {}
+        }
+      ],
+      "guard_results": [
+        {
+          "status": "allowed",
+          "error_code": "",
+          "reason": "",
+          "method_call": {
+            "method_id": "Province.count",
+            "parameters": {}
+          },
+          "variant_id": "without_type_filter",
+          "sql": "SELECT COUNT(*) AS total_provinces FROM provinces;",
+          "sql_executed": false
+        },
+        {
+          "status": "allowed",
+          "error_code": "",
+          "reason": "",
+          "method_call": {
+            "method_id": "AdministrativeRegion.count",
+            "parameters": {}
+          },
+          "variant_id": "default",
+          "sql": "SELECT COUNT(*) AS total_administrative_regions FROM administrative_regions;",
+          "sql_executed": false
+        }
+      ]
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": ""
+  },
+  {
+    "test_id": "M01",
+    "test_name": "mutation_missing_order_by",
+    "expected_behavior": "Detect unfulfilled parameters ['order']",
+    "actual_behavior": {
+      "unfulfilled_parameters": [
+        "order"
+      ],
+      "variant": {
+        "variant_id": "mut_missing_order",
+        "required_parameters": [
+          "order"
+        ],
+        "sql": "SELECT p.full_name AS province, COUNT(w.code) AS commune_level_unit_count FROM provinces p JOIN wards w ON w.province_code = p.code GROUP BY p.code, p.full_name;"
+      },
+      "parameters": {
+        "order": "asc"
+      }
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Negative mutation test for audit framework."
+  },
+  {
+    "test_id": "M02",
+    "test_name": "mutation_missing_child_filter",
+    "expected_behavior": "Detect unfulfilled parameters ['childAdministrativeUnitType']",
+    "actual_behavior": {
+      "unfulfilled_parameters": [
+        "childAdministrativeUnitType"
+      ],
+      "variant": {
+        "variant_id": "mut_missing_child_filter",
+        "required_parameters": [
+          "childAdministrativeUnitType",
+          "order",
+          "limit"
+        ],
+        "sql": "SELECT p.full_name AS province, COUNT(w.code) AS commune_level_unit_count FROM provinces p JOIN wards w ON w.province_code = p.code GROUP BY p.code, p.full_name ORDER BY commune_level_unit_count {order} LIMIT {limit};"
+      },
+      "parameters": {
+        "childAdministrativeUnitType": "Phường",
+        "order": "desc",
+        "limit": 5
+      }
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Negative mutation test for audit framework."
+  },
+  {
+    "test_id": "M03",
+    "test_name": "mutation_fixed_wrong_order",
+    "expected_behavior": "Detect unfulfilled parameters ['order']",
+    "actual_behavior": {
+      "unfulfilled_parameters": [
+        "order"
+      ],
+      "variant": {
+        "variant_id": "mut_fixed_wrong_order",
+        "required_parameters": [
+          "order"
+        ],
+        "sql": "SELECT p.full_name AS province FROM provinces p ORDER BY p.full_name DESC;"
+      },
+      "parameters": {
+        "order": "asc"
+      }
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Negative mutation test for audit framework."
+  },
+  {
+    "test_id": "M04",
+    "test_name": "mutation_fixed_wrong_limit",
+    "expected_behavior": "Detect unfulfilled parameters ['limit']",
+    "actual_behavior": {
+      "unfulfilled_parameters": [
+        "limit"
+      ],
+      "variant": {
+        "variant_id": "mut_fixed_wrong_limit",
+        "required_parameters": [
+          "limit"
+        ],
+        "sql": "SELECT p.full_name AS province FROM provinces p LIMIT 5;"
+      },
+      "parameters": {
+        "limit": 10
+      }
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Negative mutation test for audit framework."
+  },
+  {
+    "test_id": "L01",
+    "test_name": "invalid_limit_value_-3",
+    "expected_behavior": "Reject invalid limit with structured error.",
+    "actual_behavior": {
+      "status": "blocked",
+      "error_code": "INVALID_PARAMETER_RANGE",
+      "reason": "Parameter limit must be a positive integer.",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "order": "desc",
+          "limit": -3
+        }
+      },
+      "unfulfilled_parameters": [
+        "limit"
+      ],
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Parameter validation hardening test."
+  },
+  {
+    "test_id": "L02",
+    "test_name": "invalid_limit_value_abc",
+    "expected_behavior": "Reject invalid limit with structured error.",
+    "actual_behavior": {
+      "status": "blocked",
+      "error_code": "INVALID_PARAMETER_TYPE",
+      "reason": "Parameter limit must be an integer.",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "order": "desc",
+          "limit": "abc"
+        }
+      },
+      "unfulfilled_parameters": [
+        "limit"
+      ],
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Parameter validation hardening test."
+  },
+  {
+    "test_id": "L03",
+    "test_name": "invalid_limit_value_1.5",
+    "expected_behavior": "Reject invalid limit with structured error.",
+    "actual_behavior": {
+      "status": "blocked",
+      "error_code": "INVALID_PARAMETER_TYPE",
+      "reason": "Parameter limit must be an integer.",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "order": "desc",
+          "limit": 1.5
+        }
+      },
+      "unfulfilled_parameters": [
+        "limit"
+      ],
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Parameter validation hardening test."
+  },
+  {
+    "test_id": "L04",
+    "test_name": "invalid_limit_value_None",
+    "expected_behavior": "Reject invalid limit with structured error.",
+    "actual_behavior": {
+      "status": "blocked",
+      "error_code": "INVALID_PARAMETER_VALUE",
+      "reason": "Parameter limit must not be null.",
+      "method_call": {
+        "method_id": "Province.rankByCommuneLevelUnitCount",
+        "parameters": {
+          "order": "desc",
+          "limit": null
+        }
+      },
+      "unfulfilled_parameters": [
+        "limit"
+      ],
+      "sql_executed": false
+    },
+    "test_status": "PASS",
+    "finding_ids": [],
+    "notes": "Parameter validation hardening test."
+  }
+]

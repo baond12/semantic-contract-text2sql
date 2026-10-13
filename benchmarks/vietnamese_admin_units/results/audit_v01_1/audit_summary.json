@@ -1,0 +1,126 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "audit_name": "Ontology Semantic Contract Audit v01.1",
+  "audit_execution_status": "COMPLETED",
+  "ontology_readiness_status": "NOT_READY",
+  "phase_status": {
+    "Phase 1A: Ontology Consistency": "COMPLETED",
+    "Phase 1B: Method-Template Contract": "COMPLETED",
+    "Phase 1C: Runtime Contract Guard": "COMPLETED",
+    "Phase 1D: Contract-driven Tests": "COMPLETED",
+    "Phase 1E: Audit Framework Hardening": "COMPLETED"
+  },
+  "finding_count": 19,
+  "root_cause_group_count": 7,
+  "root_cause_groups": [
+    {
+      "root_cause_id": "RC-001",
+      "category": "method_template_contract",
+      "method_id": "AdministrativeUnitType.countProvinces",
+      "template_id": "sql.administrative_unit_type.count_provinces",
+      "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+      "finding_count": 1,
+      "finding_ids": [
+        "AUDIT-001"
+      ]
+    },
+    {
+      "root_cause_id": "RC-002",
+      "category": "method_template_contract",
+      "method_id": "AdministrativeUnitType.countCommuneLevelUnits",
+      "template_id": "sql.administrative_unit_type.count_commune_level_units",
+      "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+      "finding_count": 3,
+      "finding_ids": [
+        "AUDIT-002",
+        "AUDIT-003",
+        "AUDIT-004"
+      ]
+    },
+    {
+      "root_cause_id": "RC-003",
+      "category": "template_variant_coverage",
+      "method_id": "Province.rankByCommuneLevelUnitCount",
+      "template_id": "sql.province.rank_by_commune_level_unit_count",
+      "recommendation": "Add a template variant or declare a default policy for this parameter combination.",
+      "finding_count": 8,
+      "finding_ids": [
+        "AUDIT-005",
+        "AUDIT-006",
+        "AUDIT-007",
+        "AUDIT-008",
+        "AUDIT-009",
+        "AUDIT-010",
+        "AUDIT-011",
+        "AUDIT-012"
+      ]
+    },
+    {
+      "root_cause_id": "RC-004",
+      "category": "method_template_contract",
+      "method_id": "CommuneLevelUnit.list",
+      "template_id": "sql.commune_level_unit.list",
+      "recommendation": "Add a SQL variant or template metadata that preserves all semantic parameters.",
+      "finding_count": 4,
+      "finding_ids": [
+        "AUDIT-013",
+        "AUDIT-014",
+        "AUDIT-015",
+        "AUDIT-016"
+      ]
+    },
+    {
+      "root_cause_id": "RC-005",
+      "category": "projection_mismatch",
+      "method_id": "CommuneLevelUnit.list",
+      "template_id": "sql.commune_level_unit.list",
+      "recommendation": "Add a SQL variant for CommuneLevelUnit.list(outputProperty=name, administrativeUnitType=...).",
+      "finding_count": 1,
+      "finding_ids": [
+        "AUDIT-017"
+      ]
+    },
+    {
+      "root_cause_id": "RC-006",
+      "category": "modeling_gap",
+      "method_id": "Province.rankByCommuneLevelUnitCount",
+      "template_id": null,
+      "recommendation": "Extend structured query intent and method contract with scoped filters.",
+      "finding_count": 1,
+      "finding_ids": [
+        "AUDIT-018"
+      ]
+    },
+    {
+      "root_cause_id": "RC-007",
+      "category": "aggregation_semantics",
+      "method_id": "Province.rankByCommuneLevelUnitCount",
+      "template_id": "sql.province.rank_by_commune_level_unit_count",
+      "recommendation": "Define ranking population and include_zero_count policy; use LEFT JOIN with child filter in ON/subquery/conditional aggregation.",
+      "finding_count": 1,
+      "finding_ids": [
+        "AUDIT-019"
+      ]
+    }
+  ],
+  "finding_count_by_severity": {
+    "HIGH": 19
+  },
+  "finding_count_by_category": {
+    "method_template_contract": 8,
+    "template_variant_coverage": 8,
+    "projection_mismatch": 1,
+    "modeling_gap": 1,
+    "aggregation_semantics": 1
+  },
+  "test_count": 14,
+  "test_count_by_status": {
+    "PASS": 14
+  },
+  "output_files": {
+    "audit_findings": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/20_q4_ontology_semantic_contract_audit_v01_1/outputs/audit_findings.json",
+    "test_results": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/20_q4_ontology_semantic_contract_audit_v01_1/outputs/test_results.json",
+    "audit_summary": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/20_q4_ontology_semantic_contract_audit_v01_1/outputs/audit_summary.json",
+    "fixture_db": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/20_q4_ontology_semantic_contract_audit_v01_1/tests/fixtures/test_admin_units.db"
+  }
+}

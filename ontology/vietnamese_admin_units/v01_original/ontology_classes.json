@@ -1,0 +1,66 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "version": "v01",
+  "classes": [
+    {
+      "class_id": "NamedAdministrativeObject",
+      "class_name": "NamedAdministrativeObject",
+      "parent_class": null,
+      "is_abstract": true,
+      "source_table": null,
+      "description": "Abstract parent class for administrative objects that have name/code-like attributes.",
+      "default_display_property": null,
+      "example_instances": []
+    },
+    {
+      "class_id": "AdministrativeRegion",
+      "class_name": "AdministrativeRegion",
+      "parent_class": "NamedAdministrativeObject",
+      "is_abstract": false,
+      "source_table": "administrative_regions",
+      "description": "Geographic or administrative region of Vietnam.",
+      "default_display_property": "name",
+      "example_instances": ["Đông Bắc Bộ", "Đồng bằng sông Hồng"]
+    },
+    {
+      "class_id": "AdministrativeUnitType",
+      "class_name": "AdministrativeUnitType",
+      "parent_class": "NamedAdministrativeObject",
+      "is_abstract": false,
+      "source_table": "administrative_units",
+      "description": "Type of administrative unit, such as province, municipality, ward, commune, or island special administrative region.",
+      "default_display_property": "fullName",
+      "example_instances": ["Tỉnh", "Phường", "Xã"]
+    },
+    {
+      "class_id": "AdministrativeDivision",
+      "class_name": "AdministrativeDivision",
+      "parent_class": "NamedAdministrativeObject",
+      "is_abstract": true,
+      "source_table": null,
+      "description": "Abstract parent class for concrete administrative divisions.",
+      "default_display_property": null,
+      "example_instances": []
+    },
+    {
+      "class_id": "Province",
+      "class_name": "Province",
+      "parent_class": "AdministrativeDivision",
+      "is_abstract": false,
+      "source_table": "provinces",
+      "description": "Province-level administrative unit, including provinces and centrally governed municipalities.",
+      "default_display_property": "fullName",
+      "example_instances": ["Thành phố Hà Nội", "Tỉnh Cao Bằng"]
+    },
+    {
+      "class_id": "CommuneLevelUnit",
+      "class_name": "CommuneLevelUnit",
+      "parent_class": "AdministrativeDivision",
+      "is_abstract": false,
+      "source_table": "wards",
+      "description": "Commune-level administrative unit, including wards, communes, and island special administrative regions.",
+      "default_display_property": "fullName",
+      "example_instances": ["Phường Ba Đình", "Xã Minh Châu"]
+    }
+  ]
+}

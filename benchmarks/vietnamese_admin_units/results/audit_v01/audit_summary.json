@@ -1,0 +1,33 @@
+{
+  "database_id": "vietnamese_admin_units",
+  "audit_name": "Ontology Semantic Contract Audit v01",
+  "audit_execution_status": "COMPLETED",
+  "ontology_readiness_status": "NOT_READY",
+  "phase_status": {
+    "Phase 1A: Ontology Consistency": "COMPLETED",
+    "Phase 1B: Method-Template Contract": "COMPLETED",
+    "Phase 1C: Runtime Contract Guard": "COMPLETED",
+    "Phase 1D: Contract-driven Tests": "COMPLETED"
+  },
+  "finding_count": 19,
+  "finding_count_by_severity": {
+    "HIGH": 19
+  },
+  "finding_count_by_category": {
+    "method_template_contract": 8,
+    "template_variant_coverage": 8,
+    "projection_mismatch": 1,
+    "modeling_gap": 1,
+    "aggregation_semantics": 1
+  },
+  "test_count": 6,
+  "test_count_by_status": {
+    "PASS": 6
+  },
+  "output_files": {
+    "audit_findings": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/19_q4_ontology_semantic_contract_audit_v01/outputs/audit_findings.json",
+    "test_results": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/19_q4_ontology_semantic_contract_audit_v01/outputs/test_results.json",
+    "audit_summary": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/19_q4_ontology_semantic_contract_audit_v01/outputs/audit_summary.json",
+    "fixture_db": "/home/baond12/Documents/Research_Cadshouse_Analytics/benchmarks_baond_exp/19_q4_ontology_semantic_contract_audit_v01/tests/fixtures/test_admin_units.db"
+  }
+}

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semantic-contract-text2sql"
+version = "0.1.0"
+description = "Ontology-based semantic contract audit utilities for controlled Text2SQL research."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "baond12" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+semantic-contract-text2sql = "semantic_contract_text2sql.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

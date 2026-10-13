@@ -249,6 +249,15 @@ python scripts/build_benchmark_cases.py \
   --output-dir offline_artifacts/omnichannel_retail/07_benchmark_cases
 ```
 
+Build offline readiness report:
+
+```bash
+python scripts/build_offline_readiness_report.py \
+  --database-id omnichannel_retail \
+  --offline-root offline_artifacts/omnichannel_retail \
+  --output-dir offline_artifacts/omnichannel_retail/08_audit_reports
+```
+
 Luồng offline mục tiêu:
 
 ```text

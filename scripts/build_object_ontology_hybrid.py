@@ -546,6 +546,49 @@ def merge_class_enrichments(classes, enrichments):
     return classes
 
 
+def normalize_text_key(value):
+    return re.sub(r"[^a-z0-9]+", "", (value or "").lower())
+
+
+def resolve_class_id(candidate, valid_class_ids):
+    candidate_key = normalize_text_key(candidate)
+    if not candidate_key:
+        return None
+
+    exact_lookup = {normalize_text_key(class_id): class_id for class_id in valid_class_ids}
+    if candidate_key in exact_lookup:
+        return exact_lookup[candidate_key]
+
+    matches = [
+        class_id
+        for class_id in valid_class_ids
+        if candidate_key in normalize_text_key(class_id)
+    ]
+    if len(matches) == 1:
+        return matches[0]
+    return None
+
+
+def normalize_method_candidates(method_candidates, valid_class_ids):
+    normalized = []
+    for method in method_candidates:
+        target_classes = []
+        unresolved_target_classes = []
+
+        for class_id in method.get("target_classes", []):
+            resolved_class_id = resolve_class_id(class_id, valid_class_ids)
+            if resolved_class_id:
+                target_classes.append(resolved_class_id)
+            else:
+                unresolved_target_classes.append(class_id)
+
+        method["target_classes"] = sorted(set(target_classes))
+        if unresolved_target_classes:
+            method["unresolved_target_classes"] = sorted(set(unresolved_target_classes))
+        normalized.append(method)
+    return normalized
+
+
 def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, config_path, proxy_mode):
     inventory_dir = Path(inventory_dir)
     output_dir = Path(output_dir)
@@ -602,6 +645,8 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
                 for item in llm_output["method_enrichments"]
                 if item.get("method_id") != "M_NON_SQL"
             ]
+            valid_class_ids = {item["class_id"] for item in classes}
+            method_candidates = normalize_method_candidates(method_candidates, valid_class_ids)
         if llm_output.get("unsupported_scope_candidates"):
             unsupported_candidates = llm_output["unsupported_scope_candidates"]
 

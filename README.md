@@ -192,6 +192,17 @@ python scripts/build_object_ontology_hybrid.py \
   --use-llm
 ```
 
+Build business task ontology hybrid:
+
+```bash
+python scripts/build_business_task_ontology_hybrid.py \
+  --database-id omnichannel_retail \
+  --inventory-dir offline_artifacts/omnichannel_retail/01_database_inventory \
+  --object-ontology-dir offline_artifacts/omnichannel_retail/02_object_ontology \
+  --output-dir offline_artifacts/omnichannel_retail/03_business_task_ontology \
+  --use-llm
+```
+
 Luồng offline mục tiêu:
 
 ```text

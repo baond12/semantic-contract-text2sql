@@ -1,0 +1,108 @@
+{
+  "database_id": "omnichannel_retail",
+  "findings": [
+    {
+      "scenario_id": "BI-03-01",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "CATEGORY_HIERARCHY",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần trả cây category 3 cấp; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-04-01",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "PROMOTION_PROGRAM",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần liệt kê mã khuyến mãi; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-04-03",
+      "finding_type": "INTENT_LABEL_CORRECTED",
+      "new_intent_id": "PRODUCT_DISCOVERY",
+      "severity": "REVIEW_APPLIED"
+    },
+    {
+      "scenario_id": "BI-06-04",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "SUPPLIER_NETWORK",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần SKU có >=2 suppliers; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-07-01",
+      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
+      "expected_intent_id": "CUSTOMER_PROFILE",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Hỏi COUNT khách VIP nhưng method hiện tại thiên về listCustomersBySegment."
+    },
+    {
+      "scenario_id": "BI-07-03",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "CUSTOMER_PROFILE",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần khách theo vùng; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-13-03",
+      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
+      "expected_intent_id": "PRODUCT_SALES",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Hỏi dòng/SKU có line-net lớn nhất nhưng method hiện tại trả scalar tổng."
+    },
+    {
+      "scenario_id": "BI-14-02",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "REVENUE_METRICS",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần AOV paid orders; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-14-04",
+      "finding_type": "INTENT_LABEL_CORRECTED",
+      "new_intent_id": "CHANNEL_ANALYTICS",
+      "severity": "REVIEW_APPLIED"
+    },
+    {
+      "scenario_id": "BI-14-04",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "CHANNEL_ANALYTICS",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần GMV theo từng channel; thiếu method binding rõ GMV != gross."
+    },
+    {
+      "scenario_id": "BI-15-04",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "PAYMENT_OPERATIONS",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần top payment_method; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-17-04",
+      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
+      "expected_intent_id": "RETURNS_REFUNDS",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Hỏi danh sách pending Return nhưng method hiện tại trả count."
+    },
+    {
+      "scenario_id": "BI-21-02",
+      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
+      "expected_intent_id": "CUSTOMER_SUPPORT",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Hỏi danh sách ticket High chưa resolve nhưng method hiện tại trả count."
+    },
+    {
+      "scenario_id": "BI-23-03",
+      "finding_type": "METHOD_CONTRACT_GAP",
+      "expected_intent_id": "REGIONAL_COVERAGE",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Cần rank Region by customer count; thiếu method binding cụ thể."
+    },
+    {
+      "scenario_id": "BI-23-04",
+      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
+      "expected_intent_id": "REGIONAL_COVERAGE",
+      "severity": "REVIEW_REQUIRED",
+      "note": "Hỏi số supplier theo Region nhưng method hiện tại trả list theo một region."
+    }
+  ]
+}

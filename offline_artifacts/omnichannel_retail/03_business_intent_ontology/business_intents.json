@@ -1,0 +1,1164 @@
+{
+  "database_id": "omnichannel_retail",
+  "version": "v01_approved_with_changes",
+  "ontology_source": "Object Ontology v01 on SQLite v06",
+  "label_policy": {
+    "contract_version": "v01-approved-with-changes",
+    "label_space": {
+      "valid_route": "EXACTLY_ONE_OF_DEFINED_INTENTS",
+      "non_routing_actions": [
+        "CLARIFY",
+        "UNSUPPORTED",
+        "REFUSE"
+      ],
+      "no_other_fallback": true,
+      "no_multi_label": true,
+      "composite_intent_id": "MULTI_OUTPUT_REPORT"
+    },
+    "semantics": {
+      "mutually_exclusive": "Single gold label per fully specified supported task, using primary output contract and deterministic boundary rules.",
+      "not_statistical_independence": "Independent intent categories means non-overlapping classification outcomes; execution methods and DB classes may be shared.",
+      "open_world_limit": "No finite taxonomy guarantees complete coverage of all future natural-language questions. Out-of-scope and new requirements require governance/relabeling.",
+      "no_unsafe_clarify": "Use CLARIFY only for genuinely missing or conflicting task target/metric/scope, not merely because two classes are involved.",
+      "no_fake_unsupported": "If DB supports required columns but a method/template is missing, route the supported intent and flag CONTRACT_GAP, not UNSUPPORTED."
+    },
+    "priority": [
+      {
+        "order": 1,
+        "rule": "Security/access/unsafe write gate",
+        "result": "REFUSE only on explicit disallowed actions or unauthorized access"
+      },
+      {
+        "order": 2,
+        "rule": "Data/source/model coverage check",
+        "result": "UNSUPPORTED only if required information/system genuinely absent"
+      },
+      {
+        "order": 3,
+        "rule": "Required output/scope/metric not determinable",
+        "result": "CLARIFY with minimal missing slot"
+      },
+      {
+        "order": 4,
+        "rule": "Two or more independently requested primary outputs",
+        "result": "MULTI_OUTPUT_REPORT single label, decompose into validated subplans later"
+      },
+      {
+        "order": 5,
+        "rule": "One requested primary output contract",
+        "result": "Exactly one atomic Intent by output anchor; dimensions/filters must NOT spawn extra labels"
+      },
+      {
+        "order": 6,
+        "rule": "Method missing or cross-entity semantic contract unapproved",
+        "result": "Keep intent label, mark CONTRACT_GAP and block execution, rather than relabel question"
+      }
+    ],
+    "critical_distinctions": [
+      "GROUP BY Channel hoặc ranking Channel theo GMV/order/chat -> CHANNEL_ANALYTICS.",
+      "GROUP BY Store hoặc ranking Store theo order/revenue -> STORE_ANALYTICS.",
+      "Tổng metric toàn hệ thống hoặc filter một channel cụ thể -> metric intent gốc, ví dụ REVENUE_METRICS.",
+      "SKU catalog -> PRODUCT_DISCOVERY; SKU theo bán thực tế -> PRODUCT_SALES; SKU theo supplier network -> SUPPLIER_NETWORK.",
+      "Payment event grain -> PAYMENT_OPERATIONS; paid-order grain -> REVENUE_METRICS.",
+      "Current customer address -> DELIVERY_ADDRESS; shipment address snapshot -> SHIPPING_LOGISTICS."
+    ],
+    "cardinality_exclusivity_note": "One classification label is guaranteed by the routing policy for annotated cases, not a universal language theorem.",
+    "derived_class_max_base_classes": 2
+  },
+  "business_intents": [
+    {
+      "intent_id": "PRODUCT_DISCOVERY",
+      "intent_name_vi": "Tra cứu sản phẩm",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Danh sách hoặc chi tiết SKU/giá catalog hiện tại",
+      "include_when": "Tìm SKU, tên, giá, tình trạng sản phẩm hoặc lọc theo thương hiệu/danh mục",
+      "exclude_when": "Top SKU đã bán thuộc PRODUCT_SALES; tồn theo snapshot thuộc INVENTORY_STATUS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Product",
+        "Brand",
+        "Category"
+      ],
+      "candidate_derived_classes": [
+        "CategorizedProduct"
+      ],
+      "candidate_methods": [
+        "Product.findProductBySKU",
+        "Product.searchProducts",
+        "Product.getProductPricing",
+        "Product.listAvailableProducts"
+      ],
+      "grounded_property_ids": [
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt",
+        "Brand.brandId",
+        "Category.categoryId"
+      ],
+      "grounded_relation_ids": [
+        "Product.categoryId_references_Category.categoryId",
+        "Category.parentCategoryId_references_Category.categoryId",
+        "Product.brandId_references_Brand.brandId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 5,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "SKU/catalog là đầu ra chính. Nếu promotion/supplier chỉ là điều kiện lọc thì vẫn giữ PRODUCT_DISCOVERY."
+    },
+    {
+      "intent_id": "BRAND_CATALOG",
+      "intent_name_vi": "Danh mục thương hiệu",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Thương hiệu là đối tượng trả về",
+      "include_when": "Danh sách, tra cứu, thống kê số SKU theo thương hiệu",
+      "exclude_when": "Liệt kê sản phẩm của Apple thuộc PRODUCT_DISCOVERY",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Brand",
+        "Product"
+      ],
+      "candidate_derived_classes": [],
+      "candidate_methods": [
+        "Brand.findBrandByName",
+        "Brand.listBrands",
+        "Brand.countProductsByBrand"
+      ],
+      "grounded_property_ids": [
+        "Brand.brandId",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "Product.brandId_references_Brand.brandId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "CATEGORY_HIERARCHY",
+      "intent_name_vi": "Cây danh mục",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Danh mục, nút cây và đường dẫn phân cấp",
+      "include_when": "Danh sách danh mục con, đường dẫn cha-con, cấu trúc taxonomy",
+      "exclude_when": "Danh sách SKU thuộc một danh mục thuộc PRODUCT_DISCOVERY",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Category",
+        "Product"
+      ],
+      "candidate_derived_classes": [
+        "CategorizedProduct"
+      ],
+      "candidate_methods": [
+        "Category.findCategory",
+        "Category.listChildren",
+        "Category.getAncestorPath"
+      ],
+      "grounded_property_ids": [
+        "Category.categoryId",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "Product.categoryId_references_Category.categoryId",
+        "Category.parentCategoryId_references_Category.categoryId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "PROMOTION_PROGRAM",
+      "intent_name_vi": "Chương trình khuyến mãi",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Promotion/campaign là đối tượng trả về",
+      "include_when": "Tra chương trình, thời hạn, mã, danh sách sản phẩm có promotion chính",
+      "exclude_when": "Hiệu quả khuyến mãi theo dòng đơn thuộc PROMOTION_USAGE",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Promotion",
+        "Product"
+      ],
+      "candidate_derived_classes": [
+        "PrimaryPromotedProduct"
+      ],
+      "candidate_methods": [
+        "Promotion.findPromotionByCode",
+        "Promotion.listActivePromotions",
+        "Promotion.countPrimaryPromotedProducts",
+        "PrimaryPromotedProduct.listProductsWithPrimaryPromotion"
+      ],
+      "grounded_property_ids": [
+        "Promotion.promotionId",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "Product.promotionId_references_Promotion.promotionId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "Promotion/campaign là đầu ra chính. Nếu câu hỏi trả danh sách SKU có promotion thì chuyển sang PRODUCT_DISCOVERY."
+    },
+    {
+      "intent_id": "PROMOTION_USAGE",
+      "intent_name_vi": "Khuyến mãi trên giao dịch",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Dòng đơn sử dụng promotion và mức giảm dòng đơn",
+      "include_when": "Đếm dòng đơn có dùng mã, số lượng và line_discount theo mã",
+      "exclude_when": "Danh mục chương trình thuộc PROMOTION_PROGRAM; tổng doanh thu net thuộc REVENUE_METRICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "OrderItem",
+        "Promotion"
+      ],
+      "candidate_derived_classes": [
+        "PromotedOrderLine"
+      ],
+      "candidate_methods": [
+        "PromotedOrderLine.countPromotedLines",
+        "PromotedOrderLine.sumLineDiscountByPromotion",
+        "OrderItem.sumLineNetAmount"
+      ],
+      "grounded_property_ids": [
+        "OrderItem.orderItemId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount",
+        "OrderItem.promotionId",
+        "Promotion.promotionId"
+      ],
+      "grounded_relation_ids": [
+        "OrderItem.promotionId_references_Promotion.promotionId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "SUPPLIER_NETWORK",
+      "intent_name_vi": "Quan hệ nhà cung cấp",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Nhà cung cấp và quan hệ SKU - nhà cung cấp",
+      "include_when": "Tra nhà cung cấp, nguồn cung, nhà cung cấp chính, số SKU mỗi supplier",
+      "exclude_when": "SKU bán chạy thuộc PRODUCT_SALES",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Supplier",
+        "ProductSupplier",
+        "Product",
+        "Region"
+      ],
+      "candidate_derived_classes": [
+        "SupplierProductAssignment"
+      ],
+      "candidate_methods": [
+        "Supplier.findSupplierByName",
+        "Supplier.listSuppliersByRegion",
+        "Supplier.countSuppliedProducts",
+        "ProductSupplier.listSuppliersForProduct",
+        "ProductSupplier.findPrimarySupplier"
+      ],
+      "grounded_property_ids": [
+        "Supplier.supplierId",
+        "ProductSupplier.productId",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt",
+        "Region.regionId"
+      ],
+      "grounded_relation_ids": [
+        "ProductSupplier.supplierId_references_Supplier.supplierId",
+        "ProductSupplier.productId_references_Product.productId",
+        "Supplier.regionId_references_Region.regionId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "Dùng khi đầu ra chính là supplier hoặc quan hệ cung ứng; không dùng cho catalog SKU thông thường."
+    },
+    {
+      "intent_id": "CUSTOMER_PROFILE",
+      "intent_name_vi": "Hồ sơ khách hàng",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Khách hàng và phân khúc hồ sơ",
+      "include_when": "Tra mã khách, phân khúc, số khách theo vùng",
+      "exclude_when": "Khách mua lại/giá trị mua thuộc CUSTOMER_PURCHASE",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Customer",
+        "Region"
+      ],
+      "candidate_derived_classes": [],
+      "candidate_methods": [
+        "Customer.findCustomerByCode",
+        "Customer.listCustomersBySegment"
+      ],
+      "grounded_property_ids": [
+        "Customer.customerId",
+        "Region.regionId"
+      ],
+      "grounded_relation_ids": [
+        "Customer.regionId_references_Region.regionId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "CUSTOMER_PURCHASE",
+      "intent_name_vi": "Hành vi mua của khách",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Tần suất/lịch sử đơn gắn khách",
+      "include_when": "Đếm lần mua, khách quay lại, đơn theo khách",
+      "exclude_when": "Khách hàng chỉ theo hồ sơ thuộc CUSTOMER_PROFILE",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Customer",
+        "Order"
+      ],
+      "candidate_derived_classes": [
+        "CustomerOrder"
+      ],
+      "candidate_methods": [
+        "CustomerOrder.listOrdersForCustomer",
+        "CustomerOrder.countRepeatPurchases",
+        "Customer.countCustomerOrders"
+      ],
+      "grounded_property_ids": [
+        "Customer.customerId",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt"
+      ],
+      "grounded_relation_ids": [
+        "Order.customerId_references_Customer.customerId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "AGENT_WORKFORCE",
+      "intent_name_vi": "Nhân viên và phân công",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Nhân viên, team, cửa hàng trực thuộc",
+      "include_when": "Danh sách nhân viên, số nhân viên theo store, trạng thái nhân sự",
+      "exclude_when": "Đếm đơn nhân viên chốt thuộc ORDER_ATTRIBUTION, số chat thuộc CHAT_ACTIVITY",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Agent",
+        "Store"
+      ],
+      "candidate_derived_classes": [
+        "StoreAgent"
+      ],
+      "candidate_methods": [
+        "Agent.findAgentByCode",
+        "Agent.listAgentsByStore",
+        "StoreAgent.listAgentsByStore",
+        "StoreAgent.countActiveAgents"
+      ],
+      "grounded_property_ids": [
+        "Agent.agentId",
+        "Agent.storeId",
+        "Agent.status",
+        "Agent.createdAt",
+        "Store.storeId"
+      ],
+      "grounded_relation_ids": [
+        "Agent.storeId_references_Store.storeId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "CHAT_ACTIVITY",
+      "intent_name_vi": "Hoạt động chat",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Tin nhắn và conversation_id",
+      "include_when": "Tin nhắn, đếm conversation, số lượng chat theo agent/kênh/khách",
+      "exclude_when": "Conversion thành đơn thuộc ORDER_ATTRIBUTION",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "ChatMessage",
+        "Agent",
+        "Channel",
+        "Customer",
+        "Product"
+      ],
+      "candidate_derived_classes": [
+        "AgentChatMessage",
+        "ChannelChatMessage",
+        "CustomerChatMessage",
+        "ProductChatMention"
+      ],
+      "candidate_methods": [
+        "ChatMessage.listConversationMessages",
+        "ChatMessage.countMessagesByChannel",
+        "ChatMessage.countDistinctConversations",
+        "ChatMessage.findProductMentions",
+        "ChannelChatMessage.countConversationsByChannel",
+        "AgentChatMessage.countAgentMessages"
+      ],
+      "grounded_property_ids": [
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.channelId",
+        "ChatMessage.chatTime",
+        "ChatMessage.senderType",
+        "Agent.agentId",
+        "Agent.storeId",
+        "Agent.status",
+        "Agent.createdAt",
+        "Channel.channelId",
+        "Customer.customerId",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "ChatMessage.agentId_references_Agent.agentId",
+        "ChatMessage.channelId_references_Channel.channelId",
+        "ChatMessage.customerId_references_Customer.customerId",
+        "ChatMessage.productId_references_Product.productId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 5
+    },
+    {
+      "intent_id": "ORDER_LIFECYCLE",
+      "intent_name_vi": "Đơn hàng và trạng thái",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Đơn hàng hoặc dòng chi tiết đơn",
+      "include_when": "Tra mã đơn, đếm đơn theo trạng thái, chi tiết dòng hàng",
+      "exclude_when": "Đơn gắn chat/agent thuộc ORDER_ATTRIBUTION; GMV thuộc REVENUE_METRICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Order",
+        "OrderItem"
+      ],
+      "candidate_derived_classes": [
+        "OrderLineDetail"
+      ],
+      "candidate_methods": [
+        "Order.findOrderByCode",
+        "Order.countOrders",
+        "OrderItem.listOrderLines",
+        "OrderLineDetail.listOrderDetails"
+      ],
+      "grounded_property_ids": [
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "OrderItem.orderItemId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount",
+        "OrderItem.promotionId"
+      ],
+      "grounded_relation_ids": [
+        "OrderItem.orderId_references_Order.orderId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "Dùng cho đơn hàng/trạng thái đơn. Nếu phân tích theo từng Channel thì chuyển sang CHANNEL_ANALYTICS."
+    },
+    {
+      "intent_id": "ORDER_ATTRIBUTION",
+      "intent_name_vi": "Nguồn chat và agent tạo đơn",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Đơn hàng theo tin nhắn tạo đơn/agent, tỷ lệ từ hội thoại sang đơn",
+      "include_when": "Nguồn đơn từ chat, agent chốt, conversion chat-to-order",
+      "exclude_when": "Số tin nhắn không xét đơn thuộc CHAT_ACTIVITY; hồ sơ agent thuộc AGENT_WORKFORCE",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Order",
+        "ChatMessage",
+        "Agent"
+      ],
+      "candidate_derived_classes": [
+        "ChatAttributedOrder",
+        "AgentAttributedOrder"
+      ],
+      "candidate_methods": [
+        "Order.listChatAttributedOrders",
+        "ChatAttributedOrder.countOrdersFromChat",
+        "ChatAttributedOrder.calculateChatOrderConversion",
+        "AgentAttributedOrder.countAgentOrders"
+      ],
+      "grounded_property_ids": [
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.channelId",
+        "ChatMessage.chatTime",
+        "ChatMessage.senderType",
+        "Agent.agentId",
+        "Agent.storeId",
+        "Agent.status",
+        "Agent.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "Order.chatId_references_ChatMessage.chatId",
+        "Order.agentId_references_Agent.agentId",
+        "ChatMessage.agentId_references_Agent.agentId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "PRODUCT_SALES",
+      "intent_name_vi": "Số lượng bán theo sản phẩm",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "SKU/dòng đơn xếp hạng theo lượng bán, line net",
+      "include_when": "Top SKU theo quantity, số sản phẩm đã bán, tổng quantity theo SKU",
+      "exclude_when": "Giá niêm yết thuộc PRODUCT_DISCOVERY; doanh thu tổng đơn thuộc REVENUE_METRICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Product",
+        "OrderItem",
+        "Order"
+      ],
+      "candidate_derived_classes": [
+        "ProductSalesLine"
+      ],
+      "candidate_methods": [
+        "ProductSalesLine.topSoldProductsByQuantity",
+        "ProductSalesLine.sumSoldQuantity",
+        "OrderItem.sumLineNetAmount"
+      ],
+      "grounded_property_ids": [
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt",
+        "OrderItem.orderItemId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount",
+        "OrderItem.promotionId",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt"
+      ],
+      "grounded_relation_ids": [
+        "OrderItem.productId_references_Product.productId",
+        "OrderItem.orderId_references_Order.orderId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "Dùng cho kết quả bán thực tế theo SKU/dòng hàng; không dùng cho catalog SKU."
+    },
+    {
+      "intent_id": "REVENUE_METRICS",
+      "intent_name_vi": "Chỉ số doanh thu",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Giá trị tiền cấp đơn/paid order, GMV, AOV, gross/net",
+      "include_when": "Tổng GMV/gross, AOV, doanh thu thuần theo định nghĩa; phân nhóm theo kênh chỉ là dimension",
+      "exclude_when": "Số giao dịch thanh toán thuộc PAYMENT_OPERATIONS; xếp hạng kênh theo doanh thu thuộc CHANNEL_ANALYTICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Order",
+        "Payment",
+        "Return",
+        "OrderItem",
+        "Channel"
+      ],
+      "candidate_derived_classes": [
+        "PaidOrder"
+      ],
+      "candidate_methods": [
+        "PaidOrder.countDistinctPaidOrders",
+        "PaidOrder.sumPaidOrderValue",
+        "Order.sumOrderGross",
+        "Payment.sumSuccessfulPayments"
+      ],
+      "grounded_property_ids": [
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "Payment.paymentId",
+        "Payment.status",
+        "Payment.amount",
+        "Payment.paidAt",
+        "Return.returnId",
+        "Return.refundAmount",
+        "Return.status",
+        "OrderItem.orderItemId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount",
+        "OrderItem.promotionId",
+        "Channel.channelId"
+      ],
+      "grounded_relation_ids": [
+        "Payment.orderId_references_Order.orderId",
+        "OrderItem.orderId_references_Order.orderId",
+        "Order.channelId_references_Channel.channelId",
+        "Return.orderItemId_references_OrderItem.orderItemId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "Dùng cho metric doanh thu cấp hệ thống hoặc filter một kênh cụ thể. Nếu GROUP BY từng Channel thì dùng CHANNEL_ANALYTICS."
+    },
+    {
+      "intent_id": "PAYMENT_OPERATIONS",
+      "intent_name_vi": "Giao dịch thanh toán",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Payment attempts/status/payment amount",
+      "include_when": "Tra giao dịch, trạng thái, phương thức, số lần thanh toán thành công",
+      "exclude_when": "GMV đơn hàng thuộc REVENUE_METRICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Payment",
+        "Order"
+      ],
+      "candidate_derived_classes": [
+        "PaidOrder"
+      ],
+      "candidate_methods": [
+        "Payment.listPaymentAttempts",
+        "Payment.hasSuccessfulPayment",
+        "Payment.sumSuccessfulPayments"
+      ],
+      "grounded_property_ids": [
+        "Payment.paymentId",
+        "Payment.status",
+        "Payment.amount",
+        "Payment.paidAt",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt"
+      ],
+      "grounded_relation_ids": [
+        "Payment.orderId_references_Order.orderId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "SHIPPING_LOGISTICS",
+      "intent_name_vi": "Vận chuyển và giao hàng",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Shipment, trạng thái, thời gian, địa chỉ snapshot khi giao",
+      "include_when": "Theo dõi vận đơn, thời gian giao, nơi giao của shipment",
+      "exclude_when": "Địa chỉ lưu ở hồ sơ khách thuộc DELIVERY_ADDRESS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Shipment",
+        "Order",
+        "Address"
+      ],
+      "candidate_derived_classes": [
+        "OrderShipment",
+        "DeliveryDestination"
+      ],
+      "candidate_methods": [
+        "Shipment.getShipmentByOrder",
+        "Shipment.listShipmentsByStatus",
+        "Shipment.calculateDeliveryDuration",
+        "OrderShipment.countDeliveredOrders",
+        "DeliveryDestination.getShipmentDestination"
+      ],
+      "grounded_property_ids": [
+        "Shipment.shipmentId",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "Address.addressId",
+        "Address.customerId",
+        "Address.isDefault",
+        "Address.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "Shipment.orderId_references_Order.orderId",
+        "Shipment.shippingAddressId_references_Address.addressId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "RETURNS_REFUNDS",
+      "intent_name_vi": "Hoàn trả và hoàn tiền",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Return requests, refund đã duyệt, dòng đơn bị trả",
+      "include_when": "Trạng thái yêu cầu, số lượng trả, refund theo thời gian",
+      "exclude_when": "Doanh thu ròng toàn hệ thống thuộc REVENUE_METRICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Return",
+        "OrderItem"
+      ],
+      "candidate_derived_classes": [
+        "ReturnedOrderLine"
+      ],
+      "candidate_methods": [
+        "Return.listReturnsForOrderItem",
+        "Return.sumApprovedRefund",
+        "Return.countReturnRequests",
+        "ReturnedOrderLine.sumApprovedRefundByLine"
+      ],
+      "grounded_property_ids": [
+        "Return.returnId",
+        "Return.refundAmount",
+        "Return.status",
+        "OrderItem.orderItemId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount",
+        "OrderItem.promotionId"
+      ],
+      "grounded_relation_ids": [
+        "Return.orderItemId_references_OrderItem.orderItemId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "INVENTORY_STATUS",
+      "intent_name_vi": "Tồn kho theo snapshot",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Tồn khả dụng của SKU theo store và thời điểm",
+      "include_when": "Tồn kho as-of, số lượng tồn và giữ chỗ, latest snapshot",
+      "exclude_when": "Cờ is_in_stock trên catalog thuộc PRODUCT_DISCOVERY",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "InventorySnapshot",
+        "Product",
+        "Store"
+      ],
+      "candidate_derived_classes": [
+        "ProductInventorySnapshot",
+        "StoreInventorySnapshot"
+      ],
+      "candidate_methods": [
+        "InventorySnapshot.getInventoryAt",
+        "InventorySnapshot.getAvailableQuantity",
+        "InventorySnapshot.getLatestInventory",
+        "ProductInventorySnapshot.sumAvailableQuantityBySKU",
+        "StoreInventorySnapshot.sumAvailableByStore",
+        "ProductInventorySnapshot.getProductInventory"
+      ],
+      "grounded_property_ids": [
+        "InventorySnapshot.snapshotId",
+        "InventorySnapshot.storeId",
+        "InventorySnapshot.snapshotDate",
+        "InventorySnapshot.qtyOnHand",
+        "InventorySnapshot.qtyReserved",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt",
+        "Store.storeId"
+      ],
+      "grounded_relation_ids": [
+        "InventorySnapshot.productId_references_Product.productId",
+        "InventorySnapshot.storeId_references_Store.storeId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "STORE_ANALYTICS",
+      "intent_name_vi": "Phân tích cửa hàng",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Cửa hàng là thực thể được tra cứu, thống kê, so sánh hoặc xếp hạng.",
+      "include_when": "Danh sách cửa hàng, số đơn theo cửa hàng, top/rank store theo đơn hoặc doanh thu.",
+      "exclude_when": "Metric doanh thu toàn hệ thống thuộc REVENUE_METRICS; phân tích theo kênh thuộc CHANNEL_ANALYTICS.",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Store",
+        "Order",
+        "Region"
+      ],
+      "candidate_derived_classes": [
+        "StoreOrder"
+      ],
+      "candidate_methods": [
+        "Store.findStoreByCode",
+        "Store.listStoresByRegion",
+        "Store.countStoreOrders",
+        "StoreOrder.sumOrderValueByStore"
+      ],
+      "grounded_property_ids": [
+        "Store.storeId",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "Region.regionId"
+      ],
+      "grounded_relation_ids": [
+        "Order.storeId_references_Store.storeId",
+        "Store.regionId_references_Region.regionId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "RENAME_AND_CLARIFY_SCOPE",
+      "taxonomy_review_note": "Đổi tên từ STORE_PERFORMANCE vì không phải câu hỏi store nào cũng là performance/ranking."
+    },
+    {
+      "intent_id": "CHANNEL_ANALYTICS",
+      "intent_name_vi": "Phân tích kênh",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Kênh bán là thực thể được thống kê, so sánh hoặc xếp hạng.",
+      "include_when": "Số đơn, GMV, chat, so sánh hoặc ranking theo từng channel.",
+      "exclude_when": "Tổng metric toàn hệ thống hoặc filter một channel cụ thể thuộc intent metric gốc.",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Channel",
+        "Order",
+        "ChatMessage"
+      ],
+      "candidate_derived_classes": [
+        "ChannelOrder",
+        "ChannelChatMessage"
+      ],
+      "candidate_methods": [
+        "Channel.findChannelByCode",
+        "ChannelOrder.countOrdersByChannel",
+        "ChannelOrder.sumOrderGrossByChannel",
+        "Channel.countChannelChats"
+      ],
+      "grounded_property_ids": [
+        "Channel.channelId",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.channelId",
+        "ChatMessage.chatTime",
+        "ChatMessage.senderType"
+      ],
+      "grounded_relation_ids": [
+        "Order.channelId_references_Channel.channelId",
+        "ChatMessage.channelId_references_Channel.channelId",
+        "Order.chatId_references_ChatMessage.chatId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "RENAME_AND_CLARIFY_SCOPE",
+      "taxonomy_review_note": "Đổi tên từ CHANNEL_PERFORMANCE; GROUP BY Channel thuộc CHANNEL_ANALYTICS dù có ORDER BY hay không."
+    },
+    {
+      "intent_id": "CUSTOMER_SUPPORT",
+      "intent_name_vi": "Hỗ trợ khách hàng",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "SupportTicket, case, trạng thái, thời gian xử lý",
+      "include_when": "Ticket theo khách, ưu tiên, chưa giải quyết, thời gian resolve",
+      "exclude_when": "Số tin nhắn chat thuộc CHAT_ACTIVITY",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "SupportTicket",
+        "Customer",
+        "Order"
+      ],
+      "candidate_derived_classes": [
+        "CustomerSupportCase",
+        "OrderSupportCase"
+      ],
+      "candidate_methods": [
+        "SupportTicket.findTicket",
+        "SupportTicket.listCustomerTickets",
+        "SupportTicket.countUnresolvedTickets",
+        "SupportTicket.calculateResolutionDuration",
+        "CustomerSupportCase.listCustomerCases"
+      ],
+      "grounded_property_ids": [
+        "SupportTicket.ticketId",
+        "SupportTicket.customerId",
+        "SupportTicket.status",
+        "SupportTicket.createdAt",
+        "Customer.customerId",
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt"
+      ],
+      "grounded_relation_ids": [
+        "SupportTicket.customerId_references_Customer.customerId",
+        "SupportTicket.orderId_references_Order.orderId",
+        "Order.customerId_references_Customer.customerId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "DELIVERY_ADDRESS",
+      "intent_name_vi": "Địa chỉ khách hàng",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Địa chỉ đã lưu, mặc định, google_place_id của khách",
+      "include_when": "Danh sách địa chỉ, địa chỉ mặc định, nguồn và xác nhận địa chỉ",
+      "exclude_when": "Địa chỉ vận đơn snapshot thuộc SHIPPING_LOGISTICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Address",
+        "Customer"
+      ],
+      "candidate_derived_classes": [
+        "CustomerDeliveryAddress"
+      ],
+      "candidate_methods": [
+        "Address.listCustomerAddresses",
+        "Address.getDefaultAddress",
+        "Address.findAddressByGooglePlace",
+        "CustomerDeliveryAddress.listAddresses"
+      ],
+      "grounded_property_ids": [
+        "Address.addressId",
+        "Address.customerId",
+        "Address.isDefault",
+        "Address.createdAt",
+        "Customer.customerId"
+      ],
+      "grounded_relation_ids": [
+        "Address.customerId_references_Customer.customerId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    },
+    {
+      "intent_id": "REGIONAL_COVERAGE",
+      "intent_name_vi": "Phân bố theo vùng",
+      "intent_kind": "ATOMIC",
+      "answer_contract": "Region là đối tượng phân nhóm/xếp hạng về vùng",
+      "include_when": "Liệt kê vùng, số store/khách/supplier theo vùng",
+      "exclude_when": "Danh sách khách/cửa hàng cụ thể thuộc CUSTOMER_PROFILE/STORE_ANALYTICS",
+      "primary_output_rule": "Exactly one primary answer contract matches this business goal",
+      "candidate_base_classes": [
+        "Region",
+        "Store",
+        "Customer",
+        "Supplier"
+      ],
+      "candidate_derived_classes": [],
+      "candidate_methods": [
+        "Region.findRegionByCode",
+        "Region.listRegions",
+        "Region.countStoresInRegion",
+        "Store.listStoresByRegion",
+        "Supplier.listSuppliersByRegion"
+      ],
+      "grounded_property_ids": [
+        "Region.regionId",
+        "Store.storeId",
+        "Customer.customerId",
+        "Supplier.supplierId"
+      ],
+      "grounded_relation_ids": [
+        "Customer.regionId_references_Region.regionId",
+        "Store.regionId_references_Region.regionId",
+        "Supplier.regionId_references_Region.regionId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "METHOD_CANDIDATES_ONLY",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4,
+      "taxonomy_review_decision": "CLARIFY_DEFINITION",
+      "taxonomy_review_note": "Dùng khi Region là đơn vị phân nhóm/xếp hạng. Nếu đầu ra là danh sách Store/Customer cụ thể thì dùng intent tương ứng."
+    },
+    {
+      "intent_id": "MULTI_OUTPUT_REPORT",
+      "intent_name_vi": "Yêu cầu nhiều đầu ra độc lập",
+      "intent_kind": "COMPOSITE",
+      "answer_contract": "Một câu hỏi đòi >=2 đầu ra khác bản chất, rõ ràng và cùng phạm vi dữ liệu",
+      "include_when": "Hai hoặc nhiều kết quả nghiệp vụ riêng biệt nhưng người dùng yêu cầu đồng thời",
+      "exclude_when": "Nếu chỉ một metric phân theo một dimension thì vẫn là single-intent",
+      "primary_output_rule": "At least two independently requested primary answer contracts",
+      "candidate_base_classes": [
+        "Order",
+        "Payment",
+        "InventorySnapshot",
+        "ChatMessage",
+        "Customer",
+        "Product"
+      ],
+      "candidate_derived_classes": [
+        "PaidOrder"
+      ],
+      "candidate_methods": [
+        "Order.countOrders",
+        "PaidOrder.sumPaidOrderValue",
+        "InventorySnapshot.getLatestInventory",
+        "ChatMessage.countMessagesByChannel"
+      ],
+      "grounded_property_ids": [
+        "Order.orderId",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId",
+        "Order.agentId",
+        "Order.orderedAt",
+        "Payment.paymentId",
+        "Payment.status",
+        "Payment.amount",
+        "Payment.paidAt",
+        "InventorySnapshot.snapshotId",
+        "InventorySnapshot.storeId",
+        "InventorySnapshot.snapshotDate",
+        "InventorySnapshot.qtyOnHand",
+        "InventorySnapshot.qtyReserved",
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.channelId",
+        "ChatMessage.chatTime",
+        "ChatMessage.senderType",
+        "Customer.customerId",
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.brandId",
+        "Product.categoryId",
+        "Product.promotionId",
+        "Product.createdAt"
+      ],
+      "grounded_relation_ids": [
+        "Payment.orderId_references_Order.orderId",
+        "ChatMessage.productId_references_Product.productId",
+        "ChatMessage.customerId_references_Customer.customerId",
+        "InventorySnapshot.productId_references_Product.productId",
+        "Order.chatId_references_ChatMessage.chatId",
+        "Order.customerId_references_Customer.customerId"
+      ],
+      "assignment_rule": "Route by the main requested OUTPUT (not by all nouns, filters, or joined tables). A dimension/filter does not create a second intent.",
+      "execution_status": "COMPOSITION_PENDING",
+      "semantic_note": "Không suy ra SQL template/runtime đã được duyệt từ sự tồn tại của class-method ứng viên.",
+      "examples_count": 4
+    }
+  ],
+  "review_status": "TAXONOMY_V01_APPROVED_WITH_CHANGES",
+  "review_policy": {
+    "atomic_intents": 23,
+    "composite_intents": 1,
+    "classifier_ground_truth_status": "NOT_FROZEN_UNTIL_REVIEW_CHANGES_APPLIED_AND_AUDITED",
+    "primary_routing_rule": "One fully specified supported question maps to exactly one business intent; dimensions, filters, ordering and limits are query parameters."
+  }
+}

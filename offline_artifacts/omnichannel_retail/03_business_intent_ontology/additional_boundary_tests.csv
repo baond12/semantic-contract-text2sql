@@ -1,0 +1,11 @@
+﻿boundary_id,question_a,intent_a,question_b,intent_b
+N-01,GMV toàn hệ thống tháng 9?,REVENUE_METRICS,GMV theo từng kênh tháng 9?,CHANNEL_ANALYTICS
+N-02,GMV từng kênh tháng 9?,CHANNEL_ANALYTICS,Xếp hạng kênh theo GMV tháng 9?,CHANNEL_ANALYTICS
+N-03,Có bao nhiêu đơn toàn hệ thống?,ORDER_LIFECYCLE,Có bao nhiêu đơn theo từng kênh?,CHANNEL_ANALYTICS
+N-04,Đơn theo từng kênh tháng 9?,CHANNEL_ANALYTICS,Kênh nào có nhiều đơn nhất tháng 9?,CHANNEL_ANALYTICS
+N-05,Cho biết tất cả chương trình khuyến mãi còn hiệu lực.,PROMOTION_PROGRAM,Liệt kê SKU có promotion chính đang hiệu lực.,PRODUCT_DISCOVERY
+N-06,Các SKU đang có hàng trong catalog?,PRODUCT_DISCOVERY,SKU nào được cung cấp bởi >=2 nhà cung cấp?,SUPPLIER_NETWORK
+N-07,Tổng giá trị dòng hàng theo từng SKU?,PRODUCT_SALES,Tổng GMV các đơn đã thanh toán?,REVENUE_METRICS
+N-08,Có bao nhiêu cửa hàng theo vùng?,REGIONAL_COVERAGE,Danh sách cửa hàng miền Bắc?,STORE_ANALYTICS
+N-09,Top cửa hàng theo số đơn?,STORE_ANALYTICS,Số đơn theo từng cửa hàng?,STORE_ANALYTICS
+N-10,Tổng giá trị payment success?,PAYMENT_OPERATIONS,GMV đơn đã thanh toán là bao nhiêu?,REVENUE_METRICS

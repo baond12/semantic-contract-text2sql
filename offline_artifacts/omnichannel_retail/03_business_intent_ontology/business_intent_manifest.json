@@ -1,0 +1,34 @@
+{
+  "database_id": "omnichannel_retail",
+  "artifact_type": "business_intent_ontology",
+  "version": "v01_approved_with_changes",
+  "construction_mode": "review_applied_deterministic",
+  "input_source_intent_dir": "/home/baond12/Downloads/omnichannel_business_intent_v01_PACKAGE/omnichannel_business_intent_v01",
+  "input_object_ontology_dir": "offline_artifacts/omnichannel_retail/02_object_ontology",
+  "readiness_status": "STRUCTURAL_PASS_WITH_REVIEW",
+  "output_files": {
+    "business_intents": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/business_intents.json",
+    "intent_scenarios": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_scenarios.json",
+    "intent_scenarios_xlsx": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_scenarios.xlsx",
+    "intent_boundary_tests": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_boundary_tests.json",
+    "intent_to_ontology_mapping": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_to_ontology_mapping.csv",
+    "business_intent_ontology_audit": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/business_intent_ontology_audit.json",
+    "intent_method_review_findings": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_method_review_findings.json"
+  },
+  "counts": {
+    "business_intents": 24,
+    "atomic_intents": 23,
+    "composite_intents": 1,
+    "scenarios": 162,
+    "boundary_tests": 20,
+    "additional_boundary_tests": 10,
+    "referenced_base_classes": 20,
+    "referenced_derived_classes": 25,
+    "referenced_properties": 60,
+    "referenced_relations": 31,
+    "referenced_methods": 88,
+    "missing_method_references": 28,
+    "high_findings": 0,
+    "review_findings": 18
+  }
+}

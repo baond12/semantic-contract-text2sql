@@ -13,6 +13,7 @@ REQUIRED_FOLDERS = [
     "06_retrieval_indexes",
     "07_benchmark_cases",
     "08_audit_reports",
+    "09_semantic_clustering",
 ]
 
 
@@ -80,4 +81,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

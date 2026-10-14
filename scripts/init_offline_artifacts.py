@@ -15,6 +15,7 @@ OFFLINE_FOLDERS = [
     "06_retrieval_indexes",
     "07_benchmark_cases",
     "08_audit_reports",
+    "09_semantic_clustering",
 ]
 
 
@@ -28,6 +29,7 @@ FOLDER_DESCRIPTIONS = {
     "06_retrieval_indexes": "BM25/vector indexes and retrieval cards for scalable online context selection.",
     "07_benchmark_cases": "Scenario matrix, test cases, gold SQL, expected results, scoring rules.",
     "08_audit_reports": "Readiness, coverage, consistency, method-contract, and semantic-policy reports.",
+    "09_semantic_clustering": "Business-centric semantic clusters for ontology-driven retrieval, routing, and composition planning.",
 }
 
 
@@ -83,7 +85,8 @@ def init_offline_artifacts(database_id, output_root, source_paths):
             "Define semantic policies in 05_semantic_policies.",
             "Build retrieval cards/indexes in 06_retrieval_indexes.",
             "Add benchmark cases in 07_benchmark_cases.",
-            "Run audit and save reports in 08_audit_reports."
+            "Run audit and save reports in 08_audit_reports.",
+            "Build semantic clustering artifacts in 09_semantic_clustering."
         ],
     }
     write_json(manifest, database_root / "manifest.json")
@@ -122,4 +125,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

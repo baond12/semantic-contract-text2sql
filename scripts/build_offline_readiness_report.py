@@ -56,6 +56,7 @@ def build_artifact_manifest_index(root):
         ("05_semantic_policies", root / "05_semantic_policies" / "semantic_policy_manifest.json"),
         ("06_retrieval_indexes", root / "06_retrieval_indexes" / "retrieval_manifest.json"),
         ("07_benchmark_cases", root / "07_benchmark_cases" / "benchmark_manifest.json"),
+        ("09_semantic_clustering", root / "09_semantic_clustering" / "semantic_clustering_manifest.json"),
     ]
     return [
         load_manifest(path, artifact_name)
@@ -85,6 +86,10 @@ def required_files(root):
         root / "06_retrieval_indexes" / "retrieval_cards.json",
         root / "06_retrieval_indexes" / "bm25_index.json",
         root / "07_benchmark_cases" / "benchmark_cases.json",
+        root / "09_semantic_clustering" / "semantic_clusters.json",
+        root / "09_semantic_clustering" / "cluster_memberships.json",
+        root / "09_semantic_clustering" / "cluster_bridges.json",
+        root / "09_semantic_clustering" / "cluster_routing.json",
     ]
     return [file_status(path) for path in paths]
 
@@ -109,6 +114,8 @@ def read_core_artifacts(root):
         "semantic_policies": load_json(root / "05_semantic_policies" / "semantic_policies.json")["semantic_policies"],
         "retrieval_cards": load_json(root / "06_retrieval_indexes" / "retrieval_cards.json")["retrieval_cards"],
         "benchmark_cases": load_json(root / "07_benchmark_cases" / "benchmark_cases.json")["benchmark_cases"],
+        "semantic_clusters": load_json(root / "09_semantic_clustering" / "semantic_clusters.json")["clusters"],
+        "semantic_clustering_audit": load_json(root / "09_semantic_clustering" / "semantic_clustering_audit.json"),
     }
 
 
@@ -227,6 +234,10 @@ def audit_cross_layer(artifacts):
             if policy_id not in policy_ids:
                 findings.append(high("benchmark_missing_policy", case_id, policy_id))
 
+    clustering_audit = artifacts.get("semantic_clustering_audit", {})
+    if clustering_audit.get("high_findings", 0) > 0:
+        findings.append(high("semantic_clustering_audit_not_ready", "09_semantic_clustering", clustering_audit.get("high_findings")))
+
     expected_card_prefixes = [
         "business_intent:",
         "class:",
@@ -282,6 +293,7 @@ def build_coverage_summary(artifacts):
         "semantic_policy_count": len(artifacts["semantic_policies"]),
         "retrieval_card_count": len(artifacts["retrieval_cards"]),
         "benchmark_case_count": len(artifacts["benchmark_cases"]),
+        "semantic_cluster_count": len(artifacts["semantic_clusters"]),
         "object_ontology_table_coverage": round(len(table_names & class_table_names) / max(1, len(table_names)), 4),
         "object_ontology_column_coverage": round(len(column_ids & property_column_ids) / max(1, len(column_ids)), 4),
         "method_contract_table_coverage": round(len(table_names & contract_tables) / max(1, len(table_names)), 4),

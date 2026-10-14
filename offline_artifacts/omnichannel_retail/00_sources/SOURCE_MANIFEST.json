@@ -1,0 +1,35 @@
+{
+  "database_id": "omnichannel_retail",
+  "artifact_type": "00_sources",
+  "status": "ACCEPTED_FOR_00_SOURCES",
+  "version": "v06_FINAL",
+  "business_table_count": 20,
+  "required_files": [
+    "omnichannel_retail.sqlite3",
+    "schema.sql",
+    "seed_data.sql",
+    "ERD.png",
+    "ERD.svg",
+    "README.md",
+    "validation.json"
+  ],
+  "supporting_files": [
+    "ERD_overview.png",
+    "ERD_overview.svg",
+    "ERD.mmd",
+    "product_source_trace.jsonl",
+    "sample_queries.sql",
+    "rebuild_from_sql.py",
+    "verify_replay.py",
+    "00_SOURCE_ACCEPTANCE_REVIEW.md"
+  ],
+  "acceptance_summary": {
+    "all_20_tables_have_data": true,
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "replay_from_schema_and_seed": "PASS",
+    "erd_matches_physical_schema": true
+  },
+  "next_step": "Use this folder as 00_sources, then rebuild 01_database_inventory."
+}
+

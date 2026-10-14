@@ -1,0 +1,230 @@
+%% Generated directly from v06 physical SQLite schema
+erDiagram
+    ADDRESSES {
+        TEXT address_id PK
+        INTEGER customer_id FK
+        TEXT recipient_name
+        TEXT phone
+        TEXT formatted_address
+        TEXT address_line
+        TEXT ward
+        TEXT district
+        TEXT province
+        TEXT country
+        REAL latitude
+        REAL longitude
+        TEXT google_place_id
+        TEXT address_source
+        TEXT customer_confirmed_at
+        TEXT google_last_checked_at
+        INTEGER is_default
+        TEXT created_at
+        TEXT updated_at
+    }
+    AGENTS {
+        TEXT agent_id PK
+        TEXT agent_code
+        TEXT full_name
+        INTEGER store_id FK
+        TEXT email
+        TEXT phone
+        TEXT team
+        TEXT status
+        TEXT created_at
+    }
+    BRANDS {
+        INTEGER brand_id PK
+        TEXT brand_name
+    }
+    CATEGORIES {
+        INTEGER category_id PK
+        TEXT category_name
+        INTEGER parent_category_id FK
+    }
+    CHANNELS {
+        INTEGER channel_id PK
+        TEXT channel_code
+        TEXT channel_name
+        TEXT channel_type
+    }
+    CHATS {
+        TEXT chat_id PK
+        TEXT conversation_id
+        TEXT agent_id FK
+        INTEGER customer_id FK
+        VARCHAR_50_ product_id FK
+        INTEGER channel_id FK
+        TEXT chat_time
+        TEXT sender_type
+        TEXT content
+        TEXT intent_label
+        TEXT sentiment_label
+        TEXT created_at
+    }
+    CUSTOMERS {
+        INTEGER customer_id PK
+        TEXT customer_code
+        INTEGER region_id FK
+        TEXT customer_segment
+        TEXT joined_at
+    }
+    INVENTORY_SNAPSHOTS {
+        INTEGER snapshot_id PK
+        INTEGER store_id FK
+        VARCHAR_50_ product_id FK
+        TEXT snapshot_date
+        INTEGER qty_on_hand
+        INTEGER qty_reserved
+    }
+    ORDER_ITEMS {
+        INTEGER order_item_id PK
+        INTEGER order_id FK
+        VARCHAR_50_ product_id FK
+        INTEGER quantity
+        INTEGER unit_price
+        INTEGER line_discount
+        INTEGER promotion_id FK
+    }
+    ORDERS {
+        INTEGER order_id PK
+        TEXT order_code
+        INTEGER customer_id FK
+        INTEGER channel_id FK
+        INTEGER store_id FK
+        TEXT chat_id FK
+        TEXT agent_id FK
+        TEXT ordered_at
+        TEXT status
+        INTEGER gross_amount
+        INTEGER discount_amount
+        INTEGER shipping_fee
+    }
+    PAYMENTS {
+        INTEGER payment_id PK
+        INTEGER order_id FK
+        TEXT payment_method
+        TEXT status
+        INTEGER amount
+        TEXT paid_at
+    }
+    PRODUCT_SUPPLIERS {
+        VARCHAR_50_ product_id PK,FK
+        INTEGER supplier_id PK,FK
+        INTEGER is_primary
+    }
+    PRODUCTS {
+        VARCHAR_50_ product_id PK
+        VARCHAR_100_ sku
+        VARCHAR_255_ name
+        TEXT product_url
+        INTEGER brand_id FK
+        INTEGER category_id FK
+        INTEGER promotion_id FK
+        NUMERIC_12_2_ original_price
+        NUMERIC_12_2_ discount_price
+        VARCHAR_10_ currency
+        NUMERIC_5_2_ discount_percentage
+        BOOLEAN is_in_stock
+        INTEGER stock_quantity
+        JSONB delivery_locations
+        JSONB specifications
+        JSONB warranty
+        JSONB images
+        TIMESTAMP created_at
+        TEXT description
+        BLOB description_embedding
+    }
+    PROMOTIONS {
+        INTEGER promotion_id PK
+        TEXT promo_code
+        TEXT promo_name
+        TEXT start_date
+        TEXT end_date
+        INTEGER discount_pct
+    }
+    REGIONS {
+        INTEGER region_id PK
+        TEXT region_code
+        TEXT region_name
+    }
+    RETURNS {
+        INTEGER return_id PK
+        INTEGER order_item_id FK
+        INTEGER return_qty
+        INTEGER refund_amount
+        TEXT status
+        TEXT requested_at
+        TEXT decided_at
+    }
+    SHIPMENTS {
+        INTEGER shipment_id PK
+        INTEGER order_id FK
+        TEXT shipping_address_id FK
+        TEXT carrier
+        TEXT shipped_at
+        TEXT delivered_at
+        TEXT shipping_status
+        TEXT ship_to_recipient_name
+        TEXT ship_to_phone
+        TEXT ship_to_formatted_address
+        TEXT ship_to_ward
+        TEXT ship_to_district
+        TEXT ship_to_province
+        TEXT ship_to_country
+        REAL ship_to_latitude
+        REAL ship_to_longitude
+    }
+    STORES {
+        INTEGER store_id PK
+        TEXT store_code
+        TEXT store_name
+        INTEGER region_id FK
+        TEXT city
+        TEXT opened_on
+    }
+    SUPPLIERS {
+        INTEGER supplier_id PK
+        TEXT supplier_name
+        INTEGER region_id FK
+    }
+    SUPPORT_TICKETS {
+        INTEGER ticket_id PK
+        INTEGER order_id FK
+        INTEGER customer_id FK
+        TEXT issue_type
+        TEXT priority
+        TEXT status
+        TEXT created_at
+        TEXT resolved_at
+    }
+    CUSTOMERS ||--o{ ADDRESSES : "customer_id"
+    STORES o|--o{ AGENTS : "store_id"
+    CATEGORIES o|--o{ CATEGORIES : "parent_category_id"
+    CHANNELS o|--o{ CHATS : "channel_id"
+    PRODUCTS o|--o{ CHATS : "product_id"
+    CUSTOMERS ||--o{ CHATS : "customer_id"
+    AGENTS o|--o{ CHATS : "agent_id"
+    REGIONS ||--o{ CUSTOMERS : "region_id"
+    PRODUCTS ||--o{ INVENTORY_SNAPSHOTS : "product_id"
+    STORES ||--o{ INVENTORY_SNAPSHOTS : "store_id"
+    PROMOTIONS o|--o{ ORDER_ITEMS : "promotion_id"
+    PRODUCTS ||--o{ ORDER_ITEMS : "product_id"
+    ORDERS ||--o{ ORDER_ITEMS : "order_id"
+    AGENTS o|--o{ ORDERS : "agent_id"
+    CHATS o|--o{ ORDERS : "chat_id"
+    STORES ||--o{ ORDERS : "store_id"
+    CHANNELS ||--o{ ORDERS : "channel_id"
+    CUSTOMERS ||--o{ ORDERS : "customer_id"
+    ORDERS ||--o{ PAYMENTS : "order_id"
+    SUPPLIERS ||--o{ PRODUCT_SUPPLIERS : "supplier_id"
+    PRODUCTS ||--o{ PRODUCT_SUPPLIERS : "product_id"
+    PROMOTIONS o|--o{ PRODUCTS : "promotion_id"
+    CATEGORIES o|--o{ PRODUCTS : "category_id"
+    BRANDS o|--o{ PRODUCTS : "brand_id"
+    ORDER_ITEMS ||--o{ RETURNS : "order_item_id"
+    ADDRESSES o|--o{ SHIPMENTS : "shipping_address_id"
+    ORDERS ||--o{ SHIPMENTS : "order_id"
+    REGIONS ||--o{ STORES : "region_id"
+    REGIONS ||--o{ SUPPLIERS : "region_id"
+    CUSTOMERS ||--o{ SUPPORT_TICKETS : "customer_id"
+    ORDERS o|--o{ SUPPORT_TICKETS : "order_id"

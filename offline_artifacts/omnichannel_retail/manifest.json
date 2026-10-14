@@ -1,0 +1,40 @@
+{
+  "database_id": "omnichannel_retail",
+  "artifact_type": "offline_database_workspace",
+  "version": "v06_final_sources",
+  "status": "00_SOURCES_ACCEPTED",
+  "source_folder": "00_sources",
+  "folders": [
+    "00_sources",
+    "01_database_inventory",
+    "02_object_ontology",
+    "03_business_task_ontology",
+    "04_method_contracts",
+    "05_semantic_policies",
+    "06_retrieval_indexes",
+    "07_benchmark_cases",
+    "08_audit_reports",
+    "09_semantic_clustering"
+  ],
+  "source_files": {
+    "database": "00_sources/omnichannel_retail.sqlite3",
+    "schema": "00_sources/schema.sql",
+    "seed_data": "00_sources/seed_data.sql",
+    "erd_png": "00_sources/ERD.png",
+    "erd_svg": "00_sources/ERD.svg",
+    "readme": "00_sources/README.md",
+    "validation": "00_sources/validation.json",
+    "source_manifest": "00_sources/SOURCE_MANIFEST.json",
+    "acceptance_review": "00_sources/00_SOURCE_ACCEPTANCE_REVIEW.md"
+  },
+  "acceptance_summary": {
+    "business_table_count": 20,
+    "all_tables_have_data": true,
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "replay_from_schema_and_seed": "PASS",
+    "erd_matches_physical_schema": true
+  },
+  "next_step": "Build 01_database_inventory from 00_sources/schema.sql and 00_sources/omnichannel_retail.sqlite3."
+}
+

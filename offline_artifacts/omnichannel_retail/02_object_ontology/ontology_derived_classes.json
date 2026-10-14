@@ -1,0 +1,580 @@
+{
+  "database_id": "omnichannel_retail",
+  "derived_classes": [
+    {
+      "class_id": "CustomerDeliveryAddress",
+      "class_name": "Customer Delivery Address",
+      "business_domain": "Shipping",
+      "description": "Customer-owned delivery address.",
+      "source_classes": [
+        "Address",
+        "Customer"
+      ],
+      "source_tables": [
+        "addresses",
+        "customers"
+      ],
+      "semantic_rule": "addresses.customer_id = customers.customer_id",
+      "source_relation_id": "Address.customerId_references_Customer.customerId",
+      "join_strategy": "INNER",
+      "grain": "addresses.address_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "DeliveryDestination",
+      "class_name": "Delivery Destination",
+      "business_domain": "Shipping",
+      "description": "Shipment destination compared with saved customer address.",
+      "source_classes": [
+        "Address",
+        "Shipment"
+      ],
+      "source_tables": [
+        "addresses",
+        "shipments"
+      ],
+      "semantic_rule": "shipments.shipping_address_id = addresses.address_id",
+      "source_relation_id": "Shipment.shippingAddressId_references_Address.addressId",
+      "join_strategy": "LEFT from shipments to addresses",
+      "grain": "shipments.shipment_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "AgentChatMessage",
+      "class_name": "Agent Chat Message",
+      "business_domain": "Support",
+      "description": "Chat message assigned to a support/sales agent.",
+      "source_classes": [
+        "Agent",
+        "ChatMessage"
+      ],
+      "source_tables": [
+        "agents",
+        "chats"
+      ],
+      "semantic_rule": "chats.agent_id = agents.agent_id",
+      "source_relation_id": "ChatMessage.agentId_references_Agent.agentId",
+      "join_strategy": "INNER for assigned chats, optional LEFT for all chats",
+      "grain": "chats.chat_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "AgentAttributedOrder",
+      "class_name": "Agent Attributed Order",
+      "business_domain": "Orders",
+      "description": "Order attributed to the agent who created or closed it.",
+      "source_classes": [
+        "Agent",
+        "Order"
+      ],
+      "source_tables": [
+        "agents",
+        "orders"
+      ],
+      "semantic_rule": "orders.agent_id = agents.agent_id",
+      "source_relation_id": "Order.agentId_references_Agent.agentId",
+      "join_strategy": "INNER if agent attributed",
+      "grain": "orders.order_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "StoreAgent",
+      "class_name": "Store Agent",
+      "business_domain": "Channel & Store",
+      "description": "Agent currently assigned to a store.",
+      "source_classes": [
+        "Agent",
+        "Store"
+      ],
+      "source_tables": [
+        "agents",
+        "stores"
+      ],
+      "semantic_rule": "agents.store_id = stores.store_id",
+      "source_relation_id": "Agent.storeId_references_Store.storeId",
+      "join_strategy": "LEFT to retain unassigned agents",
+      "grain": "agents.agent_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "CategorizedProduct",
+      "class_name": "Categorized Product",
+      "business_domain": "Catalog",
+      "description": "Product assigned to a category node.",
+      "source_classes": [
+        "Category",
+        "Product"
+      ],
+      "source_tables": [
+        "categories",
+        "products"
+      ],
+      "semantic_rule": "products.category_id = categories.category_id",
+      "source_relation_id": "Product.categoryId_references_Category.categoryId",
+      "join_strategy": "INNER for mapped categories",
+      "grain": "products.product_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ChannelChatMessage",
+      "class_name": "Channel Chat Message",
+      "business_domain": "Support",
+      "description": "Chat message generated from a communication/sales channel.",
+      "source_classes": [
+        "Channel",
+        "ChatMessage"
+      ],
+      "source_tables": [
+        "channels",
+        "chats"
+      ],
+      "semantic_rule": "chats.channel_id = channels.channel_id",
+      "source_relation_id": "ChatMessage.channelId_references_Channel.channelId",
+      "join_strategy": "INNER for attributed channel, LEFT for all chats",
+      "grain": "chats.chat_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ChannelOrder",
+      "class_name": "Channel Order",
+      "business_domain": "Channel & Store",
+      "description": "Order by sales channel.",
+      "source_classes": [
+        "Channel",
+        "Order"
+      ],
+      "source_tables": [
+        "channels",
+        "orders"
+      ],
+      "semantic_rule": "orders.channel_id = channels.channel_id",
+      "source_relation_id": "Order.channelId_references_Channel.channelId",
+      "join_strategy": "INNER",
+      "grain": "orders.order_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "CustomerChatMessage",
+      "class_name": "Customer Chat Message",
+      "business_domain": "Support",
+      "description": "Chat message linked to a customer.",
+      "source_classes": [
+        "ChatMessage",
+        "Customer"
+      ],
+      "source_tables": [
+        "chats",
+        "customers"
+      ],
+      "semantic_rule": "chats.customer_id = customers.customer_id",
+      "source_relation_id": "ChatMessage.customerId_references_Customer.customerId",
+      "join_strategy": "INNER",
+      "grain": "chats.chat_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ChatAttributedOrder",
+      "class_name": "Chat Attributed Order",
+      "business_domain": "Orders",
+      "description": "Order sourced from a specific chat message.",
+      "source_classes": [
+        "ChatMessage",
+        "Order"
+      ],
+      "source_tables": [
+        "chats",
+        "orders"
+      ],
+      "semantic_rule": "orders.chat_id = chats.chat_id",
+      "source_relation_id": "Order.chatId_references_ChatMessage.chatId",
+      "join_strategy": "INNER on orders.chat_id = chats.chat_id",
+      "grain": "orders.order_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ProductChatMention",
+      "class_name": "Product Chat Mention",
+      "business_domain": "Support",
+      "description": "Chat message explicitly linked to a product.",
+      "source_classes": [
+        "ChatMessage",
+        "Product"
+      ],
+      "source_tables": [
+        "chats",
+        "products"
+      ],
+      "semantic_rule": "chats.product_id = products.product_id",
+      "source_relation_id": "ChatMessage.productId_references_Product.productId",
+      "join_strategy": "INNER only chats.product_id IS NOT NULL",
+      "grain": "chats.chat_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "CustomerOrder",
+      "class_name": "Customer Order",
+      "business_domain": "Customers",
+      "description": "Order linked to the purchasing customer.",
+      "source_classes": [
+        "Customer",
+        "Order"
+      ],
+      "source_tables": [
+        "customers",
+        "orders"
+      ],
+      "semantic_rule": "orders.customer_id = customers.customer_id",
+      "source_relation_id": "Order.customerId_references_Customer.customerId",
+      "join_strategy": "INNER",
+      "grain": "orders.order_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "CustomerSupportCase",
+      "class_name": "Customer Support Case",
+      "business_domain": "Support",
+      "description": "Support ticket linked to a customer.",
+      "source_classes": [
+        "Customer",
+        "SupportTicket"
+      ],
+      "source_tables": [
+        "customers",
+        "support_tickets"
+      ],
+      "semantic_rule": "support_tickets.customer_id = customers.customer_id",
+      "source_relation_id": "SupportTicket.customerId_references_Customer.customerId",
+      "join_strategy": "INNER",
+      "grain": "support_tickets.ticket_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ProductInventorySnapshot",
+      "class_name": "Product Inventory Snapshot",
+      "business_domain": "Inventory",
+      "description": "Inventory snapshot for one product.",
+      "source_classes": [
+        "InventorySnapshot",
+        "Product"
+      ],
+      "source_tables": [
+        "inventory_snapshots",
+        "products"
+      ],
+      "semantic_rule": "inventory_snapshots.product_id = products.product_id",
+      "source_relation_id": "InventorySnapshot.productId_references_Product.productId",
+      "join_strategy": "INNER",
+      "grain": "inventory_snapshots.snapshot_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "StoreInventorySnapshot",
+      "class_name": "Store Inventory Snapshot",
+      "business_domain": "Inventory",
+      "description": "Inventory snapshot for one store.",
+      "source_classes": [
+        "InventorySnapshot",
+        "Store"
+      ],
+      "source_tables": [
+        "inventory_snapshots",
+        "stores"
+      ],
+      "semantic_rule": "inventory_snapshots.store_id = stores.store_id",
+      "source_relation_id": "InventorySnapshot.storeId_references_Store.storeId",
+      "join_strategy": "INNER",
+      "grain": "inventory_snapshots.snapshot_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "OrderLineDetail",
+      "class_name": "Order Line Detail",
+      "business_domain": "Orders",
+      "description": "Order line with its parent order context.",
+      "source_classes": [
+        "OrderItem",
+        "Order"
+      ],
+      "source_tables": [
+        "order_items",
+        "orders"
+      ],
+      "semantic_rule": "order_items.order_id = orders.order_id",
+      "source_relation_id": "OrderItem.orderId_references_Order.orderId",
+      "join_strategy": "INNER",
+      "grain": "order_items.order_item_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ProductSalesLine",
+      "class_name": "Product Sales Line",
+      "business_domain": "Catalog",
+      "description": "Order line linked to a product/SKU.",
+      "source_classes": [
+        "OrderItem",
+        "Product"
+      ],
+      "source_tables": [
+        "order_items",
+        "products"
+      ],
+      "semantic_rule": "order_items.product_id = products.product_id",
+      "source_relation_id": "OrderItem.productId_references_Product.productId",
+      "join_strategy": "INNER",
+      "grain": "order_items.order_item_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "PromotedOrderLine",
+      "class_name": "Promoted Order Line",
+      "business_domain": "Promotion",
+      "description": "Order line linked to a transaction promotion.",
+      "source_classes": [
+        "OrderItem",
+        "Promotion"
+      ],
+      "source_tables": [
+        "order_items",
+        "promotions"
+      ],
+      "semantic_rule": "order_items.promotion_id = promotions.promotion_id",
+      "source_relation_id": "OrderItem.promotionId_references_Promotion.promotionId",
+      "join_strategy": "INNER only rows with promotion_id",
+      "grain": "order_items.order_item_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "ReturnedOrderLine",
+      "class_name": "Returned Order Line",
+      "business_domain": "Returns",
+      "description": "Return request linked to a purchased order line.",
+      "source_classes": [
+        "OrderItem",
+        "Return"
+      ],
+      "source_tables": [
+        "order_items",
+        "returns"
+      ],
+      "semantic_rule": "returns.order_item_id = order_items.order_item_id",
+      "source_relation_id": "Return.orderItemId_references_OrderItem.orderItemId",
+      "join_strategy": "INNER",
+      "grain": "returns.return_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "PaidOrder",
+      "class_name": "Paid Order",
+      "business_domain": "Revenue",
+      "description": "Order with at least one successful payment.",
+      "source_classes": [
+        "Order",
+        "Payment"
+      ],
+      "source_tables": [
+        "orders",
+        "payments"
+      ],
+      "semantic_rule": "Use EXISTS successful payment to preserve order grain.",
+      "source_relation_id": "Payment.orderId_references_Order.orderId",
+      "join_strategy": "SEMI-JOIN EXISTS(payments.status = success)",
+      "grain": "orders.order_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "OrderShipment",
+      "class_name": "Order Shipment",
+      "business_domain": "Shipping",
+      "description": "Order with shipment status and delivery context.",
+      "source_classes": [
+        "Order",
+        "Shipment"
+      ],
+      "source_tables": [
+        "orders",
+        "shipments"
+      ],
+      "semantic_rule": "shipments.order_id = orders.order_id",
+      "source_relation_id": "Shipment.orderId_references_Order.orderId",
+      "join_strategy": "LEFT from orders to shipments",
+      "grain": "orders.order_id",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "StoreOrder",
+      "class_name": "Store Order",
+      "business_domain": "Channel & Store",
+      "description": "Order by responsible store.",
+      "source_classes": [
+        "Order",
+        "Store"
+      ],
+      "source_tables": [
+        "orders",
+        "stores"
+      ],
+      "semantic_rule": "orders.store_id = stores.store_id",
+      "source_relation_id": "Order.storeId_references_Store.storeId",
+      "join_strategy": "INNER",
+      "grain": "orders.order_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "OrderSupportCase",
+      "class_name": "Order Support Case",
+      "business_domain": "Support",
+      "description": "Support ticket linked to an order.",
+      "source_classes": [
+        "Order",
+        "SupportTicket"
+      ],
+      "source_tables": [
+        "orders",
+        "support_tickets"
+      ],
+      "semantic_rule": "support_tickets.order_id = orders.order_id",
+      "source_relation_id": "SupportTicket.orderId_references_Order.orderId",
+      "join_strategy": "INNER only ticket.order_id IS NOT NULL",
+      "grain": "support_tickets.ticket_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "SupplierProductAssignment",
+      "class_name": "Supplier Product Assignment",
+      "business_domain": "Supplier",
+      "description": "Product-supplier assignment with sourcing metadata.",
+      "source_classes": [
+        "ProductSupplier",
+        "Supplier"
+      ],
+      "source_tables": [
+        "product_suppliers",
+        "suppliers"
+      ],
+      "semantic_rule": "product_suppliers.supplier_id = suppliers.supplier_id",
+      "source_relation_id": "ProductSupplier.supplierId_references_Supplier.supplierId",
+      "join_strategy": "INNER",
+      "grain": "product_suppliers.(product_id,supplier_id)",
+      "review_priority": "CORE",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    },
+    {
+      "class_id": "PrimaryPromotedProduct",
+      "class_name": "Primary Promoted Product",
+      "business_domain": "Promotion",
+      "description": "Product referencing its primary promotion.",
+      "source_classes": [
+        "Product",
+        "Promotion"
+      ],
+      "source_tables": [
+        "products",
+        "promotions"
+      ],
+      "semantic_rule": "products.promotion_id = promotions.promotion_id",
+      "source_relation_id": "Product.promotionId_references_Promotion.promotionId",
+      "join_strategy": "INNER only product.promotion_id IS NOT NULL",
+      "grain": "products.product_id",
+      "review_priority": "OPTIONAL",
+      "class_role": "derived_analysis_class",
+      "ontology_layer": "derived_class",
+      "max_source_class_count": 2,
+      "construction_source": "deterministic_object_pair"
+    }
+  ]
+}

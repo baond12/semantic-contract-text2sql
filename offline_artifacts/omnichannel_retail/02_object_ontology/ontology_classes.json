@@ -1,0 +1,386 @@
+{
+  "database_id": "omnichannel_retail",
+  "classes": [
+    {
+      "class_id": "Address",
+      "class_name": "Address",
+      "source_table": "addresses",
+      "source_tables": [
+        "addresses"
+      ],
+      "class_role": "entity",
+      "business_domain": "Shipping",
+      "description": "Customer delivery address with source and verification metadata.",
+      "default_display_property": null,
+      "row_count": 30,
+      "column_count": 19,
+      "primary_key_columns": [
+        "address_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Agent",
+      "class_name": "Agent",
+      "source_table": "agents",
+      "source_tables": [
+        "agents"
+      ],
+      "class_role": "entity",
+      "business_domain": "Support",
+      "description": "Manual sales/support agent who can be assigned to a store.",
+      "default_display_property": null,
+      "row_count": 10,
+      "column_count": 9,
+      "primary_key_columns": [
+        "agent_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Brand",
+      "class_name": "Brand",
+      "source_table": "brands",
+      "source_tables": [
+        "brands"
+      ],
+      "class_role": "reference",
+      "business_domain": "Catalog",
+      "description": "Reference class for product brands.",
+      "default_display_property": null,
+      "row_count": 72,
+      "column_count": 2,
+      "primary_key_columns": [
+        "brand_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Category",
+      "class_name": "Category",
+      "source_table": "categories",
+      "source_tables": [
+        "categories"
+      ],
+      "class_role": "reference",
+      "business_domain": "Catalog",
+      "description": "Hierarchical product category.",
+      "default_display_property": null,
+      "row_count": 229,
+      "column_count": 3,
+      "primary_key_columns": [
+        "category_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Channel",
+      "class_name": "Sales Channel",
+      "source_table": "channels",
+      "source_tables": [
+        "channels"
+      ],
+      "class_role": "reference",
+      "business_domain": "Channel & Store",
+      "description": "Sales channel such as Shopee, TikTok Shop, Website, or Offline.",
+      "default_display_property": null,
+      "row_count": 6,
+      "column_count": 4,
+      "primary_key_columns": [
+        "channel_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "ChatMessage",
+      "class_name": "Chat Message",
+      "source_table": "chats",
+      "source_tables": [
+        "chats"
+      ],
+      "class_role": "event",
+      "business_domain": "Support",
+      "description": "One message in a customer conversation; conversation_id groups messages but is not a table.",
+      "default_display_property": null,
+      "row_count": 100,
+      "column_count": 12,
+      "primary_key_columns": [
+        "chat_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Customer",
+      "class_name": "Customer",
+      "source_table": "customers",
+      "source_tables": [
+        "customers"
+      ],
+      "class_role": "entity",
+      "business_domain": "Customers",
+      "description": "Customer profile used for segmentation and order analysis.",
+      "default_display_property": null,
+      "row_count": 30,
+      "column_count": 5,
+      "primary_key_columns": [
+        "customer_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "InventorySnapshot",
+      "class_name": "Inventory Snapshot",
+      "source_table": "inventory_snapshots",
+      "source_tables": [
+        "inventory_snapshots"
+      ],
+      "class_role": "fact",
+      "business_domain": "Inventory",
+      "description": "Inventory quantity snapshot by product, store, and date.",
+      "default_display_property": null,
+      "row_count": 895,
+      "column_count": 6,
+      "primary_key_columns": [
+        "snapshot_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "OrderItem",
+      "class_name": "Order Item",
+      "source_table": "order_items",
+      "source_tables": [
+        "order_items"
+      ],
+      "class_role": "line_item",
+      "business_domain": "Orders",
+      "description": "Line item inside an order.",
+      "default_display_property": null,
+      "row_count": 103,
+      "column_count": 7,
+      "primary_key_columns": [
+        "order_item_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Order",
+      "class_name": "Order",
+      "source_table": "orders",
+      "source_tables": [
+        "orders"
+      ],
+      "class_role": "transaction",
+      "business_domain": "Orders",
+      "description": "Customer order transaction.",
+      "default_display_property": null,
+      "row_count": 50,
+      "column_count": 12,
+      "primary_key_columns": [
+        "order_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Payment",
+      "class_name": "Payment",
+      "source_table": "payments",
+      "source_tables": [
+        "payments"
+      ],
+      "class_role": "event",
+      "business_domain": "Revenue",
+      "description": "Payment transaction associated with an order.",
+      "default_display_property": null,
+      "row_count": 55,
+      "column_count": 6,
+      "primary_key_columns": [
+        "payment_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "ProductSupplier",
+      "class_name": "Product Supplier Assignment",
+      "source_table": "product_suppliers",
+      "source_tables": [
+        "product_suppliers"
+      ],
+      "class_role": "association",
+      "business_domain": "Supplier",
+      "description": "Bridge class between product and supplier.",
+      "default_display_property": null,
+      "row_count": 393,
+      "column_count": 3,
+      "primary_key_columns": [
+        "product_id",
+        "supplier_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Product",
+      "class_name": "Product",
+      "source_table": "products",
+      "source_tables": [
+        "products"
+      ],
+      "class_role": "entity",
+      "business_domain": "Catalog",
+      "description": "Sellable product/SKU.",
+      "default_display_property": null,
+      "row_count": 300,
+      "column_count": 20,
+      "primary_key_columns": [
+        "product_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Promotion",
+      "class_name": "Promotion",
+      "source_table": "promotions",
+      "source_tables": [
+        "promotions"
+      ],
+      "class_role": "reference",
+      "business_domain": "Promotion",
+      "description": "Marketing promotion or discount campaign.",
+      "default_display_property": null,
+      "row_count": 4,
+      "column_count": 6,
+      "primary_key_columns": [
+        "promotion_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Region",
+      "class_name": "Region",
+      "source_table": "regions",
+      "source_tables": [
+        "regions"
+      ],
+      "class_role": "reference",
+      "business_domain": "Channel & Store",
+      "description": "Business region used by stores, customers, and suppliers.",
+      "default_display_property": null,
+      "row_count": 5,
+      "column_count": 3,
+      "primary_key_columns": [
+        "region_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Return",
+      "class_name": "Return Request",
+      "source_table": "returns",
+      "source_tables": [
+        "returns"
+      ],
+      "class_role": "event",
+      "business_domain": "Returns",
+      "description": "Return/refund request for an order item.",
+      "default_display_property": null,
+      "row_count": 4,
+      "column_count": 7,
+      "primary_key_columns": [
+        "return_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Shipment",
+      "class_name": "Shipment",
+      "source_table": "shipments",
+      "source_tables": [
+        "shipments"
+      ],
+      "class_role": "event",
+      "business_domain": "Shipping",
+      "description": "Shipment/fulfillment record for an order.",
+      "default_display_property": null,
+      "row_count": 22,
+      "column_count": 16,
+      "primary_key_columns": [
+        "shipment_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Store",
+      "class_name": "Store",
+      "source_table": "stores",
+      "source_tables": [
+        "stores"
+      ],
+      "class_role": "entity",
+      "business_domain": "Channel & Store",
+      "description": "Physical store/location.",
+      "default_display_property": null,
+      "row_count": 5,
+      "column_count": 6,
+      "primary_key_columns": [
+        "store_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "Supplier",
+      "class_name": "Supplier",
+      "source_table": "suppliers",
+      "source_tables": [
+        "suppliers"
+      ],
+      "class_role": "entity",
+      "business_domain": "Supplier",
+      "description": "Product supplier.",
+      "default_display_property": null,
+      "row_count": 12,
+      "column_count": 3,
+      "primary_key_columns": [
+        "supplier_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    },
+    {
+      "class_id": "SupportTicket",
+      "class_name": "Support Ticket",
+      "source_table": "support_tickets",
+      "source_tables": [
+        "support_tickets"
+      ],
+      "class_role": "event",
+      "business_domain": "Support",
+      "description": "Customer support ticket related to customer or order.",
+      "default_display_property": null,
+      "row_count": 20,
+      "column_count": 8,
+      "primary_key_columns": [
+        "ticket_id"
+      ],
+      "ontology_layer": "base_class",
+      "construction_source": "deterministic_inventory"
+    }
+  ]
+}

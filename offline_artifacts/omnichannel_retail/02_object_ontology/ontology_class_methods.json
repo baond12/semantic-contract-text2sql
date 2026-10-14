@@ -1,0 +1,2192 @@
+{
+  "database_id": "omnichannel_retail",
+  "class_methods": [
+    {
+      "method_id": "Address.findAddressByGooglePlace",
+      "method_name": "findAddressByGooglePlace",
+      "method_owner_class": "Address",
+      "method_scope": "base_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only base method Address.findAddressByGooglePlace.",
+      "target_classes": [
+        "Address"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Address unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Address.addressId",
+        "Address.customerId",
+        "Address.recipientName",
+        "Address.phone",
+        "Address.formattedAddress",
+        "Address.addressLine"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Address.getDefaultAddress",
+      "method_name": "getDefaultAddress",
+      "method_owner_class": "Address",
+      "method_scope": "base_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only base method Address.getDefaultAddress.",
+      "target_classes": [
+        "Address"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Address unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Address.addressId",
+        "Address.customerId",
+        "Address.recipientName",
+        "Address.phone",
+        "Address.formattedAddress",
+        "Address.addressLine"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Address.listCustomerAddresses",
+      "method_name": "listCustomerAddresses",
+      "method_owner_class": "Address",
+      "method_scope": "base_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only base method Address.listCustomerAddresses.",
+      "target_classes": [
+        "Address"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Address unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Address.addressId",
+        "Address.customerId",
+        "Address.recipientName",
+        "Address.phone",
+        "Address.formattedAddress",
+        "Address.addressLine"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Agent.countAttributedOrders",
+      "method_name": "countAttributedOrders",
+      "method_owner_class": "Agent",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method Agent.countAttributedOrders.",
+      "target_classes": [
+        "Agent"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Agent unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Agent.agentId",
+        "Agent.agentCode",
+        "Agent.fullName",
+        "Agent.storeId",
+        "Agent.email",
+        "Agent.phone"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Agent.countHandledChats",
+      "method_name": "countHandledChats",
+      "method_owner_class": "Agent",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method Agent.countHandledChats.",
+      "target_classes": [
+        "Agent"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Agent unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Agent.agentId",
+        "Agent.agentCode",
+        "Agent.fullName",
+        "Agent.storeId",
+        "Agent.email",
+        "Agent.phone"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Agent.findAgentByCode",
+      "method_name": "findAgentByCode",
+      "method_owner_class": "Agent",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method Agent.findAgentByCode.",
+      "target_classes": [
+        "Agent"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Agent unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Agent.agentId",
+        "Agent.agentCode",
+        "Agent.fullName",
+        "Agent.storeId",
+        "Agent.email",
+        "Agent.phone"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Agent.listAgentsByStore",
+      "method_name": "listAgentsByStore",
+      "method_owner_class": "Agent",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method Agent.listAgentsByStore.",
+      "target_classes": [
+        "Agent"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Agent unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Agent.agentId",
+        "Agent.agentCode",
+        "Agent.fullName",
+        "Agent.storeId",
+        "Agent.email",
+        "Agent.phone"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Brand.countProductsByBrand",
+      "method_name": "countProductsByBrand",
+      "method_owner_class": "Brand",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Brand.countProductsByBrand.",
+      "target_classes": [
+        "Brand"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Brand unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Brand.brandId",
+        "Brand.brandName"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Brand.findBrandByName",
+      "method_name": "findBrandByName",
+      "method_owner_class": "Brand",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Brand.findBrandByName.",
+      "target_classes": [
+        "Brand"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Brand unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Brand.brandId",
+        "Brand.brandName"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Brand.listBrands",
+      "method_name": "listBrands",
+      "method_owner_class": "Brand",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Brand.listBrands.",
+      "target_classes": [
+        "Brand"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Brand unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Brand.brandId",
+        "Brand.brandName"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Category.findCategory",
+      "method_name": "findCategory",
+      "method_owner_class": "Category",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Category.findCategory.",
+      "target_classes": [
+        "Category"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Category unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Category.categoryId",
+        "Category.categoryName",
+        "Category.parentCategoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Category.getAncestorPath",
+      "method_name": "getAncestorPath",
+      "method_owner_class": "Category",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Category.getAncestorPath.",
+      "target_classes": [
+        "Category"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Category unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Category.categoryId",
+        "Category.categoryName",
+        "Category.parentCategoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Category.listChildren",
+      "method_name": "listChildren",
+      "method_owner_class": "Category",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Category.listChildren.",
+      "target_classes": [
+        "Category"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Category unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Category.categoryId",
+        "Category.categoryName",
+        "Category.parentCategoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Channel.countChannelChats",
+      "method_name": "countChannelChats",
+      "method_owner_class": "Channel",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Channel.countChannelChats.",
+      "target_classes": [
+        "Channel"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Channel unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Channel.channelId",
+        "Channel.channelCode",
+        "Channel.channelName",
+        "Channel.channelType"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Channel.findChannelByCode",
+      "method_name": "findChannelByCode",
+      "method_owner_class": "Channel",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Channel.findChannelByCode.",
+      "target_classes": [
+        "Channel"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Channel unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Channel.channelId",
+        "Channel.channelCode",
+        "Channel.channelName",
+        "Channel.channelType"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Channel.listChannelsByType",
+      "method_name": "listChannelsByType",
+      "method_owner_class": "Channel",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Channel.listChannelsByType.",
+      "target_classes": [
+        "Channel"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Channel unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Channel.channelId",
+        "Channel.channelCode",
+        "Channel.channelName",
+        "Channel.channelType"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ChatMessage.countDistinctConversations",
+      "method_name": "countDistinctConversations",
+      "method_owner_class": "ChatMessage",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method ChatMessage.countDistinctConversations.",
+      "target_classes": [
+        "ChatMessage"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ChatMessage unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.productId",
+        "ChatMessage.channelId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ChatMessage.countMessagesByChannel",
+      "method_name": "countMessagesByChannel",
+      "method_owner_class": "ChatMessage",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method ChatMessage.countMessagesByChannel.",
+      "target_classes": [
+        "ChatMessage"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ChatMessage unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.productId",
+        "ChatMessage.channelId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ChatMessage.findProductMentions",
+      "method_name": "findProductMentions",
+      "method_owner_class": "ChatMessage",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method ChatMessage.findProductMentions.",
+      "target_classes": [
+        "ChatMessage"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ChatMessage unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.productId",
+        "ChatMessage.channelId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ChatMessage.listConversationMessages",
+      "method_name": "listConversationMessages",
+      "method_owner_class": "ChatMessage",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method ChatMessage.listConversationMessages.",
+      "target_classes": [
+        "ChatMessage"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ChatMessage unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ChatMessage.chatId",
+        "ChatMessage.conversationId",
+        "ChatMessage.agentId",
+        "ChatMessage.customerId",
+        "ChatMessage.productId",
+        "ChatMessage.channelId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Customer.countCustomerOrders",
+      "method_name": "countCustomerOrders",
+      "method_owner_class": "Customer",
+      "method_scope": "base_class",
+      "business_domain": "Customers",
+      "description": "Approved read-only base method Customer.countCustomerOrders.",
+      "target_classes": [
+        "Customer"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Customer unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Customer.customerId",
+        "Customer.customerCode",
+        "Customer.regionId",
+        "Customer.customerSegment",
+        "Customer.joinedAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Customer.findCustomerByCode",
+      "method_name": "findCustomerByCode",
+      "method_owner_class": "Customer",
+      "method_scope": "base_class",
+      "business_domain": "Customers",
+      "description": "Approved read-only base method Customer.findCustomerByCode.",
+      "target_classes": [
+        "Customer"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Customer unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Customer.customerId",
+        "Customer.customerCode",
+        "Customer.regionId",
+        "Customer.customerSegment",
+        "Customer.joinedAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Customer.listCustomersBySegment",
+      "method_name": "listCustomersBySegment",
+      "method_owner_class": "Customer",
+      "method_scope": "base_class",
+      "business_domain": "Customers",
+      "description": "Approved read-only base method Customer.listCustomersBySegment.",
+      "target_classes": [
+        "Customer"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Customer unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Customer.customerId",
+        "Customer.customerCode",
+        "Customer.regionId",
+        "Customer.customerSegment",
+        "Customer.joinedAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "InventorySnapshot.getAvailableQuantity",
+      "method_name": "getAvailableQuantity",
+      "method_owner_class": "InventorySnapshot",
+      "method_scope": "base_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only base method InventorySnapshot.getAvailableQuantity.",
+      "target_classes": [
+        "InventorySnapshot"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class InventorySnapshot unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "InventorySnapshot.snapshotId",
+        "InventorySnapshot.storeId",
+        "InventorySnapshot.productId",
+        "InventorySnapshot.snapshotDate",
+        "InventorySnapshot.qtyOnHand",
+        "InventorySnapshot.qtyReserved"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "InventorySnapshot.getInventoryAt",
+      "method_name": "getInventoryAt",
+      "method_owner_class": "InventorySnapshot",
+      "method_scope": "base_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only base method InventorySnapshot.getInventoryAt.",
+      "target_classes": [
+        "InventorySnapshot"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class InventorySnapshot unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "InventorySnapshot.snapshotId",
+        "InventorySnapshot.storeId",
+        "InventorySnapshot.productId",
+        "InventorySnapshot.snapshotDate",
+        "InventorySnapshot.qtyOnHand",
+        "InventorySnapshot.qtyReserved"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "InventorySnapshot.getLatestInventory",
+      "method_name": "getLatestInventory",
+      "method_owner_class": "InventorySnapshot",
+      "method_scope": "base_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only base method InventorySnapshot.getLatestInventory.",
+      "target_classes": [
+        "InventorySnapshot"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class InventorySnapshot unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "InventorySnapshot.snapshotId",
+        "InventorySnapshot.storeId",
+        "InventorySnapshot.productId",
+        "InventorySnapshot.snapshotDate",
+        "InventorySnapshot.qtyOnHand",
+        "InventorySnapshot.qtyReserved"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "InventorySnapshot.sumAvailableInventory",
+      "method_name": "sumAvailableInventory",
+      "method_owner_class": "InventorySnapshot",
+      "method_scope": "base_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only base method InventorySnapshot.sumAvailableInventory.",
+      "target_classes": [
+        "InventorySnapshot"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class InventorySnapshot unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "InventorySnapshot.snapshotId",
+        "InventorySnapshot.storeId",
+        "InventorySnapshot.productId",
+        "InventorySnapshot.snapshotDate",
+        "InventorySnapshot.qtyOnHand",
+        "InventorySnapshot.qtyReserved"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Order.countOrders",
+      "method_name": "countOrders",
+      "method_owner_class": "Order",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method Order.countOrders.",
+      "target_classes": [
+        "Order"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Order unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Order.orderId",
+        "Order.orderCode",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Order.findOrderByCode",
+      "method_name": "findOrderByCode",
+      "method_owner_class": "Order",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method Order.findOrderByCode.",
+      "target_classes": [
+        "Order"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Order unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Order.orderId",
+        "Order.orderCode",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Order.listChatAttributedOrders",
+      "method_name": "listChatAttributedOrders",
+      "method_owner_class": "Order",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method Order.listChatAttributedOrders.",
+      "target_classes": [
+        "Order"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Order unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Order.orderId",
+        "Order.orderCode",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Order.sumOrderGross",
+      "method_name": "sumOrderGross",
+      "method_owner_class": "Order",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method Order.sumOrderGross.",
+      "target_classes": [
+        "Order"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Order unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Order.orderId",
+        "Order.orderCode",
+        "Order.customerId",
+        "Order.channelId",
+        "Order.storeId",
+        "Order.chatId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "OrderItem.listOrderLines",
+      "method_name": "listOrderLines",
+      "method_owner_class": "OrderItem",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method OrderItem.listOrderLines.",
+      "target_classes": [
+        "OrderItem"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class OrderItem unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "OrderItem.orderItemId",
+        "OrderItem.orderId",
+        "OrderItem.productId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "OrderItem.sumLineNetAmount",
+      "method_name": "sumLineNetAmount",
+      "method_owner_class": "OrderItem",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method OrderItem.sumLineNetAmount.",
+      "target_classes": [
+        "OrderItem"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class OrderItem unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "OrderItem.orderItemId",
+        "OrderItem.orderId",
+        "OrderItem.productId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "OrderItem.sumLineQuantity",
+      "method_name": "sumLineQuantity",
+      "method_owner_class": "OrderItem",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only base method OrderItem.sumLineQuantity.",
+      "target_classes": [
+        "OrderItem"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class OrderItem unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "OrderItem.orderItemId",
+        "OrderItem.orderId",
+        "OrderItem.productId",
+        "OrderItem.quantity",
+        "OrderItem.unitPrice",
+        "OrderItem.lineDiscount"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Payment.hasSuccessfulPayment",
+      "method_name": "hasSuccessfulPayment",
+      "method_owner_class": "Payment",
+      "method_scope": "base_class",
+      "business_domain": "Revenue",
+      "description": "Approved read-only base method Payment.hasSuccessfulPayment.",
+      "target_classes": [
+        "Payment"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Payment unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Payment.paymentId",
+        "Payment.orderId",
+        "Payment.paymentMethod",
+        "Payment.status",
+        "Payment.amount",
+        "Payment.paidAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Payment.listPaymentAttempts",
+      "method_name": "listPaymentAttempts",
+      "method_owner_class": "Payment",
+      "method_scope": "base_class",
+      "business_domain": "Revenue",
+      "description": "Approved read-only base method Payment.listPaymentAttempts.",
+      "target_classes": [
+        "Payment"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Payment unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Payment.paymentId",
+        "Payment.orderId",
+        "Payment.paymentMethod",
+        "Payment.status",
+        "Payment.amount",
+        "Payment.paidAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Payment.sumSuccessfulPayments",
+      "method_name": "sumSuccessfulPayments",
+      "method_owner_class": "Payment",
+      "method_scope": "base_class",
+      "business_domain": "Revenue",
+      "description": "Approved read-only base method Payment.sumSuccessfulPayments.",
+      "target_classes": [
+        "Payment"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Payment unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Payment.paymentId",
+        "Payment.orderId",
+        "Payment.paymentMethod",
+        "Payment.status",
+        "Payment.amount",
+        "Payment.paidAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Product.findProductBySKU",
+      "method_name": "findProductBySKU",
+      "method_owner_class": "Product",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Product.findProductBySKU.",
+      "target_classes": [
+        "Product"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Product unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.productUrl",
+        "Product.brandId",
+        "Product.categoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Product.getProductPricing",
+      "method_name": "getProductPricing",
+      "method_owner_class": "Product",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Product.getProductPricing.",
+      "target_classes": [
+        "Product"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Product unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.productUrl",
+        "Product.brandId",
+        "Product.categoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Product.listAvailableProducts",
+      "method_name": "listAvailableProducts",
+      "method_owner_class": "Product",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Product.listAvailableProducts.",
+      "target_classes": [
+        "Product"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Product unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.productUrl",
+        "Product.brandId",
+        "Product.categoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Product.searchProducts",
+      "method_name": "searchProducts",
+      "method_owner_class": "Product",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only base method Product.searchProducts.",
+      "target_classes": [
+        "Product"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Product unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Product.productId",
+        "Product.sku",
+        "Product.name",
+        "Product.productUrl",
+        "Product.brandId",
+        "Product.categoryId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ProductSupplier.countProductsPerSupplier",
+      "method_name": "countProductsPerSupplier",
+      "method_owner_class": "ProductSupplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only base method ProductSupplier.countProductsPerSupplier.",
+      "target_classes": [
+        "ProductSupplier"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ProductSupplier unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ProductSupplier.productId",
+        "ProductSupplier.supplierId",
+        "ProductSupplier.isPrimary"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ProductSupplier.findPrimarySupplier",
+      "method_name": "findPrimarySupplier",
+      "method_owner_class": "ProductSupplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only base method ProductSupplier.findPrimarySupplier.",
+      "target_classes": [
+        "ProductSupplier"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ProductSupplier unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ProductSupplier.productId",
+        "ProductSupplier.supplierId",
+        "ProductSupplier.isPrimary"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "ProductSupplier.listSuppliersForProduct",
+      "method_name": "listSuppliersForProduct",
+      "method_owner_class": "ProductSupplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only base method ProductSupplier.listSuppliersForProduct.",
+      "target_classes": [
+        "ProductSupplier"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class ProductSupplier unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "ProductSupplier.productId",
+        "ProductSupplier.supplierId",
+        "ProductSupplier.isPrimary"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Promotion.countPrimaryPromotedProducts",
+      "method_name": "countPrimaryPromotedProducts",
+      "method_owner_class": "Promotion",
+      "method_scope": "base_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only base method Promotion.countPrimaryPromotedProducts.",
+      "target_classes": [
+        "Promotion"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Promotion unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Promotion.promotionId",
+        "Promotion.promoCode",
+        "Promotion.promoName",
+        "Promotion.startDate",
+        "Promotion.endDate",
+        "Promotion.discountPct"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Promotion.findPromotionByCode",
+      "method_name": "findPromotionByCode",
+      "method_owner_class": "Promotion",
+      "method_scope": "base_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only base method Promotion.findPromotionByCode.",
+      "target_classes": [
+        "Promotion"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Promotion unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Promotion.promotionId",
+        "Promotion.promoCode",
+        "Promotion.promoName",
+        "Promotion.startDate",
+        "Promotion.endDate",
+        "Promotion.discountPct"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Promotion.listActivePromotions",
+      "method_name": "listActivePromotions",
+      "method_owner_class": "Promotion",
+      "method_scope": "base_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only base method Promotion.listActivePromotions.",
+      "target_classes": [
+        "Promotion"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Promotion unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Promotion.promotionId",
+        "Promotion.promoCode",
+        "Promotion.promoName",
+        "Promotion.startDate",
+        "Promotion.endDate",
+        "Promotion.discountPct"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Region.countStoresInRegion",
+      "method_name": "countStoresInRegion",
+      "method_owner_class": "Region",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Region.countStoresInRegion.",
+      "target_classes": [
+        "Region"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Region unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Region.regionId",
+        "Region.regionCode",
+        "Region.regionName"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Region.findRegionByCode",
+      "method_name": "findRegionByCode",
+      "method_owner_class": "Region",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Region.findRegionByCode.",
+      "target_classes": [
+        "Region"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Region unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Region.regionId",
+        "Region.regionCode",
+        "Region.regionName"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Region.listRegions",
+      "method_name": "listRegions",
+      "method_owner_class": "Region",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Region.listRegions.",
+      "target_classes": [
+        "Region"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Region unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Region.regionId",
+        "Region.regionCode",
+        "Region.regionName"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Return.countReturnRequests",
+      "method_name": "countReturnRequests",
+      "method_owner_class": "Return",
+      "method_scope": "base_class",
+      "business_domain": "Returns",
+      "description": "Approved read-only base method Return.countReturnRequests.",
+      "target_classes": [
+        "Return"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Return unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Return.returnId",
+        "Return.orderItemId",
+        "Return.returnQty",
+        "Return.refundAmount",
+        "Return.status",
+        "Return.requestedAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Return.listReturnsForOrderItem",
+      "method_name": "listReturnsForOrderItem",
+      "method_owner_class": "Return",
+      "method_scope": "base_class",
+      "business_domain": "Returns",
+      "description": "Approved read-only base method Return.listReturnsForOrderItem.",
+      "target_classes": [
+        "Return"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Return unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Return.returnId",
+        "Return.orderItemId",
+        "Return.returnQty",
+        "Return.refundAmount",
+        "Return.status",
+        "Return.requestedAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Return.sumApprovedRefund",
+      "method_name": "sumApprovedRefund",
+      "method_owner_class": "Return",
+      "method_scope": "base_class",
+      "business_domain": "Returns",
+      "description": "Approved read-only base method Return.sumApprovedRefund.",
+      "target_classes": [
+        "Return"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Return unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Return.returnId",
+        "Return.orderItemId",
+        "Return.returnQty",
+        "Return.refundAmount",
+        "Return.status",
+        "Return.requestedAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Shipment.calculateDeliveryDuration",
+      "method_name": "calculateDeliveryDuration",
+      "method_owner_class": "Shipment",
+      "method_scope": "base_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only base method Shipment.calculateDeliveryDuration.",
+      "target_classes": [
+        "Shipment"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Shipment unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Shipment.shipmentId",
+        "Shipment.orderId",
+        "Shipment.shippingAddressId",
+        "Shipment.carrier",
+        "Shipment.shippedAt",
+        "Shipment.deliveredAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Shipment.getShipmentByOrder",
+      "method_name": "getShipmentByOrder",
+      "method_owner_class": "Shipment",
+      "method_scope": "base_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only base method Shipment.getShipmentByOrder.",
+      "target_classes": [
+        "Shipment"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Shipment unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Shipment.shipmentId",
+        "Shipment.orderId",
+        "Shipment.shippingAddressId",
+        "Shipment.carrier",
+        "Shipment.shippedAt",
+        "Shipment.deliveredAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Shipment.listShipmentsByStatus",
+      "method_name": "listShipmentsByStatus",
+      "method_owner_class": "Shipment",
+      "method_scope": "base_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only base method Shipment.listShipmentsByStatus.",
+      "target_classes": [
+        "Shipment"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Shipment unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Shipment.shipmentId",
+        "Shipment.orderId",
+        "Shipment.shippingAddressId",
+        "Shipment.carrier",
+        "Shipment.shippedAt",
+        "Shipment.deliveredAt"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Store.countStoreOrders",
+      "method_name": "countStoreOrders",
+      "method_owner_class": "Store",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Store.countStoreOrders.",
+      "target_classes": [
+        "Store"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Store unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Store.storeId",
+        "Store.storeCode",
+        "Store.storeName",
+        "Store.regionId",
+        "Store.city",
+        "Store.openedOn"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Store.findStoreByCode",
+      "method_name": "findStoreByCode",
+      "method_owner_class": "Store",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Store.findStoreByCode.",
+      "target_classes": [
+        "Store"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Store unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Store.storeId",
+        "Store.storeCode",
+        "Store.storeName",
+        "Store.regionId",
+        "Store.city",
+        "Store.openedOn"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Store.listStoresByRegion",
+      "method_name": "listStoresByRegion",
+      "method_owner_class": "Store",
+      "method_scope": "base_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only base method Store.listStoresByRegion.",
+      "target_classes": [
+        "Store"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Store unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Store.storeId",
+        "Store.storeCode",
+        "Store.storeName",
+        "Store.regionId",
+        "Store.city",
+        "Store.openedOn"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Supplier.countSuppliedProducts",
+      "method_name": "countSuppliedProducts",
+      "method_owner_class": "Supplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only base method Supplier.countSuppliedProducts.",
+      "target_classes": [
+        "Supplier"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Supplier unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Supplier.supplierId",
+        "Supplier.supplierName",
+        "Supplier.regionId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Supplier.findSupplierByName",
+      "method_name": "findSupplierByName",
+      "method_owner_class": "Supplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only base method Supplier.findSupplierByName.",
+      "target_classes": [
+        "Supplier"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Supplier unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Supplier.supplierId",
+        "Supplier.supplierName",
+        "Supplier.regionId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "Supplier.listSuppliersByRegion",
+      "method_name": "listSuppliersByRegion",
+      "method_owner_class": "Supplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only base method Supplier.listSuppliersByRegion.",
+      "target_classes": [
+        "Supplier"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class Supplier unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "Supplier.supplierId",
+        "Supplier.supplierName",
+        "Supplier.regionId"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "SupportTicket.calculateResolutionDuration",
+      "method_name": "calculateResolutionDuration",
+      "method_owner_class": "SupportTicket",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method SupportTicket.calculateResolutionDuration.",
+      "target_classes": [
+        "SupportTicket"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class SupportTicket unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "SupportTicket.ticketId",
+        "SupportTicket.orderId",
+        "SupportTicket.customerId",
+        "SupportTicket.issueType",
+        "SupportTicket.priority",
+        "SupportTicket.status"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "SupportTicket.countUnresolvedTickets",
+      "method_name": "countUnresolvedTickets",
+      "method_owner_class": "SupportTicket",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method SupportTicket.countUnresolvedTickets.",
+      "target_classes": [
+        "SupportTicket"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class SupportTicket unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "SupportTicket.ticketId",
+        "SupportTicket.orderId",
+        "SupportTicket.customerId",
+        "SupportTicket.issueType",
+        "SupportTicket.priority",
+        "SupportTicket.status"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "SupportTicket.findTicket",
+      "method_name": "findTicket",
+      "method_owner_class": "SupportTicket",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method SupportTicket.findTicket.",
+      "target_classes": [
+        "SupportTicket"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class SupportTicket unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "SupportTicket.ticketId",
+        "SupportTicket.orderId",
+        "SupportTicket.customerId",
+        "SupportTicket.issueType",
+        "SupportTicket.priority",
+        "SupportTicket.status"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    },
+    {
+      "method_id": "SupportTicket.listCustomerTickets",
+      "method_name": "listCustomerTickets",
+      "method_owner_class": "SupportTicket",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Approved read-only base method SupportTicket.listCustomerTickets.",
+      "target_classes": [
+        "SupportTicket"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order"
+      ],
+      "required_semantics": [
+        "operate within base class SupportTicket unless a derived class method is selected"
+      ],
+      "forbidden_semantics": [
+        "do not join another class unless a derived class method is selected"
+      ],
+      "source_properties": [
+        "SupportTicket.ticketId",
+        "SupportTicket.orderId",
+        "SupportTicket.customerId",
+        "SupportTicket.issueType",
+        "SupportTicket.priority",
+        "SupportTicket.status"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_base_method_rule"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "database_id": "omnichannel_retail",
+  "use_llm": false,
+  "config_path": "/home/baond12/projects/Text2Sql_Q3/2026-09-22/llm_config.yaml",
+  "proxy_mode": "company",
+  "deterministic_counts": {
+    "classes": 20,
+    "derived_classes": 25,
+    "properties": 157,
+    "relations": 31,
+    "class_methods": 66,
+    "method_candidates": 20,
+    "candidate_pair_reviews": 190,
+    "direct_pair_reviews": 31,
+    "unsupported_scope_candidates": 15
+  }
+}

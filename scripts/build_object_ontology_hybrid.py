@@ -1,4 +1,6 @@
 import argparse
+import csv
+import itertools
 import json
 import os
 import re
@@ -35,6 +37,15 @@ def save_json(data, path):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def save_csv(rows, path, fieldnames):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def snake_to_pascal(name):
     special = {
         "sku": "SKU",
@@ -56,6 +67,11 @@ def singularize(name):
 
 
 def table_to_class_id(table_name):
+    special = {
+        "chats": "ChatMessage",
+    }
+    if table_name in special:
+        return special[table_name]
     return snake_to_pascal(singularize(table_name))
 
 
@@ -85,9 +101,12 @@ def infer_class_role(table):
 
 
 CLASS_DESCRIPTIONS = {
+    "Address": ("Address", "Shipping", "Customer delivery address with source and verification metadata."),
+    "Agent": ("Agent", "Support", "Manual sales/support agent who can be assigned to a store."),
     "Brand": ("Brand", "Catalog", "Reference class for product brands."),
     "Category": ("Category", "Catalog", "Hierarchical product category."),
     "Channel": ("Sales Channel", "Channel & Store", "Sales channel such as Shopee, TikTok Shop, Website, or Offline."),
+    "ChatMessage": ("Chat Message", "Support", "One message in a customer conversation; conversation_id groups messages but is not a table."),
     "Customer": ("Customer", "Customers", "Customer profile used for segmentation and order analysis."),
     "InventorySnapshot": ("Inventory Snapshot", "Inventory", "Inventory quantity snapshot by product, store, and date."),
     "OrderItem": ("Order Item", "Orders", "Line item inside an order."),
@@ -106,9 +125,12 @@ CLASS_DESCRIPTIONS = {
 
 
 TABLE_CLASS_ROLES = {
+    "addresses": "entity",
+    "agents": "entity",
     "brands": "reference",
     "categories": "reference",
     "channels": "reference",
+    "chats": "event",
     "customers": "entity",
     "inventory_snapshots": "fact",
     "order_items": "line_item",
@@ -128,85 +150,329 @@ TABLE_CLASS_ROLES = {
 
 DERIVED_CLASS_SPECS = [
     {
-        "class_id": "PaidOrder",
-        "class_name": "Paid Order",
-        "business_domain": "Revenue",
-        "description": "Derived class combining Order and Payment for paid-order revenue semantics.",
-        "source_classes": ["Order", "Payment"],
-        "source_tables": ["orders", "payments"],
-        "semantic_rule": "Order is counted as paid when it has a successful payment.",
+        "class_id": "CustomerDeliveryAddress",
+        "class_name": "Customer Delivery Address",
+        "business_domain": "Shipping",
+        "description": "Customer-owned delivery address.",
+        "source_classes": ["Address", "Customer"],
+        "source_tables": ["addresses", "customers"],
+        "semantic_rule": "addresses.customer_id = customers.customer_id",
+        "source_relation_id": "Address.customerId_references_Customer.customerId",
+        "join_strategy": "INNER",
+        "grain": "addresses.address_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "DeliveryDestination",
+        "class_name": "Delivery Destination",
+        "business_domain": "Shipping",
+        "description": "Shipment destination compared with saved customer address.",
+        "source_classes": ["Address", "Shipment"],
+        "source_tables": ["addresses", "shipments"],
+        "semantic_rule": "shipments.shipping_address_id = addresses.address_id",
+        "source_relation_id": "Shipment.shippingAddressId_references_Address.addressId",
+        "join_strategy": "LEFT from shipments to addresses",
+        "grain": "shipments.shipment_id",
+        "review_priority": "OPTIONAL",
+    },
+    {
+        "class_id": "AgentChatMessage",
+        "class_name": "Agent Chat Message",
+        "business_domain": "Support",
+        "description": "Chat message assigned to a support/sales agent.",
+        "source_classes": ["Agent", "ChatMessage"],
+        "source_tables": ["agents", "chats"],
+        "semantic_rule": "chats.agent_id = agents.agent_id",
+        "source_relation_id": "ChatMessage.agentId_references_Agent.agentId",
+        "join_strategy": "INNER for assigned chats, optional LEFT for all chats",
+        "grain": "chats.chat_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "AgentAttributedOrder",
+        "class_name": "Agent Attributed Order",
+        "business_domain": "Orders",
+        "description": "Order attributed to the agent who created or closed it.",
+        "source_classes": ["Agent", "Order"],
+        "source_tables": ["agents", "orders"],
+        "semantic_rule": "orders.agent_id = agents.agent_id",
+        "source_relation_id": "Order.agentId_references_Agent.agentId",
+        "join_strategy": "INNER if agent attributed",
+        "grain": "orders.order_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "StoreAgent",
+        "class_name": "Store Agent",
+        "business_domain": "Channel & Store",
+        "description": "Agent currently assigned to a store.",
+        "source_classes": ["Agent", "Store"],
+        "source_tables": ["agents", "stores"],
+        "semantic_rule": "agents.store_id = stores.store_id",
+        "source_relation_id": "Agent.storeId_references_Store.storeId",
+        "join_strategy": "LEFT to retain unassigned agents",
+        "grain": "agents.agent_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "CategorizedProduct",
+        "class_name": "Categorized Product",
+        "business_domain": "Catalog",
+        "description": "Product assigned to a category node.",
+        "source_classes": ["Category", "Product"],
+        "source_tables": ["categories", "products"],
+        "semantic_rule": "products.category_id = categories.category_id",
+        "source_relation_id": "Product.categoryId_references_Category.categoryId",
+        "join_strategy": "INNER for mapped categories",
+        "grain": "products.product_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "ChannelChatMessage",
+        "class_name": "Channel Chat Message",
+        "business_domain": "Support",
+        "description": "Chat message generated from a communication/sales channel.",
+        "source_classes": ["Channel", "ChatMessage"],
+        "source_tables": ["channels", "chats"],
+        "semantic_rule": "chats.channel_id = channels.channel_id",
+        "source_relation_id": "ChatMessage.channelId_references_Channel.channelId",
+        "join_strategy": "INNER for attributed channel, LEFT for all chats",
+        "grain": "chats.chat_id",
+        "review_priority": "CORE",
     },
     {
         "class_id": "ChannelOrder",
         "class_name": "Channel Order",
         "business_domain": "Channel & Store",
-        "description": "Derived class combining Order and Channel for channel-level order/revenue analysis.",
-        "source_classes": ["Order", "Channel"],
-        "source_tables": ["orders", "channels"],
-        "semantic_rule": "Order belongs to exactly one sales channel.",
+        "description": "Order by sales channel.",
+        "source_classes": ["Channel", "Order"],
+        "source_tables": ["channels", "orders"],
+        "semantic_rule": "orders.channel_id = channels.channel_id",
+        "source_relation_id": "Order.channelId_references_Channel.channelId",
+        "join_strategy": "INNER",
+        "grain": "orders.order_id",
+        "review_priority": "CORE",
     },
     {
-        "class_id": "StoreOrder",
-        "class_name": "Store Order",
-        "business_domain": "Channel & Store",
-        "description": "Derived class combining Order and Store for store-level order/revenue analysis.",
-        "source_classes": ["Order", "Store"],
-        "source_tables": ["orders", "stores"],
-        "semantic_rule": "Order may be associated with a physical store.",
+        "class_id": "CustomerChatMessage",
+        "class_name": "Customer Chat Message",
+        "business_domain": "Support",
+        "description": "Chat message linked to a customer.",
+        "source_classes": ["ChatMessage", "Customer"],
+        "source_tables": ["chats", "customers"],
+        "semantic_rule": "chats.customer_id = customers.customer_id",
+        "source_relation_id": "ChatMessage.customerId_references_Customer.customerId",
+        "join_strategy": "INNER",
+        "grain": "chats.chat_id",
+        "review_priority": "OPTIONAL",
+    },
+    {
+        "class_id": "ChatAttributedOrder",
+        "class_name": "Chat Attributed Order",
+        "business_domain": "Orders",
+        "description": "Order sourced from a specific chat message.",
+        "source_classes": ["ChatMessage", "Order"],
+        "source_tables": ["chats", "orders"],
+        "semantic_rule": "orders.chat_id = chats.chat_id",
+        "source_relation_id": "Order.chatId_references_ChatMessage.chatId",
+        "join_strategy": "INNER on orders.chat_id = chats.chat_id",
+        "grain": "orders.order_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "ProductChatMention",
+        "class_name": "Product Chat Mention",
+        "business_domain": "Support",
+        "description": "Chat message explicitly linked to a product.",
+        "source_classes": ["ChatMessage", "Product"],
+        "source_tables": ["chats", "products"],
+        "semantic_rule": "chats.product_id = products.product_id",
+        "source_relation_id": "ChatMessage.productId_references_Product.productId",
+        "join_strategy": "INNER only chats.product_id IS NOT NULL",
+        "grain": "chats.chat_id",
+        "review_priority": "OPTIONAL",
     },
     {
         "class_id": "CustomerOrder",
         "class_name": "Customer Order",
         "business_domain": "Customers",
-        "description": "Derived class combining Customer and Order for customer purchase analysis.",
+        "description": "Order linked to the purchasing customer.",
         "source_classes": ["Customer", "Order"],
         "source_tables": ["customers", "orders"],
-        "semantic_rule": "Order belongs to one customer.",
+        "semantic_rule": "orders.customer_id = customers.customer_id",
+        "source_relation_id": "Order.customerId_references_Customer.customerId",
+        "join_strategy": "INNER",
+        "grain": "orders.order_id",
+        "review_priority": "CORE",
     },
     {
-        "class_id": "ProductOrderLine",
-        "class_name": "Product Order Line",
+        "class_id": "CustomerSupportCase",
+        "class_name": "Customer Support Case",
+        "business_domain": "Support",
+        "description": "Support ticket linked to a customer.",
+        "source_classes": ["Customer", "SupportTicket"],
+        "source_tables": ["customers", "support_tickets"],
+        "semantic_rule": "support_tickets.customer_id = customers.customer_id",
+        "source_relation_id": "SupportTicket.customerId_references_Customer.customerId",
+        "join_strategy": "INNER",
+        "grain": "support_tickets.ticket_id",
+        "review_priority": "OPTIONAL",
+    },
+    {
+        "class_id": "ProductInventorySnapshot",
+        "class_name": "Product Inventory Snapshot",
+        "business_domain": "Inventory",
+        "description": "Inventory snapshot for one product.",
+        "source_classes": ["InventorySnapshot", "Product"],
+        "source_tables": ["inventory_snapshots", "products"],
+        "semantic_rule": "inventory_snapshots.product_id = products.product_id",
+        "source_relation_id": "InventorySnapshot.productId_references_Product.productId",
+        "join_strategy": "INNER",
+        "grain": "inventory_snapshots.snapshot_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "StoreInventorySnapshot",
+        "class_name": "Store Inventory Snapshot",
+        "business_domain": "Inventory",
+        "description": "Inventory snapshot for one store.",
+        "source_classes": ["InventorySnapshot", "Store"],
+        "source_tables": ["inventory_snapshots", "stores"],
+        "semantic_rule": "inventory_snapshots.store_id = stores.store_id",
+        "source_relation_id": "InventorySnapshot.storeId_references_Store.storeId",
+        "join_strategy": "INNER",
+        "grain": "inventory_snapshots.snapshot_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "OrderLineDetail",
+        "class_name": "Order Line Detail",
+        "business_domain": "Orders",
+        "description": "Order line with its parent order context.",
+        "source_classes": ["OrderItem", "Order"],
+        "source_tables": ["order_items", "orders"],
+        "semantic_rule": "order_items.order_id = orders.order_id",
+        "source_relation_id": "OrderItem.orderId_references_Order.orderId",
+        "join_strategy": "INNER",
+        "grain": "order_items.order_item_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "ProductSalesLine",
+        "class_name": "Product Sales Line",
         "business_domain": "Catalog",
-        "description": "Derived class combining Product and OrderItem for product sales analysis.",
-        "source_classes": ["Product", "OrderItem"],
-        "source_tables": ["products", "order_items"],
-        "semantic_rule": "Order item refers to one product/SKU.",
+        "description": "Order line linked to a product/SKU.",
+        "source_classes": ["OrderItem", "Product"],
+        "source_tables": ["order_items", "products"],
+        "semantic_rule": "order_items.product_id = products.product_id",
+        "source_relation_id": "OrderItem.productId_references_Product.productId",
+        "join_strategy": "INNER",
+        "grain": "order_items.order_item_id",
+        "review_priority": "CORE",
     },
     {
-        "class_id": "PromotionOrderLine",
-        "class_name": "Promotion Order Line",
+        "class_id": "PromotedOrderLine",
+        "class_name": "Promoted Order Line",
         "business_domain": "Promotion",
-        "description": "Derived class combining Promotion and OrderItem for promotion impact analysis.",
-        "source_classes": ["Promotion", "OrderItem"],
-        "source_tables": ["promotions", "order_items"],
-        "semantic_rule": "Order item may apply one promotion.",
+        "description": "Order line linked to a transaction promotion.",
+        "source_classes": ["OrderItem", "Promotion"],
+        "source_tables": ["order_items", "promotions"],
+        "semantic_rule": "order_items.promotion_id = promotions.promotion_id",
+        "source_relation_id": "OrderItem.promotionId_references_Promotion.promotionId",
+        "join_strategy": "INNER only rows with promotion_id",
+        "grain": "order_items.order_item_id",
+        "review_priority": "CORE",
     },
     {
-        "class_id": "ReturnOrderLine",
-        "class_name": "Return Order Line",
+        "class_id": "ReturnedOrderLine",
+        "class_name": "Returned Order Line",
         "business_domain": "Returns",
-        "description": "Derived class combining Return and OrderItem for refund/return analysis.",
-        "source_classes": ["Return", "OrderItem"],
-        "source_tables": ["returns", "order_items"],
-        "semantic_rule": "Return request references one order item.",
+        "description": "Return request linked to a purchased order line.",
+        "source_classes": ["OrderItem", "Return"],
+        "source_tables": ["order_items", "returns"],
+        "semantic_rule": "returns.order_item_id = order_items.order_item_id",
+        "source_relation_id": "Return.orderItemId_references_OrderItem.orderItemId",
+        "join_strategy": "INNER",
+        "grain": "returns.return_id",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "PaidOrder",
+        "class_name": "Paid Order",
+        "business_domain": "Revenue",
+        "description": "Order with at least one successful payment.",
+        "source_classes": ["Order", "Payment"],
+        "source_tables": ["orders", "payments"],
+        "semantic_rule": "Use EXISTS successful payment to preserve order grain.",
+        "source_relation_id": "Payment.orderId_references_Order.orderId",
+        "join_strategy": "SEMI-JOIN EXISTS(payments.status = success)",
+        "grain": "orders.order_id",
+        "review_priority": "CORE",
     },
     {
         "class_id": "OrderShipment",
         "class_name": "Order Shipment",
         "business_domain": "Shipping",
-        "description": "Derived class combining Order and Shipment for shipping and delivery analysis.",
+        "description": "Order with shipment status and delivery context.",
         "source_classes": ["Order", "Shipment"],
         "source_tables": ["orders", "shipments"],
-        "semantic_rule": "Shipment belongs to one order.",
+        "semantic_rule": "shipments.order_id = orders.order_id",
+        "source_relation_id": "Shipment.orderId_references_Order.orderId",
+        "join_strategy": "LEFT from orders to shipments",
+        "grain": "orders.order_id",
+        "review_priority": "CORE",
     },
     {
-        "class_id": "ProductInventory",
-        "class_name": "Product Inventory",
-        "business_domain": "Inventory",
-        "description": "Derived class combining Product and InventorySnapshot for stock analysis.",
-        "source_classes": ["Product", "InventorySnapshot"],
-        "source_tables": ["products", "inventory_snapshots"],
-        "semantic_rule": "Inventory snapshot records stock for one product.",
+        "class_id": "StoreOrder",
+        "class_name": "Store Order",
+        "business_domain": "Channel & Store",
+        "description": "Order by responsible store.",
+        "source_classes": ["Order", "Store"],
+        "source_tables": ["orders", "stores"],
+        "semantic_rule": "orders.store_id = stores.store_id",
+        "source_relation_id": "Order.storeId_references_Store.storeId",
+        "join_strategy": "INNER",
+        "grain": "orders.order_id",
+        "review_priority": "OPTIONAL",
+    },
+    {
+        "class_id": "OrderSupportCase",
+        "class_name": "Order Support Case",
+        "business_domain": "Support",
+        "description": "Support ticket linked to an order.",
+        "source_classes": ["Order", "SupportTicket"],
+        "source_tables": ["orders", "support_tickets"],
+        "semantic_rule": "support_tickets.order_id = orders.order_id",
+        "source_relation_id": "SupportTicket.orderId_references_Order.orderId",
+        "join_strategy": "INNER only ticket.order_id IS NOT NULL",
+        "grain": "support_tickets.ticket_id",
+        "review_priority": "OPTIONAL",
+    },
+    {
+        "class_id": "SupplierProductAssignment",
+        "class_name": "Supplier Product Assignment",
+        "business_domain": "Supplier",
+        "description": "Product-supplier assignment with sourcing metadata.",
+        "source_classes": ["ProductSupplier", "Supplier"],
+        "source_tables": ["product_suppliers", "suppliers"],
+        "semantic_rule": "product_suppliers.supplier_id = suppliers.supplier_id",
+        "source_relation_id": "ProductSupplier.supplierId_references_Supplier.supplierId",
+        "join_strategy": "INNER",
+        "grain": "product_suppliers.(product_id,supplier_id)",
+        "review_priority": "CORE",
+    },
+    {
+        "class_id": "PrimaryPromotedProduct",
+        "class_name": "Primary Promoted Product",
+        "business_domain": "Promotion",
+        "description": "Product referencing its primary promotion.",
+        "source_classes": ["Product", "Promotion"],
+        "source_tables": ["products", "promotions"],
+        "semantic_rule": "products.promotion_id = promotions.promotion_id",
+        "source_relation_id": "Product.promotionId_references_Promotion.promotionId",
+        "join_strategy": "INNER only product.promotion_id IS NOT NULL",
+        "grain": "products.product_id",
+        "review_priority": "OPTIONAL",
     },
 ]
 
@@ -219,20 +485,57 @@ BENCHMARK_METHOD_OWNER_SPECS = {
     "M_REVENUE_GMV": ("PaidOrder", "Revenue", "aggregate", "GMV calculation over paid orders."),
     "M_REVENUE_AOV": ("PaidOrder", "Revenue", "aggregate", "Average order value over paid orders."),
     "M_REVENUE_GROWTH": ("PaidOrder", "Revenue", "compare", "Revenue comparison or growth over paid orders."),
-    "M_REVENUE_NET": ("ReturnOrderLine", "Revenue", "aggregate", "Net revenue after return/refund impact."),
+    "M_REVENUE_NET": ("ReturnedOrderLine", "Revenue", "aggregate", "Net revenue after return/refund impact."),
     "M_CHANNEL_COMPARE": ("ChannelOrder", "Channel & Store", "compare", "Channel-level comparison."),
     "M_STORE_RANK": ("StoreOrder", "Channel & Store", "rank", "Store ranking by order/revenue metrics."),
     "M_CUSTOMERS": ("CustomerOrder", "Customers", "aggregate", "Customer analytics based on orders."),
-    "M_PRODUCTS_SOLD": ("ProductOrderLine", "Catalog", "rank", "Product sales ranking and sold quantity analysis."),
-    "M_PROMOTIONS": ("PromotionOrderLine", "Promotion", "aggregate", "Promotion impact analysis over order lines."),
-    "M_RETURNS": ("ReturnOrderLine", "Returns", "aggregate", "Return/refund analysis."),
+    "M_PRODUCTS_SOLD": ("ProductSalesLine", "Catalog", "rank", "Product sales ranking and sold quantity analysis."),
+    "M_PROMOTIONS": ("PromotedOrderLine", "Promotion", "aggregate", "Promotion impact analysis over order lines."),
+    "M_RETURNS": ("ReturnedOrderLine", "Returns", "aggregate", "Return/refund analysis."),
     "M_SHIPPING": ("OrderShipment", "Shipping", "aggregate", "Shipping and delivery analysis."),
     "M_SUPPLIERS": ("ProductSupplier", "Supplier", "lookup", "Supplier-product assignment lookup."),
     "M_SUPPORT": ("SupportTicket", "Support", "aggregate", "Support ticket analytics."),
-    "M_INVENTORY": ("ProductInventory", "Inventory", "lookup", "Product inventory lookup and stock analysis."),
-    "M_BASKET_ANALYSIS": ("ProductOrderLine", "Advanced SQL", "rank", "Basket/product co-occurrence analysis."),
+    "M_INVENTORY": ("ProductInventorySnapshot", "Inventory", "lookup", "Product inventory lookup and stock analysis."),
+    "M_BASKET_ANALYSIS": ("ProductSalesLine", "Advanced SQL", "rank", "Basket/product co-occurrence analysis."),
     "M_WINDOW_ANALYSIS": ("PaidOrder", "Advanced SQL", "aggregate", "Windowed revenue analysis over paid orders."),
 }
+
+
+APPROVED_BASE_CLASS_METHOD_IDS = {
+    "Address": ["Address.listCustomerAddresses", "Address.getDefaultAddress", "Address.findAddressByGooglePlace"],
+    "Agent": ["Agent.findAgentByCode", "Agent.listAgentsByStore", "Agent.countHandledChats", "Agent.countAttributedOrders"],
+    "Brand": ["Brand.findBrandByName", "Brand.listBrands", "Brand.countProductsByBrand"],
+    "Category": ["Category.findCategory", "Category.listChildren", "Category.getAncestorPath"],
+    "Channel": ["Channel.findChannelByCode", "Channel.listChannelsByType", "Channel.countChannelChats"],
+    "ChatMessage": ["ChatMessage.listConversationMessages", "ChatMessage.countMessagesByChannel", "ChatMessage.countDistinctConversations", "ChatMessage.findProductMentions"],
+    "Customer": ["Customer.findCustomerByCode", "Customer.listCustomersBySegment", "Customer.countCustomerOrders"],
+    "InventorySnapshot": ["InventorySnapshot.getInventoryAt", "InventorySnapshot.getAvailableQuantity", "InventorySnapshot.getLatestInventory", "InventorySnapshot.sumAvailableInventory"],
+    "OrderItem": ["OrderItem.listOrderLines", "OrderItem.sumLineQuantity", "OrderItem.sumLineNetAmount"],
+    "Order": ["Order.findOrderByCode", "Order.countOrders", "Order.sumOrderGross", "Order.listChatAttributedOrders"],
+    "Payment": ["Payment.listPaymentAttempts", "Payment.hasSuccessfulPayment", "Payment.sumSuccessfulPayments"],
+    "ProductSupplier": ["ProductSupplier.listSuppliersForProduct", "ProductSupplier.findPrimarySupplier", "ProductSupplier.countProductsPerSupplier"],
+    "Product": ["Product.findProductBySKU", "Product.searchProducts", "Product.listAvailableProducts", "Product.getProductPricing"],
+    "Promotion": ["Promotion.findPromotionByCode", "Promotion.listActivePromotions", "Promotion.countPrimaryPromotedProducts"],
+    "Region": ["Region.findRegionByCode", "Region.listRegions", "Region.countStoresInRegion"],
+    "Return": ["Return.listReturnsForOrderItem", "Return.sumApprovedRefund", "Return.countReturnRequests"],
+    "Shipment": ["Shipment.getShipmentByOrder", "Shipment.listShipmentsByStatus", "Shipment.calculateDeliveryDuration"],
+    "Store": ["Store.findStoreByCode", "Store.listStoresByRegion", "Store.countStoreOrders"],
+    "Supplier": ["Supplier.findSupplierByName", "Supplier.listSuppliersByRegion", "Supplier.countSuppliedProducts"],
+    "SupportTicket": ["SupportTicket.findTicket", "SupportTicket.listCustomerTickets", "SupportTicket.countUnresolvedTickets", "SupportTicket.calculateResolutionDuration"],
+}
+
+
+def infer_operation_intent_from_method_name(method_name):
+    method_name_lower = method_name.lower()
+    if method_name_lower.startswith("count"):
+        return "count"
+    if method_name_lower.startswith("sum") or method_name_lower.startswith("calculate"):
+        return "aggregate"
+    if method_name_lower.startswith("list") or method_name_lower.startswith("search"):
+        return "list"
+    if method_name_lower.startswith("find") or method_name_lower.startswith("get") or method_name_lower.startswith("has"):
+        return "lookup"
+    return "lookup"
 
 
 def build_table_lookup(tables):
@@ -626,18 +929,19 @@ def deterministic_relations(relationships):
         target_prop = column_to_property_name(rel["target_column"])
         relations.append(
             {
-                "relation_id": relation_name(rel["source_table"], rel["target_table"]),
-                "relation_name": f"relatesTo{target_class}",
+                "relation_id": f"{source_class}.{source_prop}_references_{target_class}.{target_prop}",
+                "relation_name": f"{source_prop}_references_{target_class}.{target_prop}",
                 "source_class": source_class,
                 "target_class": target_class,
                 "cardinality": "N:1",
-                "source_property": f"{source_class}.{source_prop}",
-                "target_property": f"{target_class}.{target_prop}",
+                "source_property": source_prop,
+                "target_property": target_prop,
                 "database_mapping": {
                     "left": f"{rel['source_table']}.{rel['source_column']}",
                     "right": f"{rel['target_table']}.{rel['target_column']}",
                     "join_type": "INNER",
                 },
+                "physical_join": f"{rel['source_table']}.{rel['source_column']} = {rel['target_table']}.{rel['target_column']}",
                 "description": f"FK relation from {rel['source_table']} to {rel['target_table']}.",
                 "construction_source": "deterministic_foreign_key",
             }
@@ -696,6 +1000,31 @@ def build_class_method_candidates(classes, properties):
     methods = []
     for cls in classes:
         class_id = cls["class_id"]
+        approved_method_ids = APPROVED_BASE_CLASS_METHOD_IDS.get(class_id, [])
+        if approved_method_ids:
+            for method_id in approved_method_ids:
+                method_name = method_id.split(".", 1)[1]
+                methods.append(
+                    {
+                        "method_id": method_id,
+                        "method_name": method_name,
+                        "method_owner_class": class_id,
+                        "method_scope": "base_class",
+                        "business_domain": cls.get("business_domain"),
+                        "description": f"Approved read-only base method {method_id}.",
+                        "target_classes": [class_id],
+                        "operation_intent": infer_operation_intent_from_method_name(method_name),
+                        "required_parameters": [],
+                        "optional_parameters": ["filter_criteria", "limit", "order"],
+                        "required_semantics": [f"operate within base class {class_id} unless a derived class method is selected"],
+                        "forbidden_semantics": ["do not join another class unless a derived class method is selected"],
+                        "source_properties": [item["property_id"] for item in properties_by_class[class_id][:6]],
+                        "implementation_status": "PROPOSED_READ_ONLY",
+                        "construction_source": "approved_package_base_method_rule",
+                    }
+                )
+            continue
+
         class_properties = properties_by_class[class_id]
         display_properties = [
             item
@@ -835,6 +1164,152 @@ def deterministic_unsupported_candidates(benchmark_spec):
     return candidates
 
 
+def class_pair_key(class_a, class_b):
+    return tuple(sorted([class_a, class_b]))
+
+
+def build_candidate_pair_reviews(classes, relations, derived_classes):
+    base_class_ids = sorted(item["class_id"] for item in classes)
+    derived_by_pair = {
+        class_pair_key(*item["source_classes"]): item
+        for item in derived_classes
+    }
+
+    direct_relations_by_pair = defaultdict(list)
+    self_relations = []
+    for relation in relations:
+        source_class = relation["source_class"]
+        target_class = relation["target_class"]
+        if source_class == target_class:
+            self_relations.append(relation)
+            continue
+        direct_relations_by_pair[class_pair_key(source_class, target_class)].append(relation)
+
+    pair_review_all = []
+    for class_a, class_b in itertools.combinations(base_class_ids, 2):
+        pair = class_pair_key(class_a, class_b)
+        derived_class = derived_by_pair.get(pair)
+        direct_relations = direct_relations_by_pair.get(pair, [])
+        if derived_class:
+            decision = "YES_PROPOSED"
+            candidate_class = derived_class["class_id"]
+            rule = "DIRECT_FK_PLUS_BUSINESS_VIEW" if direct_relations else "BUSINESS_VIEW_REQUIRES_INDIRECT_PATH"
+            reason = derived_class["description"]
+        elif direct_relations:
+            decision = "NO_NEW_CLASS"
+            candidate_class = None
+            rule = "DIRECT_RELATION_SUFFICIENT"
+            reason = "Direct FK relation exists, but the pair is better represented as a relation/dimension link."
+        else:
+            decision = "NOT_DIRECT"
+            candidate_class = None
+            rule = "NO_DIRECT_FK"
+            reason = "No direct FK pair in the physical schema."
+
+        pair_review_all.append(
+            {
+                "class_a": class_a,
+                "class_b": class_b,
+                "decision": decision,
+                "candidate_class": candidate_class,
+                "rule": rule,
+                "reason": reason,
+                "direct_relation_ids": [item["relation_id"] for item in direct_relations],
+            }
+        )
+
+    pair_review_direct = [
+        item
+        for item in pair_review_all
+        if item["decision"] in ["YES_PROPOSED", "NO_NEW_CLASS"]
+    ]
+    for relation in self_relations:
+        pair_review_direct.append(
+            {
+                "class_a": relation["source_class"],
+                "class_b": relation["target_class"],
+                "decision": "SELF_RELATION_ONLY",
+                "candidate_class": None,
+                "rule": "SAME_BASE_CLASS",
+                "reason": "Self-FK is represented as a recursive relation, not as a derived class.",
+                "direct_relation_ids": [relation["relation_id"]],
+            }
+        )
+
+    return pair_review_all, pair_review_direct
+
+
+def audit_ontology_shape(classes, properties, relations, derived_classes, class_methods, pair_review_all):
+    findings = []
+
+    expected_counts = {
+        "base_classes": 20,
+        "properties": 157,
+        "relations": 31,
+        "derived_classes": 25,
+        "class_methods": 66,
+        "pair_review_all": 190,
+    }
+    actual_counts = {
+        "base_classes": len(classes),
+        "properties": len(properties),
+        "relations": len(relations),
+        "derived_classes": len(derived_classes),
+        "class_methods": len(class_methods),
+        "pair_review_all": len(pair_review_all),
+    }
+    for key, expected in expected_counts.items():
+        actual = actual_counts[key]
+        if actual != expected:
+            findings.append(
+                {
+                    "severity": "HIGH",
+                    "category": "ontology_shape_count_mismatch",
+                    "field": key,
+                    "expected": expected,
+                    "actual": actual,
+                    "message": "Object ontology does not match the approved v06 package shape.",
+                }
+            )
+
+    class_ids = {item["class_id"] for item in classes}
+    if "ChatMessage" not in class_ids or "Chat" in class_ids:
+        findings.append(
+            {
+                "severity": "HIGH",
+                "category": "chat_class_mapping_drift",
+                "message": "Table chats must map to ChatMessage, not Chat.",
+            }
+        )
+
+    for item in derived_classes:
+        source_classes = item.get("source_classes", [])
+        if len(source_classes) != 2 or len(set(source_classes)) != 2:
+            findings.append(
+                {
+                    "severity": "HIGH",
+                    "category": "invalid_derived_class_source_count",
+                    "class_id": item["class_id"],
+                    "source_classes": source_classes,
+                    "message": "Every derived class must combine exactly two distinct base classes.",
+                }
+            )
+
+    property_class_ids = {item["class_id"] for item in properties}
+    missing_property_classes = sorted(class_ids - property_class_ids)
+    if missing_property_classes:
+        findings.append(
+            {
+                "severity": "HIGH",
+                "category": "base_class_without_properties",
+                "class_ids": missing_property_classes,
+                "message": "Every base class should expose physical properties.",
+            }
+        )
+
+    return findings
+
+
 def merge_class_enrichments(classes, enrichments):
     by_table = {item.get("table"): item for item in enrichments}
     for cls in classes:
@@ -969,6 +1444,11 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
     class_methods = build_class_method_candidates(classes, properties)
     method_candidates = deterministic_method_candidates(benchmark_spec)
     unsupported_candidates = deterministic_unsupported_candidates(benchmark_spec)
+    pair_review_all, pair_review_direct = build_candidate_pair_reviews(
+        classes=classes,
+        relations=relations,
+        derived_classes=derived_classes,
+    )
 
     trace = {
         "database_id": database_id,
@@ -982,6 +1462,8 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
             "relations": len(relations),
             "class_methods": len(class_methods),
             "method_candidates": len(method_candidates),
+            "candidate_pair_reviews": len(pair_review_all),
+            "direct_pair_reviews": len(pair_review_direct),
             "unsupported_scope_candidates": len(unsupported_candidates),
         },
     }
@@ -1035,6 +1517,14 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
         base_classes=classes,
         derived_classes=derived_classes,
     )
+    object_first_audit += audit_ontology_shape(
+        classes=classes,
+        properties=properties,
+        relations=relations,
+        derived_classes=derived_classes,
+        class_methods=class_methods,
+        pair_review_all=pair_review_all,
+    )
 
     manifest = {
         "database_id": database_id,
@@ -1049,6 +1539,9 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
             "ontology_relations": str(output_dir / "ontology_relations.json"),
             "ontology_class_methods": str(output_dir / "ontology_class_methods.json"),
             "ontology_method_candidates": str(output_dir / "ontology_method_candidates.json"),
+            "candidate_pair_review_all": str(output_dir / "candidate_pair_review_190.json"),
+            "candidate_pair_review_all_csv": str(output_dir / "candidate_pair_review_190.csv"),
+            "candidate_pair_review_direct": str(output_dir / "candidate_pair_review_direct.json"),
             "unsupported_scope_candidates": str(output_dir / "unsupported_scope_candidates.json"),
             "object_ontology_audit": str(output_dir / "object_ontology_audit.json"),
             "object_ontology_trace": str(output_dir / "object_ontology_trace.json"),
@@ -1060,6 +1553,8 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
             "relations": len(relations),
             "class_methods": len(class_methods),
             "method_candidates": len(method_candidates),
+            "candidate_pair_reviews": len(pair_review_all),
+            "direct_pair_reviews": len(pair_review_direct),
             "unsupported_scope_candidates": len(unsupported_candidates),
             "audit_findings": len(object_first_audit),
             "high_findings": len([item for item in object_first_audit if item["severity"] == "HIGH"]),
@@ -1072,6 +1567,13 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
     save_json({"database_id": database_id, "relations": relations}, output_dir / "ontology_relations.json")
     save_json({"database_id": database_id, "class_methods": class_methods}, output_dir / "ontology_class_methods.json")
     save_json({"database_id": database_id, "method_candidates": method_candidates}, output_dir / "ontology_method_candidates.json")
+    save_json({"database_id": database_id, "pair_reviews": pair_review_all}, output_dir / "candidate_pair_review_190.json")
+    save_csv(
+        rows=pair_review_all,
+        path=output_dir / "candidate_pair_review_190.csv",
+        fieldnames=["class_a", "class_b", "decision", "candidate_class", "rule", "reason", "direct_relation_ids"],
+    )
+    save_json({"database_id": database_id, "pair_reviews": pair_review_direct}, output_dir / "candidate_pair_review_direct.json")
     save_json({"database_id": database_id, "unsupported_scope_candidates": unsupported_candidates}, output_dir / "unsupported_scope_candidates.json")
     save_json({"database_id": database_id, "audit_findings": object_first_audit}, output_dir / "object_ontology_audit.json")
     save_json(trace, output_dir / "object_ontology_trace.json")

@@ -1,0 +1,475 @@
+{
+  "database_id": "omnichannel_retail",
+  "method_candidates": [
+    {
+      "method_id": "M_CATALOG",
+      "method_name": "M_CATALOG",
+      "method_owner_class": "Product",
+      "method_scope": "base_class",
+      "business_domain": "Catalog",
+      "description": "Product catalog listing and lookup.",
+      "target_classes": [
+        "Product"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [
+        "products, COUNT(*)"
+      ],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Database đang có bao nhiêu SKU?",
+        "Có bao nhiêu sản phẩm đang active?",
+        "Liệt kê 10 sản phẩm Philips đang bán và giá niêm yết.",
+        "Liệt kê loa dưới 3 triệu còn active.",
+        "Giá niêm yết SKU SAM-NOICOM-001 là bao nhiêu?",
+        "Top 5 sản phẩm đắt nhất?",
+        "Nhóm Điện tử có những danh mục con nào?",
+        "Những SKU nào chưa từng được áp dụng promotion trong đơn hàng? Liệt kê 10."
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_ORDERS_COUNT",
+      "method_name": "M_ORDERS_COUNT",
+      "method_owner_class": "Order",
+      "method_scope": "base_class",
+      "business_domain": "Orders",
+      "description": "Order counting by status, period, or business filter.",
+      "target_classes": [
+        "Order"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [
+        "COUNT orders, EXISTS payment success, tránh JOIN tạo trùng",
+        "Giữ kênh Shopee, đổi tháng 9 -> tháng 8"
+      ],
+      "forbidden_semantics": [
+        "COUNT(*) từ JOIN payments nếu có duplicate attempt"
+      ],
+      "example_questions": [
+        "Tháng 9/2026 tạo bao nhiêu đơn?",
+        "Tháng 9/2026 có bao nhiêu đơn đã được thanh toán?",
+        "Số đơn theo từng trạng thái trong tháng 9?",
+        "Có bao nhiêu đơn thanh toán thành công dù payment có thể retry?",
+        "Trong tháng 9 có bao nhiêu đơn placed chưa có payment success?",
+        "Còn tháng 8?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_ORDER_DETAIL",
+      "method_name": "M_ORDER_DETAIL",
+      "method_owner_class": "CustomerOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Customer order detail lookup.",
+      "target_classes": [
+        "CustomerOrder"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Đơn ORD-000231 thuộc kênh nào, ở trạng thái gì?",
+        "Đơn ORD-000231 mua những sản phẩm nào và bao nhiêu chiếc?",
+        "5 đơn gần nhất của khách CUST-00012?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_REVENUE_GMV",
+      "method_name": "M_REVENUE_GMV",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "GMV calculation over paid orders.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [
+        "Giữ nguyên tháng 9/2026, đổi channel thành TIKTOK",
+        "paid orders, gross-discount, không shipping, Shopee, 2026-09"
+      ],
+      "forbidden_semantics": [
+        "sum(gross_amount) hoặc sum(payment.amount)"
+      ],
+      "example_questions": [
+        "GMV Shopee tháng 9/2026 là bao nhiêu?",
+        "GMV TikTok Shop tháng 9/2026?",
+        "Tổng GMV của tất cả các kênh trong tháng 9?",
+        "Tháng 9 tổng số tiền giảm giá trên đơn đã thanh toán là bao nhiêu?",
+        "Tổng phí vận chuyển của đơn thanh toán thành công tháng 9?",
+        "GMV theo từng ngày trong 7 ngày đầu tháng 9?",
+        "Còn TikTok thì sao?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_REVENUE_GROSS",
+      "method_name": "M_REVENUE_GROSS",
+      "method_owner_class": "Order",
+      "method_scope": "base_class",
+      "business_domain": "Revenue",
+      "description": "Gross order amount aggregation.",
+      "target_classes": [
+        "Order"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Giá trị gộp trước giảm giá của các đơn đã thanh toán tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_REVENUE_NET",
+      "method_name": "M_REVENUE_NET",
+      "method_owner_class": "ReturnedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "Net revenue after return/refund impact.",
+      "target_classes": [
+        "ReturnedOrderLine"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [
+        "GMV - approved refunds, period on ordered_at"
+      ],
+      "forbidden_semantics": [
+        "subtract requested/rejected returns"
+      ],
+      "example_questions": [
+        "Doanh thu hàng hóa thuần sau hoàn trả đã duyệt của đơn tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_REVENUE_AOV",
+      "method_name": "M_REVENUE_AOV",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "Average order value over paid orders.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "AOV đơn đã thanh toán tháng 9 là bao nhiêu?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_REVENUE_GROWTH",
+      "method_name": "M_REVENUE_GROWTH",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "Revenue comparison or growth over paid orders.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "compare",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Tăng trưởng GMV tháng 9 so với tháng 8/2026 (%), tính cả kênh?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_CHANNEL_COMPARE",
+      "method_name": "M_CHANNEL_COMPARE",
+      "method_owner_class": "ChannelOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Channel-level comparison.",
+      "target_classes": [
+        "ChannelOrder"
+      ],
+      "operation_intent": "compare",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Xếp hạng GMV từng kênh tháng 9.",
+        "Tỷ trọng GMV của từng kênh trong tháng 9 là bao nhiêu?",
+        "Có bao nhiêu đơn TikTok thành công do kho HCM-01 xử lý trong tháng 9?",
+        "Tỷ lệ đơn bị hủy theo từng kênh tháng 9?",
+        "Tổng GMV của các kênh marketplace tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_STORE_RANK",
+      "method_name": "M_STORE_RANK",
+      "method_owner_class": "StoreOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Store ranking by order/revenue metrics.",
+      "target_classes": [
+        "StoreOrder"
+      ],
+      "operation_intent": "rank",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Top 5 cửa hàng theo GMV tháng 9.",
+        "GMV theo 3 vùng Bắc Trung Nam tháng 9."
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_PRODUCTS_SOLD",
+      "method_name": "M_PRODUCTS_SOLD",
+      "method_owner_class": "ProductSalesLine",
+      "method_scope": "derived_class",
+      "business_domain": "Catalog",
+      "description": "Product sales ranking and sold quantity analysis.",
+      "target_classes": [
+        "ProductSalesLine"
+      ],
+      "operation_intent": "rank",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [
+        "Giữ Philips, September, top 5, đổi thành GMV từng dòng hàng"
+      ],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Top 10 sản phẩm bán nhiều nhất theo số chiếc tháng 9?",
+        "Top 10 SKU đóng góp doanh thu hàng hóa nhiều nhất tháng 9?",
+        "Nếu xét theo doanh thu thay vì số lượng?",
+        "SKU nào chưa từng có đơn thanh toán thành công? Liệt kê 10."
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_INVENTORY",
+      "method_name": "M_INVENTORY",
+      "method_owner_class": "ProductInventorySnapshot",
+      "method_scope": "derived_class",
+      "business_domain": "Inventory",
+      "description": "Product inventory lookup and stock analysis.",
+      "target_classes": [
+        "ProductInventorySnapshot"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [
+        "cộng tất cả snapshot theo mọi ngày"
+      ],
+      "example_questions": [
+        "SKU TEF-NOICOM-010 còn bao nhiêu khả dụng ở HN-01 ngày 11/10?",
+        "Tổng tồn khả dụng của sản phẩm id=7 trên toàn hệ thống ngày 11/10?",
+        "Có bao nhiêu cặp cửa hàng-SKU hết hàng khả dụng ở snapshot mới nhất 11/10?",
+        "10 SKU có tồn khả dụng thấp nhất tại HCM-01 ở snapshot mới nhất?",
+        "Tồn khả dụng của product_id=7 thay đổi bao nhiêu tại HCM-01 từ 10/10 sang 11/10?",
+        "Tổng tồn khả dụng toàn hệ thống ở snapshot 11/10 là bao nhiêu?",
+        "Tồn khả dụng ngành hàng Loa theo từng vùng ngày 11/10?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_CUSTOMERS",
+      "method_name": "M_CUSTOMERS",
+      "method_owner_class": "CustomerOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Customers",
+      "description": "Customer analytics based on orders.",
+      "target_classes": [
+        "CustomerOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Có bao nhiêu khách VIP?",
+        "Bao nhiêu khách có ít nhất một đơn thanh toán thành công?",
+        "Top 10 khách theo giá trị đơn thanh toán tháng 9?",
+        "Có bao nhiêu khách đặt ít nhất 2 đơn thanh toán tháng 9?",
+        "Có bao nhiêu khách đăng ký vào tháng 9/2026?",
+        "Có bao nhiêu khách chưa từng có đơn thanh toán thành công?",
+        "Có bao nhiêu khách mới lần đầu mua hàng thành công trong tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_SHIPPING",
+      "method_name": "M_SHIPPING",
+      "method_owner_class": "OrderShipment",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Shipping and delivery analysis.",
+      "target_classes": [
+        "OrderShipment"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Tháng 9 có bao nhiêu đơn được đặt và sau đó đã giao?",
+        "Thời gian giao hàng trung bình (ngày) của đơn đặt trong tháng 9?",
+        "Tháng 9 có bao nhiêu đơn giao hơn 3 ngày tính từ lúc gửi?",
+        "Số đơn giao thành công theo hãng trong tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_RETURNS",
+      "method_name": "M_RETURNS",
+      "method_owner_class": "ReturnedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Returns",
+      "description": "Return/refund analysis.",
+      "target_classes": [
+        "ReturnedOrderLine"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Có bao nhiêu yêu cầu hoàn trả được duyệt trong tháng 9 theo ngày yêu cầu?",
+        "Số tiền refund đã được duyệt trong tháng 9 theo ngày yêu cầu?",
+        "Tỷ lệ đơn đã giao phát sinh hoàn trả được duyệt, cohort đơn đặt tháng 9?",
+        "Top 5 SKU theo tổng tiền refund approved của yêu cầu tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_PROMOTIONS",
+      "method_name": "M_PROMOTIONS",
+      "method_owner_class": "PromotedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Promotion",
+      "description": "Promotion impact analysis over order lines.",
+      "target_classes": [
+        "PromotedOrderLine"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Có bao nhiêu món hàng (quantity) được bán theo khuyến mãi SEP26 trong tháng 9, tính đơn đã thanh toán?",
+        "Doanh thu dòng sản phẩm gắn promo SEP26 của các đơn thanh toán tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_SUPPLIERS",
+      "method_name": "M_SUPPLIERS",
+      "method_owner_class": "ProductSupplier",
+      "method_scope": "base_class",
+      "business_domain": "Supplier",
+      "description": "Supplier-product assignment lookup.",
+      "target_classes": [
+        "ProductSupplier"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Có bao nhiêu SKU có từ 2 nhà cung cấp trở lên?",
+        "Nhà cung cấp chính của product_id=7 là ai?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_SUPPORT",
+      "method_name": "M_SUPPORT",
+      "method_owner_class": "SupportTicket",
+      "method_scope": "base_class",
+      "business_domain": "Support",
+      "description": "Support ticket analytics.",
+      "target_classes": [
+        "SupportTicket"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Bao nhiêu ticket được tạo trong tháng 9?",
+        "Top 3 loại khiếu nại có nhiều ticket nhất tháng 9?",
+        "Số ticket mức High/Critical chưa resolved đến 12/10?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_BASKET_ANALYSIS",
+      "method_name": "M_BASKET_ANALYSIS",
+      "method_owner_class": "ProductSalesLine",
+      "method_scope": "derived_class",
+      "business_domain": "Advanced SQL",
+      "description": "Basket/product co-occurrence analysis.",
+      "target_classes": [
+        "ProductSalesLine"
+      ],
+      "operation_intent": "rank",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "Top 5 cặp SKU thường xuất hiện cùng trong đơn thanh toán tháng 9?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    },
+    {
+      "method_id": "M_WINDOW_ANALYSIS",
+      "method_name": "M_WINDOW_ANALYSIS",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Advanced SQL",
+      "description": "Windowed revenue analysis over paid orders.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [],
+      "required_semantics": [],
+      "forbidden_semantics": [],
+      "example_questions": [
+        "GMV mỗi ngày và trung bình trượt 3 ngày của 7 ngày đầu tháng 9 (chỉ ngày có đơn thanh toán)?"
+      ],
+      "construction_source": "benchmark_spec+object_first_owner_mapping"
+    }
+  ]
+}

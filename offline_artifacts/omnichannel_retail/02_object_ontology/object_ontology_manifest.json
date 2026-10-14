@@ -1,0 +1,34 @@
+{
+  "database_id": "omnichannel_retail",
+  "artifact_type": "object_ontology",
+  "version": "v01",
+  "construction_mode": "deterministic",
+  "input_inventory_dir": "offline_artifacts/omnichannel_retail/01_database_inventory",
+  "output_files": {
+    "ontology_classes": "offline_artifacts/omnichannel_retail/02_object_ontology/ontology_classes.json",
+    "ontology_derived_classes": "offline_artifacts/omnichannel_retail/02_object_ontology/ontology_derived_classes.json",
+    "ontology_properties": "offline_artifacts/omnichannel_retail/02_object_ontology/ontology_properties.json",
+    "ontology_relations": "offline_artifacts/omnichannel_retail/02_object_ontology/ontology_relations.json",
+    "ontology_class_methods": "offline_artifacts/omnichannel_retail/02_object_ontology/ontology_class_methods.json",
+    "ontology_method_candidates": "offline_artifacts/omnichannel_retail/02_object_ontology/ontology_method_candidates.json",
+    "candidate_pair_review_all": "offline_artifacts/omnichannel_retail/02_object_ontology/candidate_pair_review_190.json",
+    "candidate_pair_review_all_csv": "offline_artifacts/omnichannel_retail/02_object_ontology/candidate_pair_review_190.csv",
+    "candidate_pair_review_direct": "offline_artifacts/omnichannel_retail/02_object_ontology/candidate_pair_review_direct.json",
+    "unsupported_scope_candidates": "offline_artifacts/omnichannel_retail/02_object_ontology/unsupported_scope_candidates.json",
+    "object_ontology_audit": "offline_artifacts/omnichannel_retail/02_object_ontology/object_ontology_audit.json",
+    "object_ontology_trace": "offline_artifacts/omnichannel_retail/02_object_ontology/object_ontology_trace.json"
+  },
+  "counts": {
+    "base_classes": 20,
+    "derived_classes": 25,
+    "properties": 157,
+    "relations": 31,
+    "class_methods": 66,
+    "method_candidates": 20,
+    "candidate_pair_reviews": 190,
+    "direct_pair_reviews": 31,
+    "unsupported_scope_candidates": 15,
+    "audit_findings": 0,
+    "high_findings": 0
+  }
+}

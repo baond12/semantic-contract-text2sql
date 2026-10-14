@@ -1,0 +1,532 @@
+{
+  "database_id": "omnichannel_retail",
+  "relations": [
+    {
+      "relation_id": "Address.customerId_references_Customer.customerId",
+      "relation_name": "customerId_references_Customer.customerId",
+      "source_class": "Address",
+      "target_class": "Customer",
+      "cardinality": "N:1",
+      "source_property": "customerId",
+      "target_property": "customerId",
+      "database_mapping": {
+        "left": "addresses.customer_id",
+        "right": "customers.customer_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "addresses.customer_id = customers.customer_id",
+      "description": "FK relation from addresses to customers.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Agent.storeId_references_Store.storeId",
+      "relation_name": "storeId_references_Store.storeId",
+      "source_class": "Agent",
+      "target_class": "Store",
+      "cardinality": "N:1",
+      "source_property": "storeId",
+      "target_property": "storeId",
+      "database_mapping": {
+        "left": "agents.store_id",
+        "right": "stores.store_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "agents.store_id = stores.store_id",
+      "description": "FK relation from agents to stores.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Category.parentCategoryId_references_Category.categoryId",
+      "relation_name": "parentCategoryId_references_Category.categoryId",
+      "source_class": "Category",
+      "target_class": "Category",
+      "cardinality": "N:1",
+      "source_property": "parentCategoryId",
+      "target_property": "categoryId",
+      "database_mapping": {
+        "left": "categories.parent_category_id",
+        "right": "categories.category_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "categories.parent_category_id = categories.category_id",
+      "description": "FK relation from categories to categories.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "ChatMessage.channelId_references_Channel.channelId",
+      "relation_name": "channelId_references_Channel.channelId",
+      "source_class": "ChatMessage",
+      "target_class": "Channel",
+      "cardinality": "N:1",
+      "source_property": "channelId",
+      "target_property": "channelId",
+      "database_mapping": {
+        "left": "chats.channel_id",
+        "right": "channels.channel_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "chats.channel_id = channels.channel_id",
+      "description": "FK relation from chats to channels.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "ChatMessage.productId_references_Product.productId",
+      "relation_name": "productId_references_Product.productId",
+      "source_class": "ChatMessage",
+      "target_class": "Product",
+      "cardinality": "N:1",
+      "source_property": "productId",
+      "target_property": "productId",
+      "database_mapping": {
+        "left": "chats.product_id",
+        "right": "products.product_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "chats.product_id = products.product_id",
+      "description": "FK relation from chats to products.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "ChatMessage.customerId_references_Customer.customerId",
+      "relation_name": "customerId_references_Customer.customerId",
+      "source_class": "ChatMessage",
+      "target_class": "Customer",
+      "cardinality": "N:1",
+      "source_property": "customerId",
+      "target_property": "customerId",
+      "database_mapping": {
+        "left": "chats.customer_id",
+        "right": "customers.customer_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "chats.customer_id = customers.customer_id",
+      "description": "FK relation from chats to customers.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "ChatMessage.agentId_references_Agent.agentId",
+      "relation_name": "agentId_references_Agent.agentId",
+      "source_class": "ChatMessage",
+      "target_class": "Agent",
+      "cardinality": "N:1",
+      "source_property": "agentId",
+      "target_property": "agentId",
+      "database_mapping": {
+        "left": "chats.agent_id",
+        "right": "agents.agent_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "chats.agent_id = agents.agent_id",
+      "description": "FK relation from chats to agents.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Customer.regionId_references_Region.regionId",
+      "relation_name": "regionId_references_Region.regionId",
+      "source_class": "Customer",
+      "target_class": "Region",
+      "cardinality": "N:1",
+      "source_property": "regionId",
+      "target_property": "regionId",
+      "database_mapping": {
+        "left": "customers.region_id",
+        "right": "regions.region_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "customers.region_id = regions.region_id",
+      "description": "FK relation from customers to regions.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "InventorySnapshot.productId_references_Product.productId",
+      "relation_name": "productId_references_Product.productId",
+      "source_class": "InventorySnapshot",
+      "target_class": "Product",
+      "cardinality": "N:1",
+      "source_property": "productId",
+      "target_property": "productId",
+      "database_mapping": {
+        "left": "inventory_snapshots.product_id",
+        "right": "products.product_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "inventory_snapshots.product_id = products.product_id",
+      "description": "FK relation from inventory_snapshots to products.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "InventorySnapshot.storeId_references_Store.storeId",
+      "relation_name": "storeId_references_Store.storeId",
+      "source_class": "InventorySnapshot",
+      "target_class": "Store",
+      "cardinality": "N:1",
+      "source_property": "storeId",
+      "target_property": "storeId",
+      "database_mapping": {
+        "left": "inventory_snapshots.store_id",
+        "right": "stores.store_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "inventory_snapshots.store_id = stores.store_id",
+      "description": "FK relation from inventory_snapshots to stores.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "OrderItem.promotionId_references_Promotion.promotionId",
+      "relation_name": "promotionId_references_Promotion.promotionId",
+      "source_class": "OrderItem",
+      "target_class": "Promotion",
+      "cardinality": "N:1",
+      "source_property": "promotionId",
+      "target_property": "promotionId",
+      "database_mapping": {
+        "left": "order_items.promotion_id",
+        "right": "promotions.promotion_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "order_items.promotion_id = promotions.promotion_id",
+      "description": "FK relation from order_items to promotions.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "OrderItem.productId_references_Product.productId",
+      "relation_name": "productId_references_Product.productId",
+      "source_class": "OrderItem",
+      "target_class": "Product",
+      "cardinality": "N:1",
+      "source_property": "productId",
+      "target_property": "productId",
+      "database_mapping": {
+        "left": "order_items.product_id",
+        "right": "products.product_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "order_items.product_id = products.product_id",
+      "description": "FK relation from order_items to products.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "OrderItem.orderId_references_Order.orderId",
+      "relation_name": "orderId_references_Order.orderId",
+      "source_class": "OrderItem",
+      "target_class": "Order",
+      "cardinality": "N:1",
+      "source_property": "orderId",
+      "target_property": "orderId",
+      "database_mapping": {
+        "left": "order_items.order_id",
+        "right": "orders.order_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "order_items.order_id = orders.order_id",
+      "description": "FK relation from order_items to orders.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Order.agentId_references_Agent.agentId",
+      "relation_name": "agentId_references_Agent.agentId",
+      "source_class": "Order",
+      "target_class": "Agent",
+      "cardinality": "N:1",
+      "source_property": "agentId",
+      "target_property": "agentId",
+      "database_mapping": {
+        "left": "orders.agent_id",
+        "right": "agents.agent_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "orders.agent_id = agents.agent_id",
+      "description": "FK relation from orders to agents.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Order.chatId_references_ChatMessage.chatId",
+      "relation_name": "chatId_references_ChatMessage.chatId",
+      "source_class": "Order",
+      "target_class": "ChatMessage",
+      "cardinality": "N:1",
+      "source_property": "chatId",
+      "target_property": "chatId",
+      "database_mapping": {
+        "left": "orders.chat_id",
+        "right": "chats.chat_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "orders.chat_id = chats.chat_id",
+      "description": "FK relation from orders to chats.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Order.storeId_references_Store.storeId",
+      "relation_name": "storeId_references_Store.storeId",
+      "source_class": "Order",
+      "target_class": "Store",
+      "cardinality": "N:1",
+      "source_property": "storeId",
+      "target_property": "storeId",
+      "database_mapping": {
+        "left": "orders.store_id",
+        "right": "stores.store_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "orders.store_id = stores.store_id",
+      "description": "FK relation from orders to stores.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Order.channelId_references_Channel.channelId",
+      "relation_name": "channelId_references_Channel.channelId",
+      "source_class": "Order",
+      "target_class": "Channel",
+      "cardinality": "N:1",
+      "source_property": "channelId",
+      "target_property": "channelId",
+      "database_mapping": {
+        "left": "orders.channel_id",
+        "right": "channels.channel_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "orders.channel_id = channels.channel_id",
+      "description": "FK relation from orders to channels.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Order.customerId_references_Customer.customerId",
+      "relation_name": "customerId_references_Customer.customerId",
+      "source_class": "Order",
+      "target_class": "Customer",
+      "cardinality": "N:1",
+      "source_property": "customerId",
+      "target_property": "customerId",
+      "database_mapping": {
+        "left": "orders.customer_id",
+        "right": "customers.customer_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "orders.customer_id = customers.customer_id",
+      "description": "FK relation from orders to customers.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Payment.orderId_references_Order.orderId",
+      "relation_name": "orderId_references_Order.orderId",
+      "source_class": "Payment",
+      "target_class": "Order",
+      "cardinality": "N:1",
+      "source_property": "orderId",
+      "target_property": "orderId",
+      "database_mapping": {
+        "left": "payments.order_id",
+        "right": "orders.order_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "payments.order_id = orders.order_id",
+      "description": "FK relation from payments to orders.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "ProductSupplier.supplierId_references_Supplier.supplierId",
+      "relation_name": "supplierId_references_Supplier.supplierId",
+      "source_class": "ProductSupplier",
+      "target_class": "Supplier",
+      "cardinality": "N:1",
+      "source_property": "supplierId",
+      "target_property": "supplierId",
+      "database_mapping": {
+        "left": "product_suppliers.supplier_id",
+        "right": "suppliers.supplier_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "product_suppliers.supplier_id = suppliers.supplier_id",
+      "description": "FK relation from product_suppliers to suppliers.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "ProductSupplier.productId_references_Product.productId",
+      "relation_name": "productId_references_Product.productId",
+      "source_class": "ProductSupplier",
+      "target_class": "Product",
+      "cardinality": "N:1",
+      "source_property": "productId",
+      "target_property": "productId",
+      "database_mapping": {
+        "left": "product_suppliers.product_id",
+        "right": "products.product_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "product_suppliers.product_id = products.product_id",
+      "description": "FK relation from product_suppliers to products.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Product.promotionId_references_Promotion.promotionId",
+      "relation_name": "promotionId_references_Promotion.promotionId",
+      "source_class": "Product",
+      "target_class": "Promotion",
+      "cardinality": "N:1",
+      "source_property": "promotionId",
+      "target_property": "promotionId",
+      "database_mapping": {
+        "left": "products.promotion_id",
+        "right": "promotions.promotion_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "products.promotion_id = promotions.promotion_id",
+      "description": "FK relation from products to promotions.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Product.categoryId_references_Category.categoryId",
+      "relation_name": "categoryId_references_Category.categoryId",
+      "source_class": "Product",
+      "target_class": "Category",
+      "cardinality": "N:1",
+      "source_property": "categoryId",
+      "target_property": "categoryId",
+      "database_mapping": {
+        "left": "products.category_id",
+        "right": "categories.category_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "products.category_id = categories.category_id",
+      "description": "FK relation from products to categories.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Product.brandId_references_Brand.brandId",
+      "relation_name": "brandId_references_Brand.brandId",
+      "source_class": "Product",
+      "target_class": "Brand",
+      "cardinality": "N:1",
+      "source_property": "brandId",
+      "target_property": "brandId",
+      "database_mapping": {
+        "left": "products.brand_id",
+        "right": "brands.brand_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "products.brand_id = brands.brand_id",
+      "description": "FK relation from products to brands.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Return.orderItemId_references_OrderItem.orderItemId",
+      "relation_name": "orderItemId_references_OrderItem.orderItemId",
+      "source_class": "Return",
+      "target_class": "OrderItem",
+      "cardinality": "N:1",
+      "source_property": "orderItemId",
+      "target_property": "orderItemId",
+      "database_mapping": {
+        "left": "returns.order_item_id",
+        "right": "order_items.order_item_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "returns.order_item_id = order_items.order_item_id",
+      "description": "FK relation from returns to order_items.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Shipment.shippingAddressId_references_Address.addressId",
+      "relation_name": "shippingAddressId_references_Address.addressId",
+      "source_class": "Shipment",
+      "target_class": "Address",
+      "cardinality": "N:1",
+      "source_property": "shippingAddressId",
+      "target_property": "addressId",
+      "database_mapping": {
+        "left": "shipments.shipping_address_id",
+        "right": "addresses.address_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "shipments.shipping_address_id = addresses.address_id",
+      "description": "FK relation from shipments to addresses.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Shipment.orderId_references_Order.orderId",
+      "relation_name": "orderId_references_Order.orderId",
+      "source_class": "Shipment",
+      "target_class": "Order",
+      "cardinality": "N:1",
+      "source_property": "orderId",
+      "target_property": "orderId",
+      "database_mapping": {
+        "left": "shipments.order_id",
+        "right": "orders.order_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "shipments.order_id = orders.order_id",
+      "description": "FK relation from shipments to orders.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Store.regionId_references_Region.regionId",
+      "relation_name": "regionId_references_Region.regionId",
+      "source_class": "Store",
+      "target_class": "Region",
+      "cardinality": "N:1",
+      "source_property": "regionId",
+      "target_property": "regionId",
+      "database_mapping": {
+        "left": "stores.region_id",
+        "right": "regions.region_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "stores.region_id = regions.region_id",
+      "description": "FK relation from stores to regions.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "Supplier.regionId_references_Region.regionId",
+      "relation_name": "regionId_references_Region.regionId",
+      "source_class": "Supplier",
+      "target_class": "Region",
+      "cardinality": "N:1",
+      "source_property": "regionId",
+      "target_property": "regionId",
+      "database_mapping": {
+        "left": "suppliers.region_id",
+        "right": "regions.region_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "suppliers.region_id = regions.region_id",
+      "description": "FK relation from suppliers to regions.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "SupportTicket.customerId_references_Customer.customerId",
+      "relation_name": "customerId_references_Customer.customerId",
+      "source_class": "SupportTicket",
+      "target_class": "Customer",
+      "cardinality": "N:1",
+      "source_property": "customerId",
+      "target_property": "customerId",
+      "database_mapping": {
+        "left": "support_tickets.customer_id",
+        "right": "customers.customer_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "support_tickets.customer_id = customers.customer_id",
+      "description": "FK relation from support_tickets to customers.",
+      "construction_source": "deterministic_foreign_key"
+    },
+    {
+      "relation_id": "SupportTicket.orderId_references_Order.orderId",
+      "relation_name": "orderId_references_Order.orderId",
+      "source_class": "SupportTicket",
+      "target_class": "Order",
+      "cardinality": "N:1",
+      "source_property": "orderId",
+      "target_property": "orderId",
+      "database_mapping": {
+        "left": "support_tickets.order_id",
+        "right": "orders.order_id",
+        "join_type": "INNER"
+      },
+      "physical_join": "support_tickets.order_id = orders.order_id",
+      "description": "FK relation from support_tickets to orders.",
+      "construction_source": "deterministic_foreign_key"
+    }
+  ]
+}

@@ -1,0 +1,346 @@
+{
+  "database_id": "omnichannel_retail",
+  "pair_reviews": [
+    {
+      "class_a": "Address",
+      "class_b": "Customer",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "CustomerDeliveryAddress",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Customer-owned delivery address.",
+      "direct_relation_ids": [
+        "Address.customerId_references_Customer.customerId"
+      ]
+    },
+    {
+      "class_a": "Address",
+      "class_b": "Shipment",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "DeliveryDestination",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Shipment destination compared with saved customer address.",
+      "direct_relation_ids": [
+        "Shipment.shippingAddressId_references_Address.addressId"
+      ]
+    },
+    {
+      "class_a": "Agent",
+      "class_b": "ChatMessage",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "AgentChatMessage",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Chat message assigned to a support/sales agent.",
+      "direct_relation_ids": [
+        "ChatMessage.agentId_references_Agent.agentId"
+      ]
+    },
+    {
+      "class_a": "Agent",
+      "class_b": "Order",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "AgentAttributedOrder",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order attributed to the agent who created or closed it.",
+      "direct_relation_ids": [
+        "Order.agentId_references_Agent.agentId"
+      ]
+    },
+    {
+      "class_a": "Agent",
+      "class_b": "Store",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "StoreAgent",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Agent currently assigned to a store.",
+      "direct_relation_ids": [
+        "Agent.storeId_references_Store.storeId"
+      ]
+    },
+    {
+      "class_a": "Brand",
+      "class_b": "Product",
+      "decision": "NO_NEW_CLASS",
+      "candidate_class": null,
+      "rule": "DIRECT_RELATION_SUFFICIENT",
+      "reason": "Direct FK relation exists, but the pair is better represented as a relation/dimension link.",
+      "direct_relation_ids": [
+        "Product.brandId_references_Brand.brandId"
+      ]
+    },
+    {
+      "class_a": "Category",
+      "class_b": "Product",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "CategorizedProduct",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Product assigned to a category node.",
+      "direct_relation_ids": [
+        "Product.categoryId_references_Category.categoryId"
+      ]
+    },
+    {
+      "class_a": "Channel",
+      "class_b": "ChatMessage",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ChannelChatMessage",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Chat message generated from a communication/sales channel.",
+      "direct_relation_ids": [
+        "ChatMessage.channelId_references_Channel.channelId"
+      ]
+    },
+    {
+      "class_a": "Channel",
+      "class_b": "Order",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ChannelOrder",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order by sales channel.",
+      "direct_relation_ids": [
+        "Order.channelId_references_Channel.channelId"
+      ]
+    },
+    {
+      "class_a": "ChatMessage",
+      "class_b": "Customer",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "CustomerChatMessage",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Chat message linked to a customer.",
+      "direct_relation_ids": [
+        "ChatMessage.customerId_references_Customer.customerId"
+      ]
+    },
+    {
+      "class_a": "ChatMessage",
+      "class_b": "Order",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ChatAttributedOrder",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order sourced from a specific chat message.",
+      "direct_relation_ids": [
+        "Order.chatId_references_ChatMessage.chatId"
+      ]
+    },
+    {
+      "class_a": "ChatMessage",
+      "class_b": "Product",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ProductChatMention",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Chat message explicitly linked to a product.",
+      "direct_relation_ids": [
+        "ChatMessage.productId_references_Product.productId"
+      ]
+    },
+    {
+      "class_a": "Customer",
+      "class_b": "Order",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "CustomerOrder",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order linked to the purchasing customer.",
+      "direct_relation_ids": [
+        "Order.customerId_references_Customer.customerId"
+      ]
+    },
+    {
+      "class_a": "Customer",
+      "class_b": "Region",
+      "decision": "NO_NEW_CLASS",
+      "candidate_class": null,
+      "rule": "DIRECT_RELATION_SUFFICIENT",
+      "reason": "Direct FK relation exists, but the pair is better represented as a relation/dimension link.",
+      "direct_relation_ids": [
+        "Customer.regionId_references_Region.regionId"
+      ]
+    },
+    {
+      "class_a": "Customer",
+      "class_b": "SupportTicket",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "CustomerSupportCase",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Support ticket linked to a customer.",
+      "direct_relation_ids": [
+        "SupportTicket.customerId_references_Customer.customerId"
+      ]
+    },
+    {
+      "class_a": "InventorySnapshot",
+      "class_b": "Product",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ProductInventorySnapshot",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Inventory snapshot for one product.",
+      "direct_relation_ids": [
+        "InventorySnapshot.productId_references_Product.productId"
+      ]
+    },
+    {
+      "class_a": "InventorySnapshot",
+      "class_b": "Store",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "StoreInventorySnapshot",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Inventory snapshot for one store.",
+      "direct_relation_ids": [
+        "InventorySnapshot.storeId_references_Store.storeId"
+      ]
+    },
+    {
+      "class_a": "Order",
+      "class_b": "OrderItem",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "OrderLineDetail",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order line with its parent order context.",
+      "direct_relation_ids": [
+        "OrderItem.orderId_references_Order.orderId"
+      ]
+    },
+    {
+      "class_a": "Order",
+      "class_b": "Payment",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "PaidOrder",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order with at least one successful payment.",
+      "direct_relation_ids": [
+        "Payment.orderId_references_Order.orderId"
+      ]
+    },
+    {
+      "class_a": "Order",
+      "class_b": "Shipment",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "OrderShipment",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order with shipment status and delivery context.",
+      "direct_relation_ids": [
+        "Shipment.orderId_references_Order.orderId"
+      ]
+    },
+    {
+      "class_a": "Order",
+      "class_b": "Store",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "StoreOrder",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order by responsible store.",
+      "direct_relation_ids": [
+        "Order.storeId_references_Store.storeId"
+      ]
+    },
+    {
+      "class_a": "Order",
+      "class_b": "SupportTicket",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "OrderSupportCase",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Support ticket linked to an order.",
+      "direct_relation_ids": [
+        "SupportTicket.orderId_references_Order.orderId"
+      ]
+    },
+    {
+      "class_a": "OrderItem",
+      "class_b": "Product",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ProductSalesLine",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order line linked to a product/SKU.",
+      "direct_relation_ids": [
+        "OrderItem.productId_references_Product.productId"
+      ]
+    },
+    {
+      "class_a": "OrderItem",
+      "class_b": "Promotion",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "PromotedOrderLine",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Order line linked to a transaction promotion.",
+      "direct_relation_ids": [
+        "OrderItem.promotionId_references_Promotion.promotionId"
+      ]
+    },
+    {
+      "class_a": "OrderItem",
+      "class_b": "Return",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "ReturnedOrderLine",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Return request linked to a purchased order line.",
+      "direct_relation_ids": [
+        "Return.orderItemId_references_OrderItem.orderItemId"
+      ]
+    },
+    {
+      "class_a": "Product",
+      "class_b": "ProductSupplier",
+      "decision": "NO_NEW_CLASS",
+      "candidate_class": null,
+      "rule": "DIRECT_RELATION_SUFFICIENT",
+      "reason": "Direct FK relation exists, but the pair is better represented as a relation/dimension link.",
+      "direct_relation_ids": [
+        "ProductSupplier.productId_references_Product.productId"
+      ]
+    },
+    {
+      "class_a": "Product",
+      "class_b": "Promotion",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "PrimaryPromotedProduct",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Product referencing its primary promotion.",
+      "direct_relation_ids": [
+        "Product.promotionId_references_Promotion.promotionId"
+      ]
+    },
+    {
+      "class_a": "ProductSupplier",
+      "class_b": "Supplier",
+      "decision": "YES_PROPOSED",
+      "candidate_class": "SupplierProductAssignment",
+      "rule": "DIRECT_FK_PLUS_BUSINESS_VIEW",
+      "reason": "Product-supplier assignment with sourcing metadata.",
+      "direct_relation_ids": [
+        "ProductSupplier.supplierId_references_Supplier.supplierId"
+      ]
+    },
+    {
+      "class_a": "Region",
+      "class_b": "Store",
+      "decision": "NO_NEW_CLASS",
+      "candidate_class": null,
+      "rule": "DIRECT_RELATION_SUFFICIENT",
+      "reason": "Direct FK relation exists, but the pair is better represented as a relation/dimension link.",
+      "direct_relation_ids": [
+        "Store.regionId_references_Region.regionId"
+      ]
+    },
+    {
+      "class_a": "Region",
+      "class_b": "Supplier",
+      "decision": "NO_NEW_CLASS",
+      "candidate_class": null,
+      "rule": "DIRECT_RELATION_SUFFICIENT",
+      "reason": "Direct FK relation exists, but the pair is better represented as a relation/dimension link.",
+      "direct_relation_ids": [
+        "Supplier.regionId_references_Region.regionId"
+      ]
+    },
+    {
+      "class_a": "Category",
+      "class_b": "Category",
+      "decision": "SELF_RELATION_ONLY",
+      "candidate_class": null,
+      "rule": "SAME_BASE_CLASS",
+      "reason": "Self-FK is represented as a recursive relation, not as a derived class.",
+      "direct_relation_ids": [
+        "Category.parentCategoryId_references_Category.categoryId"
+      ]
+    }
+  ]
+}

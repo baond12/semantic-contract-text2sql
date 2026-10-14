@@ -1,164 +1,120 @@
 {
-  "status": "STRUCTURAL_PASS_WITH_REVIEW",
+  "status": "PASS_FOR_INTENT_GROUND_TRUTH_WITH_METHOD_GAPS",
   "counts": {
     "business_intents": 24,
     "atomic_intents": 23,
     "composite_intents": 1,
     "scenarios": 162,
     "boundary_tests": 20,
-    "additional_boundary_tests": 10,
+    "additional_boundary_tests": 0,
     "referenced_base_classes": 20,
     "referenced_derived_classes": 25,
-    "referenced_properties": 60,
+    "referenced_properties": 62,
     "referenced_relations": 31,
     "referenced_methods": 88,
-    "missing_method_references": 28,
+    "missing_method_references": 0,
     "high_findings": 0,
-    "review_findings": 18
+    "review_findings": 0,
+    "unbound_core_scenarios": 53,
+    "additional_method_signature_qa": 39
   },
   "high_findings": [],
-  "review_findings": [
-    {
-      "category": "same_intent_boundary",
-      "boundary_id": "BND-01",
-      "intent": "CHANNEL_ANALYTICS",
-      "review_status": "SAME_INTENT_INVARIANCE_OR_REDESIGN_REQUIRED"
+  "review_findings": [],
+  "source_audit": {
+    "database_id": "omnichannel_retail",
+    "version": "v01.1_review_approved_2026-10-14",
+    "sources": {
+      "ontology_version": "v01_proposal_from_v06_final",
+      "sqlite_sha256": "948e4a1bd0b5bbb4c20e75ccfea6c4e3422c033fa44575ad615d0c3156e36916",
+      "referential_source": "SQLite PRAGMA and Object Ontology v01"
     },
-    {
-      "category": "same_intent_boundary",
-      "boundary_id": "BND-19",
-      "intent": "CHANNEL_ANALYTICS",
-      "review_status": "SAME_INTENT_INVARIANCE_OR_REDESIGN_REQUIRED"
+    "counts": {
+      "intent_count": 24,
+      "atomic_intents": 23,
+      "composite_intents": 1,
+      "scenarios": 162,
+      "actions": {
+        "ROUTE_INTENT": 138,
+        "CLARIFY": 10,
+        "UNSUPPORTED": 8,
+        "REFUSE": 6
+      },
+      "boundary_pairs": 20,
+      "base_classes": 20,
+      "derived_classes": 25,
+      "base_properties": 157,
+      "ontology_methods": 117,
+      "ontology_relations": 31,
+      "sqlite_foreign_keys": 31,
+      "unbound_core_scenarios": 53,
+      "unbound_core_scenario_ids": [
+        "BI-01-04",
+        "BI-02-02",
+        "BI-02-04",
+        "BI-03-01",
+        "BI-04-01",
+        "BI-04-03",
+        "BI-05-01",
+        "BI-05-03",
+        "BI-05-04",
+        "BI-06-02",
+        "BI-06-04",
+        "BI-07-01",
+        "BI-07-03",
+        "BI-07-04",
+        "BI-08-01",
+        "BI-08-03",
+        "BI-09-02",
+        "BI-09-04",
+        "BI-10-01",
+        "BI-10-03",
+        "BI-10-04",
+        "BI-12-02",
+        "BI-12-03",
+        "BI-13-02",
+        "BI-13-03",
+        "BI-13-04",
+        "BI-14-02",
+        "BI-14-03",
+        "BI-14-04",
+        "BI-15-01",
+        "BI-15-02",
+        "BI-15-04",
+        "BI-16-02",
+        "BI-17-03",
+        "BI-17-04",
+        "BI-18-01",
+        "BI-18-02",
+        "BI-18-03",
+        "BI-18-04",
+        "BI-19-01",
+        "BI-19-02",
+        "BI-20-01",
+        "BI-20-02",
+        "BI-20-03",
+        "BI-20-04",
+        "BI-21-02",
+        "BI-21-03",
+        "BI-21-04",
+        "BI-22-02",
+        "BI-22-03",
+        "BI-23-02",
+        "BI-23-03",
+        "BI-23-04"
+      ],
+      "other_unbound_scenarios": 44
     },
-    {
-      "category": "method_references_not_in_base_class_methods",
-      "count": 28,
-      "note": "Method references are proposal-level until method contracts are approved.",
-      "sample": [
-        "AgentAttributedOrder.countAgentOrders",
-        "AgentChatMessage.countAgentMessages",
-        "ChannelChatMessage.countConversationsByChannel",
-        "ChannelOrder.countOrdersByChannel",
-        "ChannelOrder.sumOrderGrossByChannel",
-        "ChatAttributedOrder.calculateChatOrderConversion",
-        "ChatAttributedOrder.countOrdersFromChat",
-        "CustomerDeliveryAddress.listAddresses",
-        "CustomerOrder.countRepeatPurchases",
-        "CustomerOrder.listOrdersForCustomer",
-        "CustomerSupportCase.listCustomerCases",
-        "DeliveryDestination.getShipmentDestination",
-        "OrderLineDetail.listOrderDetails",
-        "OrderShipment.countDeliveredOrders",
-        "PaidOrder.countDistinctPaidOrders",
-        "PaidOrder.sumPaidOrderValue",
-        "PrimaryPromotedProduct.listProductsWithPrimaryPromotion",
-        "ProductInventorySnapshot.getProductInventory",
-        "ProductInventorySnapshot.sumAvailableQuantityBySKU",
-        "ProductSalesLine.sumSoldQuantity"
-      ]
-    },
-    {
-      "scenario_id": "BI-03-01",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "CATEGORY_HIERARCHY",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần trả cây category 3 cấp; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-04-01",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "PROMOTION_PROGRAM",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần liệt kê mã khuyến mãi; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-04-03",
-      "finding_type": "INTENT_LABEL_CORRECTED",
-      "new_intent_id": "PRODUCT_DISCOVERY",
-      "severity": "REVIEW_APPLIED"
-    },
-    {
-      "scenario_id": "BI-06-04",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "SUPPLIER_NETWORK",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần SKU có >=2 suppliers; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-07-01",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "CUSTOMER_PROFILE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi COUNT khách VIP nhưng method hiện tại thiên về listCustomersBySegment."
-    },
-    {
-      "scenario_id": "BI-07-03",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "CUSTOMER_PROFILE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần khách theo vùng; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-13-03",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "PRODUCT_SALES",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi dòng/SKU có line-net lớn nhất nhưng method hiện tại trả scalar tổng."
-    },
-    {
-      "scenario_id": "BI-14-02",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "REVENUE_METRICS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần AOV paid orders; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-14-04",
-      "finding_type": "INTENT_LABEL_CORRECTED",
-      "new_intent_id": "CHANNEL_ANALYTICS",
-      "severity": "REVIEW_APPLIED"
-    },
-    {
-      "scenario_id": "BI-14-04",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "CHANNEL_ANALYTICS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần GMV theo từng channel; thiếu method binding rõ GMV != gross."
-    },
-    {
-      "scenario_id": "BI-15-04",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "PAYMENT_OPERATIONS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần top payment_method; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-17-04",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "RETURNS_REFUNDS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi danh sách pending Return nhưng method hiện tại trả count."
-    },
-    {
-      "scenario_id": "BI-21-02",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "CUSTOMER_SUPPORT",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi danh sách ticket High chưa resolve nhưng method hiện tại trả count."
-    },
-    {
-      "scenario_id": "BI-23-03",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "REGIONAL_COVERAGE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần rank Region by customer count; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-23-04",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "REGIONAL_COVERAGE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi số supplier theo Region nhưng method hiện tại trả list theo một region."
+    "audit": {
+      "high_findings": 0,
+      "review_findings": 0,
+      "status": "PASS_FOR_INTENT_GROUND_TRUTH_WITH_METHOD_GAPS",
+      "scope_note": "Checks annotated exclusivity, policy gate and referential mappings to Ontology and physical SQLite. Does not prove open-world exclusivity, ground-truth quality beyond reviewed samples, SQL correctness, classifier accuracy or executable method contracts.",
+      "findings": [],
+      "method_contract_gap_notice": "53 core atomic scenarios remain without approved exact method binding; use only labels for classifier until Method Contract v02.",
+      "regional_join_note": "REGIONAL_COVERAGE needs per-task planning across independent 2-class joins; no >2-base-class derived class is introduced."
     }
-  ]
+  },
+  "method_contract_gap_notice": "53 core atomic scenarios remain without approved exact method binding; use only labels for classifier until Method Contract v02.",
+  "source_validation_high_findings": 0,
+  "source_tests_passed": 17
 }

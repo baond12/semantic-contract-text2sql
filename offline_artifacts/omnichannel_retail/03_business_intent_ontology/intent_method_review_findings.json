@@ -1,108 +1,470 @@
 {
   "database_id": "omnichannel_retail",
-  "findings": [
+  "review_changes": [
     {
       "scenario_id": "BI-03-01",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "CATEGORY_HIERARCHY",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần trả cây category 3 cấp; thiếu method binding cụ thể."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "Trả cây Category ba cấp/đường dẫn đầy đủ",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-04-01",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "PROMOTION_PROGRAM",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần liệt kê mã khuyến mãi; thiếu method binding cụ thể."
-    },
-    {
-      "scenario_id": "BI-04-03",
-      "finding_type": "INTENT_LABEL_CORRECTED",
-      "new_intent_id": "PRODUCT_DISCOVERY",
-      "severity": "REVIEW_APPLIED"
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "Danh sách các mã Promotion/chương trình",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-06-04",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "SUPPLIER_NETWORK",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần SKU có >=2 suppliers; thiếu method binding cụ thể."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "SKU có >= 2 Supplier khác nhau",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-07-01",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "CUSTOMER_PROFILE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi COUNT khách VIP nhưng method hiện tại thiên về listCustomersBySegment."
+      "finding": "OUTPUT_SIGNATURE_MISMATCH",
+      "previous_method": "Customer.listCustomersBySegment",
+      "new_method": null,
+      "required_capability": "COUNT Customer theo phân khúc VIP",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-07-03",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "CUSTOMER_PROFILE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần khách theo vùng; thiếu method binding cụ thể."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "Khách hàng theo Region với output cụ thể",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-13-03",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "PRODUCT_SALES",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi dòng/SKU có line-net lớn nhất nhưng method hiện tại trả scalar tổng."
+      "finding": "OUTPUT_SIGNATURE_MISMATCH",
+      "previous_method": "OrderItem.sumLineNetAmount",
+      "new_method": null,
+      "required_capability": "Xếp hạng nhóm/SKU theo tổng line-net, kết quả trả về nhóm + số tiền",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-14-02",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "REVENUE_METRICS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần AOV paid orders; thiếu method binding cụ thể."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "AOV từ PaidOrder đã khử trùng thanh toán",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-14-04",
-      "finding_type": "INTENT_LABEL_CORRECTED",
-      "new_intent_id": "CHANNEL_ANALYTICS",
-      "severity": "REVIEW_APPLIED"
-    },
-    {
-      "scenario_id": "BI-14-04",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "CHANNEL_ANALYTICS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần GMV theo từng channel; thiếu method binding rõ GMV != gross."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "GMV của đơn đã thanh toán GROUP BY Channel, không dùng gross thay GMV",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-15-04",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "PAYMENT_OPERATIONS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần top payment_method; thiếu method binding cụ thể."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "TOP phương thức thanh toán theo số lượng hoặc số tiền (cần metric rõ)",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-17-04",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "RETURNS_REFUNDS",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi danh sách pending Return nhưng method hiện tại trả count."
+      "finding": "OUTPUT_SIGNATURE_MISMATCH",
+      "previous_method": "Return.countReturnRequests",
+      "new_method": null,
+      "required_capability": "LIST Return có trạng thái pending",
+      "resolution": "METHOD_CONTRACT_GAP"
+    },
+    {
+      "scenario_id": "BI-20-01",
+      "finding": "AMBIGUOUS_METRIC_METHOD",
+      "previous_method": "ChannelOrder.sumOrderGrossByChannel",
+      "new_method": null,
+      "required_capability": "Xác định metric doanh số (gross/GMV/net); chỉ bind khi metric rõ.",
+      "resolution": "METRIC_SLOT_REVIEW"
     },
     {
       "scenario_id": "BI-21-02",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "CUSTOMER_SUPPORT",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi danh sách ticket High chưa resolve nhưng method hiện tại trả count."
+      "finding": "OUTPUT_SIGNATURE_MISMATCH",
+      "previous_method": "SupportTicket.countUnresolvedTickets",
+      "new_method": null,
+      "required_capability": "LIST ticket High chưa được giải quyết",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-23-03",
-      "finding_type": "METHOD_CONTRACT_GAP",
-      "expected_intent_id": "REGIONAL_COVERAGE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Cần rank Region by customer count; thiếu method binding cụ thể."
+      "finding": "PRE_EXISTING_UNBOUND_METHOD",
+      "previous_method": null,
+      "new_method": null,
+      "required_capability": "Xếp hạng Region theo số khách hàng",
+      "resolution": "METHOD_CONTRACT_GAP"
     },
     {
       "scenario_id": "BI-23-04",
-      "finding_type": "METHOD_OUTPUT_REVIEW_REQUIRED",
-      "expected_intent_id": "REGIONAL_COVERAGE",
-      "severity": "REVIEW_REQUIRED",
-      "note": "Hỏi số supplier theo Region nhưng method hiện tại trả list theo một region."
+      "finding": "OUTPUT_SIGNATURE_MISMATCH",
+      "previous_method": "Supplier.listSuppliersByRegion",
+      "new_method": null,
+      "required_capability": "COUNT Supplier GROUP BY Region",
+      "resolution": "METHOD_CONTRACT_GAP"
+    }
+  ],
+  "additional_signature_qa": [
+    {
+      "scenario_id": "BI-01-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Product.searchProducts",
+      "previous_signature": "searchProducts(keyword, brand_id?, category_id?) -> List[Product]",
+      "new_method": null,
+      "required_capability": "searchProducts() không hỗ trợ điều kiện giá < 30 triệu.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-02-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Brand.countProductsByBrand",
+      "previous_signature": "countProductsByBrand(brand_id) -> integer",
+      "new_method": null,
+      "required_capability": "countProductsByBrand(brand_id) trả integer một Brand, câu hỏi yêu cầu GROUP BY từng Brand.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-02-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Brand.countProductsByBrand",
+      "previous_signature": "countProductsByBrand(brand_id) -> integer",
+      "new_method": null,
+      "required_capability": "countProductsByBrand(brand_id) không trả danh sách/ranking các Brand.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-04-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "PrimaryPromotedProduct.listProductsWithPrimaryPromotion",
+      "previous_signature": "listProductsWithPrimaryPromotion(promo_code) -> List[PrimaryPromotedProduct]",
+      "new_method": null,
+      "required_capability": "listProductsWithPrimaryPromotion(promo_code) bắt buộc promo_code, câu hỏi không chỉ định mã.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-05-01",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "PromotedOrderLine.countPromotedLines",
+      "previous_signature": "countPromotedLines(promotion_id) -> integer",
+      "new_method": null,
+      "required_capability": "countPromotedLines(promotion_id) yêu cầu một promotion_id, câu hỏi đếm tất cả các promotion.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-05-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "PromotedOrderLine.countPromotedLines",
+      "previous_signature": "countPromotedLines(promotion_id) -> integer",
+      "new_method": null,
+      "required_capability": "countPromotedLines(promotion_id) trả integer, câu hỏi yêu cầu GROUP BY từng mã.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-05-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "PromotedOrderLine.countPromotedLines",
+      "previous_signature": "countPromotedLines(promotion_id) -> integer",
+      "new_method": null,
+      "required_capability": "countPromotedLines(promotion_id) không thực hiện ranking mã khuyến mãi.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-06-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Supplier.countSuppliedProducts",
+      "previous_signature": "countSuppliedProducts(supplier_id) -> integer",
+      "new_method": null,
+      "required_capability": "countSuppliedProducts(supplier_id) trả integer một Supplier, câu hỏi yêu cầu mọi Supplier.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-07-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Customer.listCustomersBySegment",
+      "previous_signature": "listCustomersBySegment(customer_segment) -> List[Customer]",
+      "new_method": null,
+      "required_capability": "listCustomersBySegment(customer_segment) trả danh sách khách, không trả phân khúc đông nhất.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-08-01",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "CustomerOrder.countRepeatPurchases",
+      "previous_signature": "countRepeatPurchases(customer_id, as_of) -> integer",
+      "new_method": null,
+      "required_capability": "countRepeatPurchases(customer_id,as_of) trả integer một Customer, câu hỏi cần ranking Customers.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-08-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "CustomerOrder.countRepeatPurchases",
+      "previous_signature": "countRepeatPurchases(customer_id, as_of) -> integer",
+      "new_method": null,
+      "required_capability": "countRepeatPurchases(customer_id,as_of) không trả danh sách các khách mua nhiều lần.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-09-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "StoreAgent.countActiveAgents",
+      "previous_signature": "countActiveAgents(store_id) -> integer",
+      "new_method": null,
+      "required_capability": "countActiveAgents(store_id) trả integer mỗi Store; câu hỏi đòi GROUP BY tất cả Store.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-09-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "StoreAgent.listAgentsByStore",
+      "previous_signature": "listAgentsByStore(store_id) -> List[StoreAgent]",
+      "new_method": null,
+      "required_capability": "listAgentsByStore(store_id) không có team/status filter như yêu cầu.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-10-01",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ChatMessage.countMessagesByChannel",
+      "previous_signature": "countMessagesByChannel(channel_id, from?, to?) -> integer",
+      "new_method": null,
+      "required_capability": "countMessagesByChannel(channel_id,from,to) không có tham số sender_type=customer.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-10-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "AgentChatMessage.countAgentMessages",
+      "previous_signature": "countAgentMessages(agent_id, channel_id?) -> integer",
+      "new_method": null,
+      "required_capability": "countAgentMessages(agent_id,...) trả integer một Agent, câu hỏi cần top Agent.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-10-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ChannelChatMessage.countConversationsByChannel",
+      "previous_signature": "countConversationsByChannel(period) -> integer",
+      "new_method": null,
+      "required_capability": "countConversationsByChannel(period) trả integer, câu hỏi cần chỉ số theo từng Channel.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-12-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "AgentAttributedOrder.countAgentOrders",
+      "previous_signature": "countAgentOrders(agent_id, period) -> integer",
+      "new_method": null,
+      "required_capability": "countAgentOrders(agent_id,period) trả integer một Agent, câu hỏi cần top Agent.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-12-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Order.listChatAttributedOrders",
+      "previous_signature": "listChatAttributedOrders(agent_id?, channel_id?) -> List[Order]",
+      "new_method": null,
+      "required_capability": "listChatAttributedOrders(agent_id?,channel_id?) không hỗ trợ lookup Order theo mã và trả Chat message.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-13-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ProductSalesLine.sumSoldQuantity",
+      "previous_signature": "sumSoldQuantity(product_id) -> integer",
+      "new_method": null,
+      "required_capability": "sumSoldQuantity(product_id) trả integer một Product, không hỗ trợ GROUP BY SKU và theo tháng.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-13-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ProductSalesLine.sumSoldQuantity",
+      "previous_signature": "sumSoldQuantity(product_id) -> integer",
+      "new_method": null,
+      "required_capability": "sumSoldQuantity(product_id) không hỗ trợ bộ lọc Brand cho toàn bộ SKU.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-14-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Order.sumOrderGross",
+      "previous_signature": "sumOrderGross(from, to, status?) -> numeric",
+      "new_method": null,
+      "required_capability": "sumOrderGross(from,to,status?) trả scalar, câu hỏi GROUP BY từng tháng.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-15-01",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Payment.listPaymentAttempts",
+      "previous_signature": "listPaymentAttempts(order_id) -> List[Payment]",
+      "new_method": null,
+      "required_capability": "listPaymentAttempts(order_id) trả danh sách Payment, không phải COUNT attempts.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-15-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Payment.listPaymentAttempts",
+      "previous_signature": "listPaymentAttempts(order_id) -> List[Payment]",
+      "new_method": null,
+      "required_capability": "listPaymentAttempts(order_id) cần order_id và trả list, không phải COUNT pending toàn hệ thống.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-16-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Shipment.calculateDeliveryDuration",
+      "previous_signature": "calculateDeliveryDuration(shipment_id) -> duration?",
+      "new_method": null,
+      "required_capability": "calculateDeliveryDuration(shipment_id) trả một duration, không phải AVG toàn bộ shipments.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-17-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ReturnedOrderLine.sumApprovedRefundByLine",
+      "previous_signature": "sumApprovedRefundByLine(order_item_id) -> numeric",
+      "new_method": null,
+      "required_capability": "sumApprovedRefundByLine(order_item_id) trả tiền refund, câu hỏi hỏi số lượng returned.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-18-01",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ProductInventorySnapshot.getProductInventory",
+      "previous_signature": "getProductInventory(product_id, as_of) -> ProductInventorySnapshot?",
+      "new_method": null,
+      "required_capability": "getProductInventory(product_id,as_of) không nhận store_id trong khi câu hỏi yêu cầu tại Store cụ thể.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-18-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "StoreInventorySnapshot.sumAvailableByStore",
+      "previous_signature": "sumAvailableByStore(store_id, snapshot_date) -> numeric",
+      "new_method": null,
+      "required_capability": "sumAvailableByStore(store_id,snapshot_date) trả scalar một Store, câu hỏi yêu cầu kết quả theo từng Store.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-18-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "InventorySnapshot.getAvailableQuantity",
+      "previous_signature": "getAvailableQuantity(snapshot_id) -> integer",
+      "new_method": null,
+      "required_capability": "getAvailableQuantity(snapshot_id) trả số của một snapshot, câu hỏi liệt kê các SKU hết hàng tại Store.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-18-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "InventorySnapshot.getInventoryAt",
+      "previous_signature": "getInventoryAt(store_id, product_id, snapshot_date) -> InventorySnapshot?",
+      "new_method": null,
+      "required_capability": "getInventoryAt(store_id,product_id,snapshot_date) trả một snapshot, câu hỏi cần kết quả theo từng SKU.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-19-01",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Store.countStoreOrders",
+      "previous_signature": "countStoreOrders(store_id, from, to) -> integer",
+      "new_method": null,
+      "required_capability": "countStoreOrders(store_id,from,to) trả integer một Store, câu hỏi xếp hạng top 5 Store.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-19-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "StoreOrder.sumOrderValueByStore",
+      "previous_signature": "sumOrderValueByStore(store_id, period) -> numeric",
+      "new_method": null,
+      "required_capability": "sumOrderValueByStore(store_id,period) trả một scalar, câu hỏi xếp hạng các Store theo paid-order GMV.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-20-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ChannelOrder.countOrdersByChannel",
+      "previous_signature": "countOrdersByChannel(period) -> integer",
+      "new_method": null,
+      "required_capability": "countOrdersByChannel(period) trả integer, câu hỏi xếp hạng nhiều Channel.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-20-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "ChannelOrder.countOrdersByChannel",
+      "previous_signature": "countOrdersByChannel(period) -> integer",
+      "new_method": null,
+      "required_capability": "countOrdersByChannel(period) trả integer, câu hỏi so sánh nhiều Channel.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-20-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Channel.countChannelChats",
+      "previous_signature": "countChannelChats(channel_id, from, to) -> integer",
+      "new_method": null,
+      "required_capability": "countChannelChats(channel_id,..) trả scalar cho một Channel, câu hỏi tìm top Channel.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-21-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "CustomerSupportCase.listCustomerCases",
+      "previous_signature": "listCustomerCases(customer_id) -> List[CustomerSupportCase]",
+      "new_method": null,
+      "required_capability": "listCustomerCases(customer_id) không lọc theo phân khúc khách VIP trên toàn bộ customers.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-21-04",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "SupportTicket.calculateResolutionDuration",
+      "previous_signature": "calculateResolutionDuration(ticket_id) -> duration?",
+      "new_method": null,
+      "required_capability": "calculateResolutionDuration(ticket_id) trả thời gian của một ticket, không phải AVG tất cả ticket.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-22-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Address.listCustomerAddresses",
+      "previous_signature": "listCustomerAddresses(customer_id) -> List[Address]",
+      "new_method": null,
+      "required_capability": "listCustomerAddresses(customer_id) trả list, câu hỏi yêu cầu COUNT.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-22-03",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "CustomerDeliveryAddress.listAddresses",
+      "previous_signature": "listAddresses(customer_id) -> List[CustomerDeliveryAddress]",
+      "new_method": null,
+      "required_capability": "listAddresses(customer_id) thiếu lọc confirmed và câu hỏi không giới hạn một Customer.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
+    },
+    {
+      "scenario_id": "BI-23-02",
+      "finding": "ADDITIONAL_SIGNATURE_MISMATCH",
+      "previous_method": "Region.countStoresInRegion",
+      "previous_signature": "countStoresInRegion(region_id) -> integer",
+      "new_method": null,
+      "required_capability": "countStoresInRegion(region_id) trả integer một Region, câu hỏi yêu cầu GROUP BY mọi Region.",
+      "resolution": "METHOD_SIGNATURE_REVIEW_REQUIRED"
     }
   ]
 }

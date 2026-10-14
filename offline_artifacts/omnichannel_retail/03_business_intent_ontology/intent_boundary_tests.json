@@ -1,17 +1,15 @@
 {
   "database_id": "omnichannel_retail",
-  "version": "v01_approved_with_changes",
+  "version": "v01.1_review_approved_2026-10-14",
   "boundaries": [
     {
       "boundary_id": "BND-01",
-      "question_a": "GMV theo kênh tháng 9 là bao nhiêu?",
-      "intent_a": "CHANNEL_ANALYTICS",
+      "question_a": "Tổng GMV tháng 9 toàn hệ thống là bao nhiêu?",
+      "intent_a": "REVENUE_METRICS",
       "question_b": "Xếp hạng các kênh theo GMV tháng 9.",
       "intent_b": "CHANNEL_ANALYTICS",
-      "discriminator_vi": "Metric là đầu ra chính so với channel-ranking là đầu ra chính.",
-      "taxonomy_review_action": "BOUNDARY_LABEL_CORRECTED",
-      "review_status": "SAME_INTENT_INVARIANCE_OR_REDESIGN_REQUIRED",
-      "review_note": "A và B đều thuộc CHANNEL_ANALYTICS sau review. Nếu cần boundary khác intent, thay A thành 'Tổng GMV tháng 9 toàn hệ thống?' -> REVENUE_METRICS."
+      "discriminator_vi": "Một giá trị toàn hệ thống khác báo cáo theo từng Channel.",
+      "revision_type": "REWRITE_A_TO_RESTORE_DIFFERENT_INTENT_BOUNDARY"
     },
     {
       "boundary_id": "BND-02",
@@ -19,7 +17,8 @@
       "intent_a": "PRODUCT_DISCOVERY",
       "question_b": "Có bao nhiêu thương hiệu trong hệ thống?",
       "intent_b": "BRAND_CATALOG",
-      "discriminator_vi": "SKU trả về so với Brand trả về."
+      "discriminator_vi": "SKU trả về so với Brand trả về.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-03",
@@ -27,7 +26,8 @@
       "intent_a": "PRODUCT_DISCOVERY",
       "question_b": "Cho tôi cây danh mục con của Laptop.",
       "intent_b": "CATEGORY_HIERARCHY",
-      "discriminator_vi": "SKU trả về so với category node trả về."
+      "discriminator_vi": "SKU trả về so với category node trả về.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-04",
@@ -35,7 +35,8 @@
       "intent_a": "PROMOTION_PROGRAM",
       "question_b": "Mã ưu đãi nào được dùng nhiều nhất trên các dòng đơn?",
       "intent_b": "PROMOTION_USAGE",
-      "discriminator_vi": "Chương trình so với mức sử dụng trên order item."
+      "discriminator_vi": "Chương trình so với mức sử dụng trên order item.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-05",
@@ -43,7 +44,8 @@
       "intent_a": "CHAT_ACTIVITY",
       "question_b": "Tỷ lệ hội thoại Shopee chuyển thành đơn?",
       "intent_b": "ORDER_ATTRIBUTION",
-      "discriminator_vi": "Message count so với chat-to-order attribution."
+      "discriminator_vi": "Message count so với chat-to-order attribution.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-06",
@@ -51,7 +53,8 @@
       "intent_a": "ORDER_LIFECYCLE",
       "question_b": "Có bao nhiêu đơn được agent chốt?",
       "intent_b": "ORDER_ATTRIBUTION",
-      "discriminator_vi": "Count đơn thông thường so với attribution."
+      "discriminator_vi": "Count đơn thông thường so với attribution.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-07",
@@ -59,7 +62,8 @@
       "intent_a": "PAYMENT_OPERATIONS",
       "question_b": "GMV đơn đã thanh toán là bao nhiêu?",
       "intent_b": "REVENUE_METRICS",
-      "discriminator_vi": "Payment event grain so với paid-order grain."
+      "discriminator_vi": "Payment event grain so với paid-order grain.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-08",
@@ -67,7 +71,8 @@
       "intent_a": "PRODUCT_SALES",
       "question_b": "Tổng doanh thu đơn hàng theo tháng?",
       "intent_b": "REVENUE_METRICS",
-      "discriminator_vi": "SKU-quantity ranking so với monetary metric cấp đơn."
+      "discriminator_vi": "SKU-quantity ranking so với monetary metric cấp đơn.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-09",
@@ -75,7 +80,8 @@
       "intent_a": "ORDER_LIFECYCLE",
       "question_b": "Bao nhiêu vận đơn đang in_transit?",
       "intent_b": "SHIPPING_LOGISTICS",
-      "discriminator_vi": "Order status và Shipment status là hai sự kiện khác nhau."
+      "discriminator_vi": "Order status và Shipment status là hai sự kiện khác nhau.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-10",
@@ -83,7 +89,8 @@
       "intent_a": "RETURNS_REFUNDS",
       "question_b": "Doanh thu thuần sau hoàn trả?",
       "intent_b": "REVENUE_METRICS",
-      "discriminator_vi": "Refund-specific metric so với doanh thu thuần."
+      "discriminator_vi": "Refund-specific metric so với doanh thu thuần.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-11",
@@ -91,7 +98,8 @@
       "intent_a": "PRODUCT_DISCOVERY",
       "question_b": "SKU này còn bao nhiêu theo snapshot mới nhất tại HN-01?",
       "intent_b": "INVENTORY_STATUS",
-      "discriminator_vi": "Cờ trên products so với grain inventory snapshot."
+      "discriminator_vi": "Cờ trên products so với grain inventory snapshot.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-12",
@@ -99,7 +107,8 @@
       "intent_a": "STORE_ANALYTICS",
       "question_b": "Tổng số đơn toàn hệ thống?",
       "intent_b": "ORDER_LIFECYCLE",
-      "discriminator_vi": "Store rank khác count Order toàn bộ."
+      "discriminator_vi": "Store rank khác count Order toàn bộ.",
+      "revision_type": "RENAME_ONLY"
     },
     {
       "boundary_id": "BND-13",
@@ -107,7 +116,8 @@
       "intent_a": "DELIVERY_ADDRESS",
       "question_b": "Địa chỉ đã ghi nhận trên shipment là gì?",
       "intent_b": "SHIPPING_LOGISTICS",
-      "discriminator_vi": "Customer current address khác snapshot shipped-to."
+      "discriminator_vi": "Customer current address khác snapshot shipped-to.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-14",
@@ -115,7 +125,8 @@
       "intent_a": "AGENT_WORKFORCE",
       "question_b": "Agent nào chốt nhiều đơn nhất?",
       "intent_b": "ORDER_ATTRIBUTION",
-      "discriminator_vi": "Phân công nhân sự vs performance đơn gắn agent."
+      "discriminator_vi": "Phân công nhân sự vs performance đơn gắn agent.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-15",
@@ -123,7 +134,8 @@
       "intent_a": "CUSTOMER_PROFILE",
       "question_b": "Khách nào đặt nhiều đơn nhất?",
       "intent_b": "CUSTOMER_PURCHASE",
-      "discriminator_vi": "Profile population vs purchase behavior."
+      "discriminator_vi": "Profile population vs purchase behavior.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-16",
@@ -131,7 +143,8 @@
       "intent_a": "REGIONAL_COVERAGE",
       "question_b": "Các cửa hàng thuộc miền Bắc là những cửa hàng nào?",
       "intent_b": "STORE_ANALYTICS",
-      "discriminator_vi": "Vùng làm answer anchor vs trả về thực thể Store."
+      "discriminator_vi": "Vùng làm answer anchor vs trả về thực thể Store.",
+      "revision_type": "RENAME_ONLY"
     },
     {
       "boundary_id": "BND-17",
@@ -139,7 +152,8 @@
       "intent_a": "SUPPLIER_NETWORK",
       "question_b": "Top SKU bán nhiều nhất?",
       "intent_b": "PRODUCT_SALES",
-      "discriminator_vi": "Supply assignment vs commercial sales."
+      "discriminator_vi": "Supply assignment vs commercial sales.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-18",
@@ -147,18 +161,17 @@
       "intent_a": "CUSTOMER_SUPPORT",
       "question_b": "Các tin nhắn của khách VIP?",
       "intent_b": "CHAT_ACTIVITY",
-      "discriminator_vi": "Ticket grain vs message grain."
+      "discriminator_vi": "Ticket grain vs message grain.",
+      "revision_type": "KEEP"
     },
     {
       "boundary_id": "BND-19",
-      "question_a": "Tổng số đơn theo kênh?",
-      "intent_a": "CHANNEL_ANALYTICS",
+      "question_a": "Tổng số đơn toàn hệ thống là bao nhiêu?",
+      "intent_a": "ORDER_LIFECYCLE",
       "question_b": "So sánh xếp hạng các kênh theo số đơn?",
       "intent_b": "CHANNEL_ANALYTICS",
-      "discriminator_vi": "Danh sách aggregate đơn với group-by vs kênh ranking.",
-      "taxonomy_review_action": "BOUNDARY_LABEL_CORRECTED",
-      "review_status": "SAME_INTENT_INVARIANCE_OR_REDESIGN_REQUIRED",
-      "review_note": "A và B đều thuộc CHANNEL_ANALYTICS sau review. Nếu cần boundary khác intent, thay A thành 'Tổng số đơn toàn hệ thống?' -> ORDER_LIFECYCLE."
+      "discriminator_vi": "Số đơn cấp hệ thống khác số đơn phân tách theo Channel.",
+      "revision_type": "REWRITE_A_TO_RESTORE_DIFFERENT_INTENT_BOUNDARY"
     },
     {
       "boundary_id": "BND-20",
@@ -166,79 +179,8 @@
       "intent_a": "REVENUE_METRICS",
       "question_b": "Cho tôi GMV quý này và tổng tồn hiện tại.",
       "intent_b": "MULTI_OUTPUT_REPORT",
-      "discriminator_vi": "Đầu ra một metric vs hai output contracts độc lập."
-    }
-  ],
-  "additional_boundary_tests": [
-    {
-      "boundary_id": "N-01",
-      "question_a": "GMV toàn hệ thống tháng 9?",
-      "intent_a": "REVENUE_METRICS",
-      "question_b": "GMV theo từng kênh tháng 9?",
-      "intent_b": "CHANNEL_ANALYTICS"
-    },
-    {
-      "boundary_id": "N-02",
-      "question_a": "GMV từng kênh tháng 9?",
-      "intent_a": "CHANNEL_ANALYTICS",
-      "question_b": "Xếp hạng kênh theo GMV tháng 9?",
-      "intent_b": "CHANNEL_ANALYTICS"
-    },
-    {
-      "boundary_id": "N-03",
-      "question_a": "Có bao nhiêu đơn toàn hệ thống?",
-      "intent_a": "ORDER_LIFECYCLE",
-      "question_b": "Có bao nhiêu đơn theo từng kênh?",
-      "intent_b": "CHANNEL_ANALYTICS"
-    },
-    {
-      "boundary_id": "N-04",
-      "question_a": "Đơn theo từng kênh tháng 9?",
-      "intent_a": "CHANNEL_ANALYTICS",
-      "question_b": "Kênh nào có nhiều đơn nhất tháng 9?",
-      "intent_b": "CHANNEL_ANALYTICS"
-    },
-    {
-      "boundary_id": "N-05",
-      "question_a": "Cho biết tất cả chương trình khuyến mãi còn hiệu lực.",
-      "intent_a": "PROMOTION_PROGRAM",
-      "question_b": "Liệt kê SKU có promotion chính đang hiệu lực.",
-      "intent_b": "PRODUCT_DISCOVERY"
-    },
-    {
-      "boundary_id": "N-06",
-      "question_a": "Các SKU đang có hàng trong catalog?",
-      "intent_a": "PRODUCT_DISCOVERY",
-      "question_b": "SKU nào được cung cấp bởi >=2 nhà cung cấp?",
-      "intent_b": "SUPPLIER_NETWORK"
-    },
-    {
-      "boundary_id": "N-07",
-      "question_a": "Tổng giá trị dòng hàng theo từng SKU?",
-      "intent_a": "PRODUCT_SALES",
-      "question_b": "Tổng GMV các đơn đã thanh toán?",
-      "intent_b": "REVENUE_METRICS"
-    },
-    {
-      "boundary_id": "N-08",
-      "question_a": "Có bao nhiêu cửa hàng theo vùng?",
-      "intent_a": "REGIONAL_COVERAGE",
-      "question_b": "Danh sách cửa hàng miền Bắc?",
-      "intent_b": "STORE_ANALYTICS"
-    },
-    {
-      "boundary_id": "N-09",
-      "question_a": "Top cửa hàng theo số đơn?",
-      "intent_a": "STORE_ANALYTICS",
-      "question_b": "Số đơn theo từng cửa hàng?",
-      "intent_b": "STORE_ANALYTICS"
-    },
-    {
-      "boundary_id": "N-10",
-      "question_a": "Tổng giá trị payment success?",
-      "intent_a": "PAYMENT_OPERATIONS",
-      "question_b": "GMV đơn đã thanh toán là bao nhiêu?",
-      "intent_b": "REVENUE_METRICS"
+      "discriminator_vi": "Đầu ra một metric vs hai output contracts độc lập.",
+      "revision_type": "KEEP"
     }
   ]
 }

@@ -9,6 +9,7 @@
     "properties": 157,
     "relations": 31,
     "class_methods": 66,
+    "derived_methods": 51,
     "method_candidates": 20,
     "candidate_pair_reviews": 190,
     "direct_pair_reviews": 31,

@@ -1,0 +1,28 @@
+{
+  "artifact": "intent_taxonomy_v01_1",
+  "database_id": "omnichannel_retail",
+  "intent_labels_status": "FROZEN_FOR_ANNOTATED_CASES",
+  "execution_status": "METHOD_CONTRACT_GAPS_PENDING",
+  "source_sha256": {
+    "business_intents.json": "73b2cbc6a7055a850b9d55bd7c3a8f87daaeceae0ae7d0bc947f45eacd12bdcc",
+    "intent_scenarios.json": "cfd03f0b0e6e7401f807c8d836c3519535cc59fb3abbd45dc6899f6611821af0",
+    "intent_boundary_tests.json": "e9a6ad6c0b96ee30513cd59037361a879bf2c71165500f79d5e085431c0aec77",
+    "review_report_vi.md": "0e8c47d3e2d755b92663c2fc2588ff493d2dc0a09598d70b590510698a4033fd",
+    "ontology_inventory_v01.json": "e83470b0158c6b77cf9cf7b6fb2f25cd30c19a701815e1880123918049ec546f",
+    "omnichannel_retail.sqlite3": "948e4a1bd0b5bbb4c20e75ccfea6c4e3422c033fa44575ad615d0c3156e36916"
+  },
+  "outputs": {
+    "taxonomy_freeze_review_v01_1.md": "acfa5031d6a89dc244ee147d860259522564d96c02dcb4e91ee0ace13325cdb5",
+    "intent_to_ontology_mapping_v01_1.csv": "3dec90d01ff248f8acc0e515264d6e27176fed6eee2ccf15c55a4eb535b2a9c9",
+    "README.md": "017b9a71996053faa3eaee0160ad1a1d1cd3be1b85d3b59c75b44f44fb1769e9",
+    "intent_scenarios_v01_1.json": "408e9a02d22312b17fea712995cec3ecb612874cdbdb546d5da81da6d095fa33",
+    "additional_method_signature_qa_v01_1.json": "79a45a8b1b8ba0861d2a6d6a8ae6797b3d776270d47e082535f9a1cb1ca89b95",
+    "review_changes_v01_1.json": "dd8f40205b6625251af89bc897039eb88b6540461efc23ea12c1eb096ca0ecbf",
+    "intent_scenarios_v01_1.xlsx": "c4c63120e5f80384469dc0a2907c8ac95960430a4faff7497e3ff1b59334adaa",
+    "intent_ontology_audit_v01_1.json": "77e971088423ecb1b7e264f3aef07662038e925716c1764ffed9b7f64363ad28",
+    "business_intents_v01_1.json": "3771b73d4742605bea701620ffa0eb95dd97068a270dcd6f034a2e08bb3a5702",
+    "intent_boundary_tests_v01_1.json": "b385cf1750bac9cc022b1ae6766fbfa9d850709bd8874c33ccef4c3db3367157"
+  },
+  "validation_high_findings": 0,
+  "tests_passed": 17
+}

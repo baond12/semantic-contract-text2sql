@@ -1,0 +1,1841 @@
+{
+  "database_id": "omnichannel_retail",
+  "derived_methods": [
+    {
+      "method_id": "AgentAttributedOrder.countAgentOrders",
+      "method_name": "countAgentOrders",
+      "method_owner_class": "AgentAttributedOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only derived method AgentAttributedOrder.countAgentOrders.",
+      "target_classes": [
+        "AgentAttributedOrder"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class AgentAttributedOrder",
+        "use only source classes Agent, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Agent",
+        "Order"
+      ],
+      "source_tables": [
+        "agents",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "AgentAttributedOrder.sumAttributedOrderValue",
+      "method_name": "sumAttributedOrderValue",
+      "method_owner_class": "AgentAttributedOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only derived method AgentAttributedOrder.sumAttributedOrderValue.",
+      "target_classes": [
+        "AgentAttributedOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class AgentAttributedOrder",
+        "use only source classes Agent, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Agent",
+        "Order"
+      ],
+      "source_tables": [
+        "agents",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "AgentChatMessage.countAgentMessages",
+      "method_name": "countAgentMessages",
+      "method_owner_class": "AgentChatMessage",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method AgentChatMessage.countAgentMessages.",
+      "target_classes": [
+        "AgentChatMessage"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class AgentChatMessage",
+        "use only source classes Agent, ChatMessage"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Agent",
+        "ChatMessage"
+      ],
+      "source_tables": [
+        "agents",
+        "chats"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "AgentChatMessage.listMessagesByAgent",
+      "method_name": "listMessagesByAgent",
+      "method_owner_class": "AgentChatMessage",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method AgentChatMessage.listMessagesByAgent.",
+      "target_classes": [
+        "AgentChatMessage"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class AgentChatMessage",
+        "use only source classes Agent, ChatMessage"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Agent",
+        "ChatMessage"
+      ],
+      "source_tables": [
+        "agents",
+        "chats"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CategorizedProduct.getProductCategoryPath",
+      "method_name": "getProductCategoryPath",
+      "method_owner_class": "CategorizedProduct",
+      "method_scope": "derived_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only derived method CategorizedProduct.getProductCategoryPath.",
+      "target_classes": [
+        "CategorizedProduct"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CategorizedProduct",
+        "use only source classes Category, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Category",
+        "Product"
+      ],
+      "source_tables": [
+        "categories",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CategorizedProduct.listProductsByCategory",
+      "method_name": "listProductsByCategory",
+      "method_owner_class": "CategorizedProduct",
+      "method_scope": "derived_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only derived method CategorizedProduct.listProductsByCategory.",
+      "target_classes": [
+        "CategorizedProduct"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CategorizedProduct",
+        "use only source classes Category, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Category",
+        "Product"
+      ],
+      "source_tables": [
+        "categories",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ChannelChatMessage.countConversationsByChannel",
+      "method_name": "countConversationsByChannel",
+      "method_owner_class": "ChannelChatMessage",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method ChannelChatMessage.countConversationsByChannel.",
+      "target_classes": [
+        "ChannelChatMessage"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ChannelChatMessage",
+        "use only source classes Channel, ChatMessage"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Channel",
+        "ChatMessage"
+      ],
+      "source_tables": [
+        "channels",
+        "chats"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ChannelChatMessage.countMessagesByChannel",
+      "method_name": "countMessagesByChannel",
+      "method_owner_class": "ChannelChatMessage",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method ChannelChatMessage.countMessagesByChannel.",
+      "target_classes": [
+        "ChannelChatMessage"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ChannelChatMessage",
+        "use only source classes Channel, ChatMessage"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Channel",
+        "ChatMessage"
+      ],
+      "source_tables": [
+        "channels",
+        "chats"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ChannelOrder.countOrdersByChannel",
+      "method_name": "countOrdersByChannel",
+      "method_owner_class": "ChannelOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only derived method ChannelOrder.countOrdersByChannel.",
+      "target_classes": [
+        "ChannelOrder"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ChannelOrder",
+        "use only source classes Channel, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Channel",
+        "Order"
+      ],
+      "source_tables": [
+        "channels",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ChannelOrder.sumOrderGrossByChannel",
+      "method_name": "sumOrderGrossByChannel",
+      "method_owner_class": "ChannelOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only derived method ChannelOrder.sumOrderGrossByChannel.",
+      "target_classes": [
+        "ChannelOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ChannelOrder",
+        "use only source classes Channel, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Channel",
+        "Order"
+      ],
+      "source_tables": [
+        "channels",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ChatAttributedOrder.calculateChatOrderConversion",
+      "method_name": "calculateChatOrderConversion",
+      "method_owner_class": "ChatAttributedOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only derived method ChatAttributedOrder.calculateChatOrderConversion.",
+      "target_classes": [
+        "ChatAttributedOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ChatAttributedOrder",
+        "use only source classes ChatMessage, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ChatMessage",
+        "Order"
+      ],
+      "source_tables": [
+        "chats",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ChatAttributedOrder.countOrdersFromChat",
+      "method_name": "countOrdersFromChat",
+      "method_owner_class": "ChatAttributedOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only derived method ChatAttributedOrder.countOrdersFromChat.",
+      "target_classes": [
+        "ChatAttributedOrder"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ChatAttributedOrder",
+        "use only source classes ChatMessage, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ChatMessage",
+        "Order"
+      ],
+      "source_tables": [
+        "chats",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerChatMessage.countCustomerConversations",
+      "method_name": "countCustomerConversations",
+      "method_owner_class": "CustomerChatMessage",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method CustomerChatMessage.countCustomerConversations.",
+      "target_classes": [
+        "CustomerChatMessage"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerChatMessage",
+        "use only source classes ChatMessage, Customer"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ChatMessage",
+        "Customer"
+      ],
+      "source_tables": [
+        "chats",
+        "customers"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerChatMessage.listCustomerMessages",
+      "method_name": "listCustomerMessages",
+      "method_owner_class": "CustomerChatMessage",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method CustomerChatMessage.listCustomerMessages.",
+      "target_classes": [
+        "CustomerChatMessage"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerChatMessage",
+        "use only source classes ChatMessage, Customer"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ChatMessage",
+        "Customer"
+      ],
+      "source_tables": [
+        "chats",
+        "customers"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerDeliveryAddress.getDefaultAddress",
+      "method_name": "getDefaultAddress",
+      "method_owner_class": "CustomerDeliveryAddress",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only derived method CustomerDeliveryAddress.getDefaultAddress.",
+      "target_classes": [
+        "CustomerDeliveryAddress"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerDeliveryAddress",
+        "use only source classes Address, Customer"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Address",
+        "Customer"
+      ],
+      "source_tables": [
+        "addresses",
+        "customers"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerDeliveryAddress.listAddresses",
+      "method_name": "listAddresses",
+      "method_owner_class": "CustomerDeliveryAddress",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only derived method CustomerDeliveryAddress.listAddresses.",
+      "target_classes": [
+        "CustomerDeliveryAddress"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerDeliveryAddress",
+        "use only source classes Address, Customer"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Address",
+        "Customer"
+      ],
+      "source_tables": [
+        "addresses",
+        "customers"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerOrder.countRepeatPurchases",
+      "method_name": "countRepeatPurchases",
+      "method_owner_class": "CustomerOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Customers",
+      "description": "Approved read-only derived method CustomerOrder.countRepeatPurchases.",
+      "target_classes": [
+        "CustomerOrder"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerOrder",
+        "use only source classes Customer, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Customer",
+        "Order"
+      ],
+      "source_tables": [
+        "customers",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerOrder.listOrdersForCustomer",
+      "method_name": "listOrdersForCustomer",
+      "method_owner_class": "CustomerOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Customers",
+      "description": "Approved read-only derived method CustomerOrder.listOrdersForCustomer.",
+      "target_classes": [
+        "CustomerOrder"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerOrder",
+        "use only source classes Customer, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Customer",
+        "Order"
+      ],
+      "source_tables": [
+        "customers",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerSupportCase.countOpenCasesBySegment",
+      "method_name": "countOpenCasesBySegment",
+      "method_owner_class": "CustomerSupportCase",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method CustomerSupportCase.countOpenCasesBySegment.",
+      "target_classes": [
+        "CustomerSupportCase"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerSupportCase",
+        "use only source classes Customer, SupportTicket"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Customer",
+        "SupportTicket"
+      ],
+      "source_tables": [
+        "customers",
+        "support_tickets"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "CustomerSupportCase.listCustomerCases",
+      "method_name": "listCustomerCases",
+      "method_owner_class": "CustomerSupportCase",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method CustomerSupportCase.listCustomerCases.",
+      "target_classes": [
+        "CustomerSupportCase"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class CustomerSupportCase",
+        "use only source classes Customer, SupportTicket"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Customer",
+        "SupportTicket"
+      ],
+      "source_tables": [
+        "customers",
+        "support_tickets"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "DeliveryDestination.compareSnapshotToCurrentAddress",
+      "method_name": "compareSnapshotToCurrentAddress",
+      "method_owner_class": "DeliveryDestination",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only derived method DeliveryDestination.compareSnapshotToCurrentAddress.",
+      "target_classes": [
+        "DeliveryDestination"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class DeliveryDestination",
+        "use only source classes Address, Shipment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Address",
+        "Shipment"
+      ],
+      "source_tables": [
+        "addresses",
+        "shipments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "DeliveryDestination.getShipmentDestination",
+      "method_name": "getShipmentDestination",
+      "method_owner_class": "DeliveryDestination",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only derived method DeliveryDestination.getShipmentDestination.",
+      "target_classes": [
+        "DeliveryDestination"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class DeliveryDestination",
+        "use only source classes Address, Shipment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Address",
+        "Shipment"
+      ],
+      "source_tables": [
+        "addresses",
+        "shipments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "OrderLineDetail.listOrderDetails",
+      "method_name": "listOrderDetails",
+      "method_owner_class": "OrderLineDetail",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only derived method OrderLineDetail.listOrderDetails.",
+      "target_classes": [
+        "OrderLineDetail"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class OrderLineDetail",
+        "use only source classes OrderItem, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Order"
+      ],
+      "source_tables": [
+        "order_items",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "OrderLineDetail.sumOrderLineNet",
+      "method_name": "sumOrderLineNet",
+      "method_owner_class": "OrderLineDetail",
+      "method_scope": "derived_class",
+      "business_domain": "Orders",
+      "description": "Approved read-only derived method OrderLineDetail.sumOrderLineNet.",
+      "target_classes": [
+        "OrderLineDetail"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class OrderLineDetail",
+        "use only source classes OrderItem, Order"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Order"
+      ],
+      "source_tables": [
+        "order_items",
+        "orders"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "OrderShipment.countDeliveredOrders",
+      "method_name": "countDeliveredOrders",
+      "method_owner_class": "OrderShipment",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only derived method OrderShipment.countDeliveredOrders.",
+      "target_classes": [
+        "OrderShipment"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class OrderShipment",
+        "use only source classes Order, Shipment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Shipment"
+      ],
+      "source_tables": [
+        "orders",
+        "shipments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "OrderShipment.getOrderShipment",
+      "method_name": "getOrderShipment",
+      "method_owner_class": "OrderShipment",
+      "method_scope": "derived_class",
+      "business_domain": "Shipping",
+      "description": "Approved read-only derived method OrderShipment.getOrderShipment.",
+      "target_classes": [
+        "OrderShipment"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class OrderShipment",
+        "use only source classes Order, Shipment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Shipment"
+      ],
+      "source_tables": [
+        "orders",
+        "shipments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "OrderSupportCase.countOrderRelatedTickets",
+      "method_name": "countOrderRelatedTickets",
+      "method_owner_class": "OrderSupportCase",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method OrderSupportCase.countOrderRelatedTickets.",
+      "target_classes": [
+        "OrderSupportCase"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class OrderSupportCase",
+        "use only source classes Order, SupportTicket"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "SupportTicket"
+      ],
+      "source_tables": [
+        "orders",
+        "support_tickets"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "OrderSupportCase.listSupportCasesByOrder",
+      "method_name": "listSupportCasesByOrder",
+      "method_owner_class": "OrderSupportCase",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method OrderSupportCase.listSupportCasesByOrder.",
+      "target_classes": [
+        "OrderSupportCase"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class OrderSupportCase",
+        "use only source classes Order, SupportTicket"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "SupportTicket"
+      ],
+      "source_tables": [
+        "orders",
+        "support_tickets"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PaidOrder.countDistinctPaidOrders",
+      "method_name": "countDistinctPaidOrders",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "Approved read-only derived method PaidOrder.countDistinctPaidOrders.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PaidOrder",
+        "use only source classes Order, Payment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Payment"
+      ],
+      "source_tables": [
+        "orders",
+        "payments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PaidOrder.listPaidOrders",
+      "method_name": "listPaidOrders",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "Approved read-only derived method PaidOrder.listPaidOrders.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PaidOrder",
+        "use only source classes Order, Payment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Payment"
+      ],
+      "source_tables": [
+        "orders",
+        "payments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PaidOrder.sumPaidOrderValue",
+      "method_name": "sumPaidOrderValue",
+      "method_owner_class": "PaidOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Revenue",
+      "description": "Approved read-only derived method PaidOrder.sumPaidOrderValue.",
+      "target_classes": [
+        "PaidOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PaidOrder",
+        "use only source classes Order, Payment"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Payment"
+      ],
+      "source_tables": [
+        "orders",
+        "payments"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PrimaryPromotedProduct.countPrimaryPromotionSKUs",
+      "method_name": "countPrimaryPromotionSKUs",
+      "method_owner_class": "PrimaryPromotedProduct",
+      "method_scope": "derived_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only derived method PrimaryPromotedProduct.countPrimaryPromotionSKUs.",
+      "target_classes": [
+        "PrimaryPromotedProduct"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PrimaryPromotedProduct",
+        "use only source classes Product, Promotion"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Product",
+        "Promotion"
+      ],
+      "source_tables": [
+        "products",
+        "promotions"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PrimaryPromotedProduct.listProductsWithPrimaryPromotion",
+      "method_name": "listProductsWithPrimaryPromotion",
+      "method_owner_class": "PrimaryPromotedProduct",
+      "method_scope": "derived_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only derived method PrimaryPromotedProduct.listProductsWithPrimaryPromotion.",
+      "target_classes": [
+        "PrimaryPromotedProduct"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PrimaryPromotedProduct",
+        "use only source classes Product, Promotion"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Product",
+        "Promotion"
+      ],
+      "source_tables": [
+        "products",
+        "promotions"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ProductChatMention.countProductMentionMessages",
+      "method_name": "countProductMentionMessages",
+      "method_owner_class": "ProductChatMention",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method ProductChatMention.countProductMentionMessages.",
+      "target_classes": [
+        "ProductChatMention"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ProductChatMention",
+        "use only source classes ChatMessage, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ChatMessage",
+        "Product"
+      ],
+      "source_tables": [
+        "chats",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ProductChatMention.listProductInquiries",
+      "method_name": "listProductInquiries",
+      "method_owner_class": "ProductChatMention",
+      "method_scope": "derived_class",
+      "business_domain": "Support",
+      "description": "Approved read-only derived method ProductChatMention.listProductInquiries.",
+      "target_classes": [
+        "ProductChatMention"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ProductChatMention",
+        "use only source classes ChatMessage, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ChatMessage",
+        "Product"
+      ],
+      "source_tables": [
+        "chats",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ProductInventorySnapshot.getProductInventory",
+      "method_name": "getProductInventory",
+      "method_owner_class": "ProductInventorySnapshot",
+      "method_scope": "derived_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only derived method ProductInventorySnapshot.getProductInventory.",
+      "target_classes": [
+        "ProductInventorySnapshot"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ProductInventorySnapshot",
+        "use only source classes InventorySnapshot, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "InventorySnapshot",
+        "Product"
+      ],
+      "source_tables": [
+        "inventory_snapshots",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ProductInventorySnapshot.sumAvailableQuantityBySKU",
+      "method_name": "sumAvailableQuantityBySKU",
+      "method_owner_class": "ProductInventorySnapshot",
+      "method_scope": "derived_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only derived method ProductInventorySnapshot.sumAvailableQuantityBySKU.",
+      "target_classes": [
+        "ProductInventorySnapshot"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ProductInventorySnapshot",
+        "use only source classes InventorySnapshot, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "InventorySnapshot",
+        "Product"
+      ],
+      "source_tables": [
+        "inventory_snapshots",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ProductSalesLine.sumSoldQuantity",
+      "method_name": "sumSoldQuantity",
+      "method_owner_class": "ProductSalesLine",
+      "method_scope": "derived_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only derived method ProductSalesLine.sumSoldQuantity.",
+      "target_classes": [
+        "ProductSalesLine"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ProductSalesLine",
+        "use only source classes OrderItem, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Product"
+      ],
+      "source_tables": [
+        "order_items",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ProductSalesLine.topSoldProductsByQuantity",
+      "method_name": "topSoldProductsByQuantity",
+      "method_owner_class": "ProductSalesLine",
+      "method_scope": "derived_class",
+      "business_domain": "Catalog",
+      "description": "Approved read-only derived method ProductSalesLine.topSoldProductsByQuantity.",
+      "target_classes": [
+        "ProductSalesLine"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ProductSalesLine",
+        "use only source classes OrderItem, Product"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Product"
+      ],
+      "source_tables": [
+        "order_items",
+        "products"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PromotedOrderLine.countPromotedLines",
+      "method_name": "countPromotedLines",
+      "method_owner_class": "PromotedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only derived method PromotedOrderLine.countPromotedLines.",
+      "target_classes": [
+        "PromotedOrderLine"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PromotedOrderLine",
+        "use only source classes OrderItem, Promotion"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Promotion"
+      ],
+      "source_tables": [
+        "order_items",
+        "promotions"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "PromotedOrderLine.sumLineDiscountByPromotion",
+      "method_name": "sumLineDiscountByPromotion",
+      "method_owner_class": "PromotedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Promotion",
+      "description": "Approved read-only derived method PromotedOrderLine.sumLineDiscountByPromotion.",
+      "target_classes": [
+        "PromotedOrderLine"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class PromotedOrderLine",
+        "use only source classes OrderItem, Promotion"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Promotion"
+      ],
+      "source_tables": [
+        "order_items",
+        "promotions"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ReturnedOrderLine.returnRatioByLine",
+      "method_name": "returnRatioByLine",
+      "method_owner_class": "ReturnedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Returns",
+      "description": "Approved read-only derived method ReturnedOrderLine.returnRatioByLine.",
+      "target_classes": [
+        "ReturnedOrderLine"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ReturnedOrderLine",
+        "use only source classes OrderItem, Return"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Return"
+      ],
+      "source_tables": [
+        "order_items",
+        "returns"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "ReturnedOrderLine.sumApprovedRefundByLine",
+      "method_name": "sumApprovedRefundByLine",
+      "method_owner_class": "ReturnedOrderLine",
+      "method_scope": "derived_class",
+      "business_domain": "Returns",
+      "description": "Approved read-only derived method ReturnedOrderLine.sumApprovedRefundByLine.",
+      "target_classes": [
+        "ReturnedOrderLine"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class ReturnedOrderLine",
+        "use only source classes OrderItem, Return"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "OrderItem",
+        "Return"
+      ],
+      "source_tables": [
+        "order_items",
+        "returns"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "StoreAgent.countActiveAgents",
+      "method_name": "countActiveAgents",
+      "method_owner_class": "StoreAgent",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only derived method StoreAgent.countActiveAgents.",
+      "target_classes": [
+        "StoreAgent"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class StoreAgent",
+        "use only source classes Agent, Store"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Agent",
+        "Store"
+      ],
+      "source_tables": [
+        "agents",
+        "stores"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "StoreAgent.listAgentsByStore",
+      "method_name": "listAgentsByStore",
+      "method_owner_class": "StoreAgent",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only derived method StoreAgent.listAgentsByStore.",
+      "target_classes": [
+        "StoreAgent"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class StoreAgent",
+        "use only source classes Agent, Store"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Agent",
+        "Store"
+      ],
+      "source_tables": [
+        "agents",
+        "stores"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "StoreInventorySnapshot.listStoreSnapshots",
+      "method_name": "listStoreSnapshots",
+      "method_owner_class": "StoreInventorySnapshot",
+      "method_scope": "derived_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only derived method StoreInventorySnapshot.listStoreSnapshots.",
+      "target_classes": [
+        "StoreInventorySnapshot"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class StoreInventorySnapshot",
+        "use only source classes InventorySnapshot, Store"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "InventorySnapshot",
+        "Store"
+      ],
+      "source_tables": [
+        "inventory_snapshots",
+        "stores"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "StoreInventorySnapshot.sumAvailableByStore",
+      "method_name": "sumAvailableByStore",
+      "method_owner_class": "StoreInventorySnapshot",
+      "method_scope": "derived_class",
+      "business_domain": "Inventory",
+      "description": "Approved read-only derived method StoreInventorySnapshot.sumAvailableByStore.",
+      "target_classes": [
+        "StoreInventorySnapshot"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class StoreInventorySnapshot",
+        "use only source classes InventorySnapshot, Store"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "InventorySnapshot",
+        "Store"
+      ],
+      "source_tables": [
+        "inventory_snapshots",
+        "stores"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "StoreOrder.countOrdersByStore",
+      "method_name": "countOrdersByStore",
+      "method_owner_class": "StoreOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only derived method StoreOrder.countOrdersByStore.",
+      "target_classes": [
+        "StoreOrder"
+      ],
+      "operation_intent": "count",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class StoreOrder",
+        "use only source classes Order, Store"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Store"
+      ],
+      "source_tables": [
+        "orders",
+        "stores"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "StoreOrder.sumOrderValueByStore",
+      "method_name": "sumOrderValueByStore",
+      "method_owner_class": "StoreOrder",
+      "method_scope": "derived_class",
+      "business_domain": "Channel & Store",
+      "description": "Approved read-only derived method StoreOrder.sumOrderValueByStore.",
+      "target_classes": [
+        "StoreOrder"
+      ],
+      "operation_intent": "aggregate",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class StoreOrder",
+        "use only source classes Order, Store"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "Order",
+        "Store"
+      ],
+      "source_tables": [
+        "orders",
+        "stores"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "SupplierProductAssignment.findPrimarySupplierForProduct",
+      "method_name": "findPrimarySupplierForProduct",
+      "method_owner_class": "SupplierProductAssignment",
+      "method_scope": "derived_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only derived method SupplierProductAssignment.findPrimarySupplierForProduct.",
+      "target_classes": [
+        "SupplierProductAssignment"
+      ],
+      "operation_intent": "lookup",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class SupplierProductAssignment",
+        "use only source classes ProductSupplier, Supplier"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ProductSupplier",
+        "Supplier"
+      ],
+      "source_tables": [
+        "product_suppliers",
+        "suppliers"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    },
+    {
+      "method_id": "SupplierProductAssignment.listSupplyAssignments",
+      "method_name": "listSupplyAssignments",
+      "method_owner_class": "SupplierProductAssignment",
+      "method_scope": "derived_class",
+      "business_domain": "Supplier",
+      "description": "Approved read-only derived method SupplierProductAssignment.listSupplyAssignments.",
+      "target_classes": [
+        "SupplierProductAssignment"
+      ],
+      "operation_intent": "list",
+      "required_parameters": [],
+      "optional_parameters": [
+        "filter_criteria",
+        "limit",
+        "order",
+        "time_period"
+      ],
+      "required_semantics": [
+        "operate on derived class SupplierProductAssignment",
+        "use only source classes ProductSupplier, Supplier"
+      ],
+      "forbidden_semantics": [
+        "do not add a third base class unless a later planner composes multiple methods"
+      ],
+      "source_classes": [
+        "ProductSupplier",
+        "Supplier"
+      ],
+      "source_tables": [
+        "product_suppliers",
+        "suppliers"
+      ],
+      "implementation_status": "PROPOSED_READ_ONLY",
+      "construction_source": "approved_package_derived_method_rule"
+    }
+  ]
+}

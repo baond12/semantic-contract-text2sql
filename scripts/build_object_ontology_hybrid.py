@@ -525,6 +525,35 @@ APPROVED_BASE_CLASS_METHOD_IDS = {
 }
 
 
+APPROVED_DERIVED_CLASS_METHOD_IDS = {
+    "CustomerDeliveryAddress": ["CustomerDeliveryAddress.listAddresses", "CustomerDeliveryAddress.getDefaultAddress"],
+    "DeliveryDestination": ["DeliveryDestination.getShipmentDestination", "DeliveryDestination.compareSnapshotToCurrentAddress"],
+    "AgentChatMessage": ["AgentChatMessage.listMessagesByAgent", "AgentChatMessage.countAgentMessages"],
+    "AgentAttributedOrder": ["AgentAttributedOrder.countAgentOrders", "AgentAttributedOrder.sumAttributedOrderValue"],
+    "StoreAgent": ["StoreAgent.listAgentsByStore", "StoreAgent.countActiveAgents"],
+    "CategorizedProduct": ["CategorizedProduct.listProductsByCategory", "CategorizedProduct.getProductCategoryPath"],
+    "ChannelChatMessage": ["ChannelChatMessage.countMessagesByChannel", "ChannelChatMessage.countConversationsByChannel"],
+    "ChannelOrder": ["ChannelOrder.countOrdersByChannel", "ChannelOrder.sumOrderGrossByChannel"],
+    "CustomerChatMessage": ["CustomerChatMessage.listCustomerMessages", "CustomerChatMessage.countCustomerConversations"],
+    "ChatAttributedOrder": ["ChatAttributedOrder.countOrdersFromChat", "ChatAttributedOrder.calculateChatOrderConversion"],
+    "ProductChatMention": ["ProductChatMention.countProductMentionMessages", "ProductChatMention.listProductInquiries"],
+    "CustomerOrder": ["CustomerOrder.listOrdersForCustomer", "CustomerOrder.countRepeatPurchases"],
+    "CustomerSupportCase": ["CustomerSupportCase.listCustomerCases", "CustomerSupportCase.countOpenCasesBySegment"],
+    "ProductInventorySnapshot": ["ProductInventorySnapshot.getProductInventory", "ProductInventorySnapshot.sumAvailableQuantityBySKU"],
+    "StoreInventorySnapshot": ["StoreInventorySnapshot.listStoreSnapshots", "StoreInventorySnapshot.sumAvailableByStore"],
+    "OrderLineDetail": ["OrderLineDetail.listOrderDetails", "OrderLineDetail.sumOrderLineNet"],
+    "ProductSalesLine": ["ProductSalesLine.topSoldProductsByQuantity", "ProductSalesLine.sumSoldQuantity"],
+    "PromotedOrderLine": ["PromotedOrderLine.countPromotedLines", "PromotedOrderLine.sumLineDiscountByPromotion"],
+    "ReturnedOrderLine": ["ReturnedOrderLine.sumApprovedRefundByLine", "ReturnedOrderLine.returnRatioByLine"],
+    "PaidOrder": ["PaidOrder.listPaidOrders", "PaidOrder.countDistinctPaidOrders", "PaidOrder.sumPaidOrderValue"],
+    "OrderShipment": ["OrderShipment.getOrderShipment", "OrderShipment.countDeliveredOrders"],
+    "StoreOrder": ["StoreOrder.countOrdersByStore", "StoreOrder.sumOrderValueByStore"],
+    "OrderSupportCase": ["OrderSupportCase.listSupportCasesByOrder", "OrderSupportCase.countOrderRelatedTickets"],
+    "SupplierProductAssignment": ["SupplierProductAssignment.listSupplyAssignments", "SupplierProductAssignment.findPrimarySupplierForProduct"],
+    "PrimaryPromotedProduct": ["PrimaryPromotedProduct.listProductsWithPrimaryPromotion", "PrimaryPromotedProduct.countPrimaryPromotionSKUs"],
+}
+
+
 def infer_operation_intent_from_method_name(method_name):
     method_name_lower = method_name.lower()
     if method_name_lower.startswith("count"):
@@ -1143,6 +1172,38 @@ def build_class_method_candidates(classes, properties):
     return sorted(methods, key=lambda item: item["method_id"])
 
 
+def build_derived_method_candidates(derived_classes):
+    methods = []
+    for cls in derived_classes:
+        class_id = cls["class_id"]
+        for method_id in APPROVED_DERIVED_CLASS_METHOD_IDS.get(class_id, []):
+            method_name = method_id.split(".", 1)[1]
+            methods.append(
+                {
+                    "method_id": method_id,
+                    "method_name": method_name,
+                    "method_owner_class": class_id,
+                    "method_scope": "derived_class",
+                    "business_domain": cls.get("business_domain"),
+                    "description": f"Approved read-only derived method {method_id}.",
+                    "target_classes": [class_id],
+                    "operation_intent": infer_operation_intent_from_method_name(method_name),
+                    "required_parameters": [],
+                    "optional_parameters": ["filter_criteria", "limit", "order", "time_period"],
+                    "required_semantics": [
+                        f"operate on derived class {class_id}",
+                        f"use only source classes {', '.join(cls.get('source_classes', []))}",
+                    ],
+                    "forbidden_semantics": ["do not add a third base class unless a later planner composes multiple methods"],
+                    "source_classes": cls.get("source_classes", []),
+                    "source_tables": cls.get("source_tables", []),
+                    "implementation_status": "PROPOSED_READ_ONLY",
+                    "construction_source": "approved_package_derived_method_rule",
+                }
+            )
+    return sorted(methods, key=lambda item: item["method_id"])
+
+
 def deterministic_unsupported_candidates(benchmark_spec):
     candidates = []
     for item in benchmark_spec:
@@ -1239,7 +1300,7 @@ def build_candidate_pair_reviews(classes, relations, derived_classes):
     return pair_review_all, pair_review_direct
 
 
-def audit_ontology_shape(classes, properties, relations, derived_classes, class_methods, pair_review_all):
+def audit_ontology_shape(classes, properties, relations, derived_classes, class_methods, derived_methods, pair_review_all):
     findings = []
 
     expected_counts = {
@@ -1248,6 +1309,7 @@ def audit_ontology_shape(classes, properties, relations, derived_classes, class_
         "relations": 31,
         "derived_classes": 25,
         "class_methods": 66,
+        "derived_methods": 51,
         "pair_review_all": 190,
     }
     actual_counts = {
@@ -1256,6 +1318,7 @@ def audit_ontology_shape(classes, properties, relations, derived_classes, class_
         "relations": len(relations),
         "derived_classes": len(derived_classes),
         "class_methods": len(class_methods),
+        "derived_methods": len(derived_methods),
         "pair_review_all": len(pair_review_all),
     }
     for key, expected in expected_counts.items():
@@ -1442,6 +1505,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
     relations = deterministic_relations(relationships)
     derived_classes = deterministic_derived_classes()
     class_methods = build_class_method_candidates(classes, properties)
+    derived_methods = build_derived_method_candidates(derived_classes)
     method_candidates = deterministic_method_candidates(benchmark_spec)
     unsupported_candidates = deterministic_unsupported_candidates(benchmark_spec)
     pair_review_all, pair_review_direct = build_candidate_pair_reviews(
@@ -1461,6 +1525,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
             "properties": len(properties),
             "relations": len(relations),
             "class_methods": len(class_methods),
+            "derived_methods": len(derived_methods),
             "method_candidates": len(method_candidates),
             "candidate_pair_reviews": len(pair_review_all),
             "direct_pair_reviews": len(pair_review_direct),
@@ -1513,7 +1578,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
     method_candidates = normalize_method_candidates(method_candidates, valid_class_ids)
     object_first_audit = audit_object_first_methods(
         method_candidates=method_candidates,
-        class_methods=class_methods,
+        class_methods=class_methods + derived_methods,
         base_classes=classes,
         derived_classes=derived_classes,
     )
@@ -1523,6 +1588,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
         relations=relations,
         derived_classes=derived_classes,
         class_methods=class_methods,
+        derived_methods=derived_methods,
         pair_review_all=pair_review_all,
     )
 
@@ -1538,6 +1604,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
             "ontology_properties": str(output_dir / "ontology_properties.json"),
             "ontology_relations": str(output_dir / "ontology_relations.json"),
             "ontology_class_methods": str(output_dir / "ontology_class_methods.json"),
+            "ontology_derived_methods": str(output_dir / "ontology_derived_methods.json"),
             "ontology_method_candidates": str(output_dir / "ontology_method_candidates.json"),
             "candidate_pair_review_all": str(output_dir / "candidate_pair_review_190.json"),
             "candidate_pair_review_all_csv": str(output_dir / "candidate_pair_review_190.csv"),
@@ -1552,6 +1619,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
             "properties": len(properties),
             "relations": len(relations),
             "class_methods": len(class_methods),
+            "derived_methods": len(derived_methods),
             "method_candidates": len(method_candidates),
             "candidate_pair_reviews": len(pair_review_all),
             "direct_pair_reviews": len(pair_review_direct),
@@ -1566,6 +1634,7 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
     save_json({"database_id": database_id, "properties": properties}, output_dir / "ontology_properties.json")
     save_json({"database_id": database_id, "relations": relations}, output_dir / "ontology_relations.json")
     save_json({"database_id": database_id, "class_methods": class_methods}, output_dir / "ontology_class_methods.json")
+    save_json({"database_id": database_id, "derived_methods": derived_methods}, output_dir / "ontology_derived_methods.json")
     save_json({"database_id": database_id, "method_candidates": method_candidates}, output_dir / "ontology_method_candidates.json")
     save_json({"database_id": database_id, "pair_reviews": pair_review_all}, output_dir / "candidate_pair_review_190.json")
     save_csv(

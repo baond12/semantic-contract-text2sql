@@ -1,0 +1,15 @@
+﻿scenario_id,finding,previous_method,new_method,required_capability,resolution
+BI-03-01,PRE_EXISTING_UNBOUND_METHOD,,,Trả cây Category ba cấp/đường dẫn đầy đủ,METHOD_CONTRACT_GAP
+BI-04-01,PRE_EXISTING_UNBOUND_METHOD,,,Danh sách các mã Promotion/chương trình,METHOD_CONTRACT_GAP
+BI-06-04,PRE_EXISTING_UNBOUND_METHOD,,,SKU có >= 2 Supplier khác nhau,METHOD_CONTRACT_GAP
+BI-07-01,OUTPUT_SIGNATURE_MISMATCH,Customer.listCustomersBySegment,,COUNT Customer theo phân khúc VIP,METHOD_CONTRACT_GAP
+BI-07-03,PRE_EXISTING_UNBOUND_METHOD,,,Khách hàng theo Region với output cụ thể,METHOD_CONTRACT_GAP
+BI-13-03,OUTPUT_SIGNATURE_MISMATCH,OrderItem.sumLineNetAmount,,"Xếp hạng nhóm/SKU theo tổng line-net, kết quả trả về nhóm + số tiền",METHOD_CONTRACT_GAP
+BI-14-02,PRE_EXISTING_UNBOUND_METHOD,,,AOV từ PaidOrder đã khử trùng thanh toán,METHOD_CONTRACT_GAP
+BI-14-04,PRE_EXISTING_UNBOUND_METHOD,,,"GMV của đơn đã thanh toán GROUP BY Channel, không dùng gross thay GMV",METHOD_CONTRACT_GAP
+BI-15-04,PRE_EXISTING_UNBOUND_METHOD,,,TOP phương thức thanh toán theo số lượng hoặc số tiền (cần metric rõ),METHOD_CONTRACT_GAP
+BI-17-04,OUTPUT_SIGNATURE_MISMATCH,Return.countReturnRequests,,LIST Return có trạng thái pending,METHOD_CONTRACT_GAP
+BI-20-01,AMBIGUOUS_METRIC_METHOD,ChannelOrder.sumOrderGrossByChannel,,Xác định metric doanh số (gross/GMV/net); chỉ bind khi metric rõ.,METRIC_SLOT_REVIEW
+BI-21-02,OUTPUT_SIGNATURE_MISMATCH,SupportTicket.countUnresolvedTickets,,LIST ticket High chưa được giải quyết,METHOD_CONTRACT_GAP
+BI-23-03,PRE_EXISTING_UNBOUND_METHOD,,,Xếp hạng Region theo số khách hàng,METHOD_CONTRACT_GAP
+BI-23-04,OUTPUT_SIGNATURE_MISMATCH,Supplier.listSuppliersByRegion,,COUNT Supplier GROUP BY Region,METHOD_CONTRACT_GAP

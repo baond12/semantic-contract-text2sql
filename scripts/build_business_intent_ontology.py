@@ -2,6 +2,7 @@ import argparse
 import csv
 import html
 import json
+import shutil
 import zipfile
 from pathlib import Path
 
@@ -478,12 +479,25 @@ def save_xlsx(sheets, path):
 
 def load_object_ontology(object_ontology_dir):
     root = Path(object_ontology_dir)
+    method_ids = {item["method_id"] for item in load_json(root / "ontology_class_methods.json")["class_methods"]}
+    method_candidate_path = root / "ontology_method_candidates.json"
+    if method_candidate_path.exists():
+        method_ids.update(
+            item["method_id"]
+            for item in load_json(method_candidate_path)["method_candidates"]
+        )
+    derived_method_path = root / "ontology_derived_methods.json"
+    if derived_method_path.exists():
+        method_ids.update(
+            item["method_id"]
+            for item in load_json(derived_method_path)["derived_methods"]
+        )
     return {
         "base_classes": {item["class_id"] for item in load_json(root / "ontology_classes.json")["classes"]},
         "derived_classes": {item["class_id"] for item in load_json(root / "ontology_derived_classes.json")["derived_classes"]},
         "properties": {item["property_id"] for item in load_json(root / "ontology_properties.json")["properties"]},
         "relations": {item["relation_id"] for item in load_json(root / "ontology_relations.json")["relations"]},
-        "methods": {item["method_id"] for item in load_json(root / "ontology_class_methods.json")["class_methods"]},
+        "methods": method_ids,
     }
 
 
@@ -592,9 +606,133 @@ def audit_business_intents(business_intents, intent_scenarios, boundary_tests, o
     }
 
 
+def source_has_frozen_v01_1(source_intent_dir):
+    source_intent_dir = Path(source_intent_dir)
+    return all(
+        (source_intent_dir / filename).exists()
+        for filename in [
+            "business_intents_v01_1.json",
+            "intent_scenarios_v01_1.json",
+            "intent_boundary_tests_v01_1.json",
+            "intent_ontology_audit_v01_1.json",
+        ]
+    )
+
+
+def copy_text_file(source_path, target_path):
+    target_path = Path(target_path)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(Path(source_path).read_text(encoding="utf-8"), encoding="utf-8")
+
+
+def build_from_frozen_v01_1_package(database_id, source_intent_dir, object_ontology_dir, output_dir):
+    source_intent_dir = Path(source_intent_dir)
+    output_dir = Path(output_dir)
+
+    business_intents = load_json(source_intent_dir / "business_intents_v01_1.json")
+    intent_scenarios = load_json(source_intent_dir / "intent_scenarios_v01_1.json")
+    boundary_tests = load_json(source_intent_dir / "intent_boundary_tests_v01_1.json")
+    source_audit = load_json(source_intent_dir / "intent_ontology_audit_v01_1.json")
+    review_changes = load_json(source_intent_dir / "review_changes_v01_1.json")
+    signature_qa = load_json(source_intent_dir / "additional_method_signature_qa_v01_1.json")
+    source_manifest = load_json(source_intent_dir / "artifact_manifest_v01_1.json")
+
+    object_ontology = load_object_ontology(object_ontology_dir)
+    repo_audit = audit_business_intents(
+        business_intents=business_intents,
+        intent_scenarios=intent_scenarios,
+        boundary_tests=boundary_tests,
+        object_ontology=object_ontology,
+        method_findings=[],
+    )
+    repo_audit["status"] = "PASS_FOR_INTENT_GROUND_TRUTH_WITH_METHOD_GAPS" if not repo_audit["high_findings"] else "NOT_READY"
+    repo_audit["source_audit"] = source_audit
+    repo_audit["method_contract_gap_notice"] = source_audit.get("audit", {}).get("method_contract_gap_notice", "")
+    repo_audit["source_validation_high_findings"] = source_manifest.get("validation_high_findings")
+    repo_audit["source_tests_passed"] = source_manifest.get("tests_passed")
+    repo_audit["counts"]["unbound_core_scenarios"] = source_audit.get("counts", {}).get("unbound_core_scenarios")
+    repo_audit["counts"]["additional_method_signature_qa"] = signature_qa.get("total")
+
+    intent_catalog_rows = flatten_intent_catalog(business_intents)
+    scenario_rows = flatten_scenarios(intent_scenarios)
+    boundary_rows = flatten_boundaries(boundary_tests)
+    mapping_rows = load_mapping_csv(source_intent_dir / "intent_to_ontology_mapping_v01_1.csv")
+    method_review_rows = review_changes.get("wrong_method_and_pending_review", [])
+    additional_signature_rows = signature_qa.get("findings", [])
+
+    save_json(business_intents, output_dir / "business_intents.json")
+    save_json(intent_scenarios, output_dir / "intent_scenarios.json")
+    save_json(boundary_tests, output_dir / "intent_boundary_tests.json")
+    save_json(repo_audit, output_dir / "business_intent_ontology_audit.json")
+    save_json(review_changes, output_dir / "review_changes_v01_1.json")
+    save_json(signature_qa, output_dir / "additional_method_signature_qa_v01_1.json")
+    save_json(source_manifest, output_dir / "source_artifact_manifest_v01_1.json")
+    save_json(
+        {
+            "database_id": database_id,
+            "review_changes": review_changes.get("wrong_method_and_pending_review", []),
+            "additional_signature_qa": additional_signature_rows,
+        },
+        output_dir / "intent_method_review_findings.json",
+    )
+
+    copy_text_file(source_intent_dir / "taxonomy_freeze_review_v01_1.md", output_dir / "taxonomy_freeze_review_v01_1.md")
+    copy_text_file(source_intent_dir / "README.md", output_dir / "README_source_v01_1.md")
+    shutil.copyfile(source_intent_dir / "intent_scenarios_v01_1.xlsx", output_dir / "intent_scenarios.xlsx")
+
+    save_csv(intent_catalog_rows, output_dir / "intent_catalog.csv", list(intent_catalog_rows[0].keys()))
+    save_csv(scenario_rows, output_dir / "intent_scenarios.csv", list(scenario_rows[0].keys()))
+    save_csv(boundary_rows, output_dir / "intent_boundary_tests.csv", list(boundary_rows[0].keys()))
+    save_csv(mapping_rows, output_dir / "intent_to_ontology_mapping.csv", list(mapping_rows[0].keys()))
+    save_csv(
+        method_review_rows,
+        output_dir / "method_contract_gap_review.csv",
+        ["scenario_id", "finding", "previous_method", "new_method", "required_capability", "resolution"],
+    )
+    save_csv(
+        additional_signature_rows,
+        output_dir / "additional_method_signature_qa.csv",
+        ["scenario_id", "finding", "previous_method", "previous_signature", "new_method", "required_capability", "resolution"],
+    )
+
+    manifest = {
+        "database_id": database_id,
+        "artifact_type": "business_intent_ontology",
+        "version": "v01.1_review_approved_2026-10-14",
+        "construction_mode": "frozen_package_v01_1",
+        "input_source_intent_dir": str(source_intent_dir),
+        "input_object_ontology_dir": str(object_ontology_dir),
+        "readiness_status": repo_audit["status"],
+        "intent_labels_status": source_manifest.get("intent_labels_status"),
+        "execution_status": source_manifest.get("execution_status"),
+        "output_files": {
+            "business_intents": str(output_dir / "business_intents.json"),
+            "intent_scenarios": str(output_dir / "intent_scenarios.json"),
+            "intent_scenarios_xlsx": str(output_dir / "intent_scenarios.xlsx"),
+            "intent_boundary_tests": str(output_dir / "intent_boundary_tests.json"),
+            "intent_to_ontology_mapping": str(output_dir / "intent_to_ontology_mapping.csv"),
+            "business_intent_ontology_audit": str(output_dir / "business_intent_ontology_audit.json"),
+            "intent_method_review_findings": str(output_dir / "intent_method_review_findings.json"),
+            "taxonomy_freeze_review": str(output_dir / "taxonomy_freeze_review_v01_1.md"),
+            "additional_method_signature_qa": str(output_dir / "additional_method_signature_qa_v01_1.json"),
+        },
+        "counts": repo_audit["counts"],
+    }
+    save_json(manifest, output_dir / "business_intent_manifest.json")
+    return manifest
+
+
 def build_business_intent_ontology(database_id, source_intent_dir, object_ontology_dir, output_dir):
     source_intent_dir = Path(source_intent_dir)
     output_dir = Path(output_dir)
+
+    if source_has_frozen_v01_1(source_intent_dir):
+        return build_from_frozen_v01_1_package(
+            database_id=database_id,
+            source_intent_dir=source_intent_dir,
+            object_ontology_dir=object_ontology_dir,
+            output_dir=output_dir,
+        )
 
     business_intents = load_json(source_intent_dir / "business_intents.json")
     intent_scenarios = load_json(source_intent_dir / "intent_scenarios.json")

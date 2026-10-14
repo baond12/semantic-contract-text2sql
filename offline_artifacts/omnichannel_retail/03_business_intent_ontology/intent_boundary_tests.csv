@@ -1,5 +1,5 @@
 ﻿boundary_id,question_a,intent_a,question_b,intent_b,discriminator_vi,taxonomy_review_action,review_status,review_note
-BND-01,GMV theo kênh tháng 9 là bao nhiêu?,CHANNEL_ANALYTICS,Xếp hạng các kênh theo GMV tháng 9.,CHANNEL_ANALYTICS,Metric là đầu ra chính so với channel-ranking là đầu ra chính.,BOUNDARY_LABEL_CORRECTED,SAME_INTENT_INVARIANCE_OR_REDESIGN_REQUIRED,"A và B đều thuộc CHANNEL_ANALYTICS sau review. Nếu cần boundary khác intent, thay A thành 'Tổng GMV tháng 9 toàn hệ thống?' -> REVENUE_METRICS."
+BND-01,Tổng GMV tháng 9 toàn hệ thống là bao nhiêu?,REVENUE_METRICS,Xếp hạng các kênh theo GMV tháng 9.,CHANNEL_ANALYTICS,Một giá trị toàn hệ thống khác báo cáo theo từng Channel.,,,
 BND-02,Liệt kê sản phẩm thuộc thương hiệu Apple.,PRODUCT_DISCOVERY,Có bao nhiêu thương hiệu trong hệ thống?,BRAND_CATALOG,SKU trả về so với Brand trả về.,,,
 BND-03,Những sản phẩm thuộc danh mục Laptop?,PRODUCT_DISCOVERY,Cho tôi cây danh mục con của Laptop.,CATEGORY_HIERARCHY,SKU trả về so với category node trả về.,,,
 BND-04,Liệt kê các chương trình ưu đãi đang hiệu lực.,PROMOTION_PROGRAM,Mã ưu đãi nào được dùng nhiều nhất trên các dòng đơn?,PROMOTION_USAGE,Chương trình so với mức sử dụng trên order item.,,,
@@ -17,5 +17,5 @@ BND-15,Phân khúc nào có nhiều khách nhất?,CUSTOMER_PROFILE,Khách nào 
 BND-16,Có bao nhiêu cửa hàng ở từng vùng?,REGIONAL_COVERAGE,Các cửa hàng thuộc miền Bắc là những cửa hàng nào?,STORE_ANALYTICS,Vùng làm answer anchor vs trả về thực thể Store.,,,
 BND-17,Danh sách nhà cung cấp chính cho SKU A?,SUPPLIER_NETWORK,Top SKU bán nhiều nhất?,PRODUCT_SALES,Supply assignment vs commercial sales.,,,
 BND-18,Các ticket chưa xử lý của khách VIP?,CUSTOMER_SUPPORT,Các tin nhắn của khách VIP?,CHAT_ACTIVITY,Ticket grain vs message grain.,,,
-BND-19,Tổng số đơn theo kênh?,CHANNEL_ANALYTICS,So sánh xếp hạng các kênh theo số đơn?,CHANNEL_ANALYTICS,Danh sách aggregate đơn với group-by vs kênh ranking.,BOUNDARY_LABEL_CORRECTED,SAME_INTENT_INVARIANCE_OR_REDESIGN_REQUIRED,"A và B đều thuộc CHANNEL_ANALYTICS sau review. Nếu cần boundary khác intent, thay A thành 'Tổng số đơn toàn hệ thống?' -> ORDER_LIFECYCLE."
+BND-19,Tổng số đơn toàn hệ thống là bao nhiêu?,ORDER_LIFECYCLE,So sánh xếp hạng các kênh theo số đơn?,CHANNEL_ANALYTICS,Số đơn cấp hệ thống khác số đơn phân tách theo Channel.,,,
 BND-20,Tổng GMV quý này?,REVENUE_METRICS,Cho tôi GMV quý này và tổng tồn hiện tại.,MULTI_OUTPUT_REPORT,Đầu ra một metric vs hai output contracts độc lập.,,,

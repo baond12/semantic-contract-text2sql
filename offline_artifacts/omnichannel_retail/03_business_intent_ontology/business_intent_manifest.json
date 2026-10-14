@@ -1,11 +1,13 @@
 {
   "database_id": "omnichannel_retail",
   "artifact_type": "business_intent_ontology",
-  "version": "v01_approved_with_changes",
-  "construction_mode": "review_applied_deterministic",
-  "input_source_intent_dir": "/home/baond12/Downloads/omnichannel_business_intent_v01_PACKAGE/omnichannel_business_intent_v01",
+  "version": "v01.1_review_approved_2026-10-14",
+  "construction_mode": "frozen_package_v01_1",
+  "input_source_intent_dir": "/home/baond12/Downloads/omnichannel_business_intent_v01_1_PACKAGE/omnichannel_business_intent_v01_1",
   "input_object_ontology_dir": "offline_artifacts/omnichannel_retail/02_object_ontology",
-  "readiness_status": "STRUCTURAL_PASS_WITH_REVIEW",
+  "readiness_status": "PASS_FOR_INTENT_GROUND_TRUTH_WITH_METHOD_GAPS",
+  "intent_labels_status": "FROZEN_FOR_ANNOTATED_CASES",
+  "execution_status": "METHOD_CONTRACT_GAPS_PENDING",
   "output_files": {
     "business_intents": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/business_intents.json",
     "intent_scenarios": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_scenarios.json",
@@ -13,7 +15,9 @@
     "intent_boundary_tests": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_boundary_tests.json",
     "intent_to_ontology_mapping": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_to_ontology_mapping.csv",
     "business_intent_ontology_audit": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/business_intent_ontology_audit.json",
-    "intent_method_review_findings": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_method_review_findings.json"
+    "intent_method_review_findings": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/intent_method_review_findings.json",
+    "taxonomy_freeze_review": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/taxonomy_freeze_review_v01_1.md",
+    "additional_method_signature_qa": "offline_artifacts/omnichannel_retail/03_business_intent_ontology/additional_method_signature_qa_v01_1.json"
   },
   "counts": {
     "business_intents": 24,
@@ -21,14 +25,16 @@
     "composite_intents": 1,
     "scenarios": 162,
     "boundary_tests": 20,
-    "additional_boundary_tests": 10,
+    "additional_boundary_tests": 0,
     "referenced_base_classes": 20,
     "referenced_derived_classes": 25,
-    "referenced_properties": 60,
+    "referenced_properties": 62,
     "referenced_relations": 31,
     "referenced_methods": 88,
-    "missing_method_references": 28,
+    "missing_method_references": 0,
     "high_findings": 0,
-    "review_findings": 18
+    "review_findings": 0,
+    "unbound_core_scenarios": 53,
+    "additional_method_signature_qa": 39
   }
 }

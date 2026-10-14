@@ -84,6 +84,157 @@ def infer_class_role(table):
     return "entity_class"
 
 
+CLASS_DESCRIPTIONS = {
+    "Brand": ("Brand", "Catalog", "Reference class for product brands."),
+    "Category": ("Category", "Catalog", "Hierarchical product category."),
+    "Channel": ("Sales Channel", "Channel & Store", "Sales channel such as Shopee, TikTok Shop, Website, or Offline."),
+    "Customer": ("Customer", "Customers", "Customer profile used for segmentation and order analysis."),
+    "InventorySnapshot": ("Inventory Snapshot", "Inventory", "Inventory quantity snapshot by product, store, and date."),
+    "OrderItem": ("Order Item", "Orders", "Line item inside an order."),
+    "Order": ("Order", "Orders", "Customer order transaction."),
+    "Payment": ("Payment", "Revenue", "Payment transaction associated with an order."),
+    "ProductSupplier": ("Product Supplier Assignment", "Supplier", "Bridge class between product and supplier."),
+    "Product": ("Product", "Catalog", "Sellable product/SKU."),
+    "Promotion": ("Promotion", "Promotion", "Marketing promotion or discount campaign."),
+    "Region": ("Region", "Channel & Store", "Business region used by stores, customers, and suppliers."),
+    "Return": ("Return Request", "Returns", "Return/refund request for an order item."),
+    "Shipment": ("Shipment", "Shipping", "Shipment/fulfillment record for an order."),
+    "Store": ("Store", "Channel & Store", "Physical store/location."),
+    "Supplier": ("Supplier", "Supplier", "Product supplier."),
+    "SupportTicket": ("Support Ticket", "Support", "Customer support ticket related to customer or order."),
+}
+
+
+TABLE_CLASS_ROLES = {
+    "brands": "reference",
+    "categories": "reference",
+    "channels": "reference",
+    "customers": "entity",
+    "inventory_snapshots": "fact",
+    "order_items": "line_item",
+    "orders": "transaction",
+    "payments": "event",
+    "product_suppliers": "association",
+    "products": "entity",
+    "promotions": "reference",
+    "regions": "reference",
+    "returns": "event",
+    "shipments": "event",
+    "stores": "entity",
+    "suppliers": "entity",
+    "support_tickets": "event",
+}
+
+
+DERIVED_CLASS_SPECS = [
+    {
+        "class_id": "PaidOrder",
+        "class_name": "Paid Order",
+        "business_domain": "Revenue",
+        "description": "Derived class combining Order and Payment for paid-order revenue semantics.",
+        "source_classes": ["Order", "Payment"],
+        "source_tables": ["orders", "payments"],
+        "semantic_rule": "Order is counted as paid when it has a successful payment.",
+    },
+    {
+        "class_id": "ChannelOrder",
+        "class_name": "Channel Order",
+        "business_domain": "Channel & Store",
+        "description": "Derived class combining Order and Channel for channel-level order/revenue analysis.",
+        "source_classes": ["Order", "Channel"],
+        "source_tables": ["orders", "channels"],
+        "semantic_rule": "Order belongs to exactly one sales channel.",
+    },
+    {
+        "class_id": "StoreOrder",
+        "class_name": "Store Order",
+        "business_domain": "Channel & Store",
+        "description": "Derived class combining Order and Store for store-level order/revenue analysis.",
+        "source_classes": ["Order", "Store"],
+        "source_tables": ["orders", "stores"],
+        "semantic_rule": "Order may be associated with a physical store.",
+    },
+    {
+        "class_id": "CustomerOrder",
+        "class_name": "Customer Order",
+        "business_domain": "Customers",
+        "description": "Derived class combining Customer and Order for customer purchase analysis.",
+        "source_classes": ["Customer", "Order"],
+        "source_tables": ["customers", "orders"],
+        "semantic_rule": "Order belongs to one customer.",
+    },
+    {
+        "class_id": "ProductOrderLine",
+        "class_name": "Product Order Line",
+        "business_domain": "Catalog",
+        "description": "Derived class combining Product and OrderItem for product sales analysis.",
+        "source_classes": ["Product", "OrderItem"],
+        "source_tables": ["products", "order_items"],
+        "semantic_rule": "Order item refers to one product/SKU.",
+    },
+    {
+        "class_id": "PromotionOrderLine",
+        "class_name": "Promotion Order Line",
+        "business_domain": "Promotion",
+        "description": "Derived class combining Promotion and OrderItem for promotion impact analysis.",
+        "source_classes": ["Promotion", "OrderItem"],
+        "source_tables": ["promotions", "order_items"],
+        "semantic_rule": "Order item may apply one promotion.",
+    },
+    {
+        "class_id": "ReturnOrderLine",
+        "class_name": "Return Order Line",
+        "business_domain": "Returns",
+        "description": "Derived class combining Return and OrderItem for refund/return analysis.",
+        "source_classes": ["Return", "OrderItem"],
+        "source_tables": ["returns", "order_items"],
+        "semantic_rule": "Return request references one order item.",
+    },
+    {
+        "class_id": "OrderShipment",
+        "class_name": "Order Shipment",
+        "business_domain": "Shipping",
+        "description": "Derived class combining Order and Shipment for shipping and delivery analysis.",
+        "source_classes": ["Order", "Shipment"],
+        "source_tables": ["orders", "shipments"],
+        "semantic_rule": "Shipment belongs to one order.",
+    },
+    {
+        "class_id": "ProductInventory",
+        "class_name": "Product Inventory",
+        "business_domain": "Inventory",
+        "description": "Derived class combining Product and InventorySnapshot for stock analysis.",
+        "source_classes": ["Product", "InventorySnapshot"],
+        "source_tables": ["products", "inventory_snapshots"],
+        "semantic_rule": "Inventory snapshot records stock for one product.",
+    },
+]
+
+
+BENCHMARK_METHOD_OWNER_SPECS = {
+    "M_CATALOG": ("Product", "Catalog", "list", "Product catalog listing and lookup."),
+    "M_ORDERS_COUNT": ("Order", "Orders", "count", "Order counting by status, period, or business filter."),
+    "M_ORDER_DETAIL": ("CustomerOrder", "Orders", "lookup", "Customer order detail lookup."),
+    "M_REVENUE_GROSS": ("Order", "Revenue", "aggregate", "Gross order amount aggregation."),
+    "M_REVENUE_GMV": ("PaidOrder", "Revenue", "aggregate", "GMV calculation over paid orders."),
+    "M_REVENUE_AOV": ("PaidOrder", "Revenue", "aggregate", "Average order value over paid orders."),
+    "M_REVENUE_GROWTH": ("PaidOrder", "Revenue", "compare", "Revenue comparison or growth over paid orders."),
+    "M_REVENUE_NET": ("ReturnOrderLine", "Revenue", "aggregate", "Net revenue after return/refund impact."),
+    "M_CHANNEL_COMPARE": ("ChannelOrder", "Channel & Store", "compare", "Channel-level comparison."),
+    "M_STORE_RANK": ("StoreOrder", "Channel & Store", "rank", "Store ranking by order/revenue metrics."),
+    "M_CUSTOMERS": ("CustomerOrder", "Customers", "aggregate", "Customer analytics based on orders."),
+    "M_PRODUCTS_SOLD": ("ProductOrderLine", "Catalog", "rank", "Product sales ranking and sold quantity analysis."),
+    "M_PROMOTIONS": ("PromotionOrderLine", "Promotion", "aggregate", "Promotion impact analysis over order lines."),
+    "M_RETURNS": ("ReturnOrderLine", "Returns", "aggregate", "Return/refund analysis."),
+    "M_SHIPPING": ("OrderShipment", "Shipping", "aggregate", "Shipping and delivery analysis."),
+    "M_SUPPLIERS": ("ProductSupplier", "Supplier", "lookup", "Supplier-product assignment lookup."),
+    "M_SUPPORT": ("SupportTicket", "Support", "aggregate", "Support ticket analytics."),
+    "M_INVENTORY": ("ProductInventory", "Inventory", "lookup", "Product inventory lookup and stock analysis."),
+    "M_BASKET_ANALYSIS": ("ProductOrderLine", "Advanced SQL", "rank", "Basket/product co-occurrence analysis."),
+    "M_WINDOW_ANALYSIS": ("PaidOrder", "Advanced SQL", "aggregate", "Windowed revenue analysis over paid orders."),
+}
+
+
 def build_table_lookup(tables):
     return {item["table"]: item for item in tables}
 
@@ -398,22 +549,43 @@ def deterministic_classes(database_id, tables):
     classes = []
     for table in tables:
         class_id = table_to_class_id(table["table"])
+        class_name, business_domain, description = CLASS_DESCRIPTIONS.get(
+            class_id,
+            (class_id, "Other", f"Object class mapped from table {table['table']}."),
+        )
         classes.append(
             {
                 "class_id": class_id,
-                "class_name": class_id,
+                "class_name": class_name,
                 "source_table": table["table"],
-                "class_role": infer_class_role(table),
-                "business_domain": "unknown",
-                "description": f"Object class mapped from table {table['table']}.",
+                "source_tables": [table["table"]],
+                "class_role": TABLE_CLASS_ROLES.get(table["table"], infer_class_role(table)),
+                "business_domain": business_domain,
+                "description": description,
                 "default_display_property": None,
                 "row_count": table["row_count"],
                 "column_count": table["column_count"],
                 "primary_key_columns": table.get("primary_key_columns", []),
+                "ontology_layer": "base_class",
                 "construction_source": "deterministic_inventory",
             }
         )
     return classes
+
+
+def deterministic_derived_classes():
+    derived_classes = []
+    for item in DERIVED_CLASS_SPECS:
+        derived_classes.append(
+            {
+                **item,
+                "class_role": "derived_analysis_class",
+                "ontology_layer": "derived_class",
+                "max_source_class_count": 2,
+                "construction_source": "deterministic_object_pair",
+            }
+        )
+    return derived_classes
 
 
 def deterministic_properties(columns):
@@ -479,20 +651,27 @@ def deterministic_method_candidates(benchmark_spec):
         method_id = item.get("method", "")
         if not method_id or method_id == "M_NON_SQL":
             continue
+        owner_spec = BENCHMARK_METHOD_OWNER_SPECS.get(method_id)
+        if not owner_spec:
+            continue
+        owner_class, business_domain, operation_intent, description = owner_spec
         methods.setdefault(
             method_id,
             {
                 "method_id": method_id,
-                "business_domain": item.get("group", "unknown"),
-                "description": f"Method candidate from benchmark method {method_id}.",
-                "target_classes": [],
-                "operation_intent": "unknown",
+                "method_name": method_id,
+                "method_owner_class": owner_class,
+                "method_scope": "derived_class" if owner_class in {item["class_id"] for item in deterministic_derived_classes()} else "base_class",
+                "business_domain": business_domain,
+                "description": description,
+                "target_classes": [owner_class],
+                "operation_intent": operation_intent,
                 "required_parameters": [],
                 "optional_parameters": [],
                 "required_semantics": [],
                 "forbidden_semantics": [],
                 "example_questions": [],
-                "construction_source": "benchmark_spec",
+                "construction_source": "benchmark_spec+object_first_owner_mapping",
             },
         )
         if item.get("question"):
@@ -507,6 +686,132 @@ def deterministic_method_candidates(benchmark_spec):
         method["required_semantics"] = sorted(set(method["required_semantics"]))[:12]
         method["forbidden_semantics"] = sorted(set(method["forbidden_semantics"]))[:12]
     return list(methods.values())
+
+
+def build_class_method_candidates(classes, properties):
+    properties_by_class = defaultdict(list)
+    for prop in properties:
+        properties_by_class[prop["class_id"]].append(prop)
+
+    methods = []
+    for cls in classes:
+        class_id = cls["class_id"]
+        class_properties = properties_by_class[class_id]
+        display_properties = [
+            item
+            for item in class_properties
+            if item.get("role_guess") == "display_name"
+            or item["property_name"].lower().endswith("name")
+            or item["property_name"].lower().endswith("code")
+        ]
+        identifier_properties = [
+            item
+            for item in class_properties
+            if item.get("is_identifier")
+        ]
+        numeric_properties = [
+            item
+            for item in class_properties
+            if item.get("role_guess") == "measure_or_numeric"
+        ]
+
+        methods.append(
+            {
+                "method_id": f"{class_id}.count",
+                "method_name": "count",
+                "method_owner_class": class_id,
+                "method_scope": "base_class",
+                "business_domain": cls.get("business_domain"),
+                "description": f"Count {class_id} records.",
+                "target_classes": [class_id],
+                "operation_intent": "count",
+                "required_parameters": [],
+                "optional_parameters": ["filter_criteria"],
+                "required_semantics": ["count records from the owner class only"],
+                "forbidden_semantics": ["do not join another class unless a derived class method is selected"],
+                "source_properties": [],
+                "construction_source": "base_class_method_rule",
+            }
+        )
+        methods.append(
+            {
+                "method_id": f"{class_id}.list",
+                "method_name": "list",
+                "method_owner_class": class_id,
+                "method_scope": "base_class",
+                "business_domain": cls.get("business_domain"),
+                "description": f"List {class_id} records.",
+                "target_classes": [class_id],
+                "operation_intent": "list",
+                "required_parameters": [],
+                "optional_parameters": ["filter_criteria", "limit", "order"],
+                "required_semantics": ["project properties from the owner class only"],
+                "forbidden_semantics": ["do not join another class unless a derived class method is selected"],
+                "source_properties": [item["property_id"] for item in display_properties[:4]],
+                "construction_source": "base_class_method_rule",
+            }
+        )
+
+        for prop in identifier_properties[:2]:
+            methods.append(
+                {
+                    "method_id": f"{class_id}.lookupBy{prop['property_name'][:1].upper() + prop['property_name'][1:]}",
+                    "method_name": f"lookupBy{prop['property_name'][:1].upper() + prop['property_name'][1:]}",
+                    "method_owner_class": class_id,
+                    "method_scope": "base_class",
+                    "business_domain": cls.get("business_domain"),
+                    "description": f"Lookup {class_id} by {prop['property_name']}.",
+                    "target_classes": [class_id],
+                    "operation_intent": "lookup",
+                    "required_parameters": [prop["property_name"]],
+                    "optional_parameters": [],
+                    "required_semantics": [f"filter by {prop['property_id']}"],
+                    "forbidden_semantics": ["do not join another class unless a derived class method is selected"],
+                    "source_properties": [prop["property_id"]],
+                    "construction_source": "base_class_method_rule",
+                }
+            )
+
+        for prop in numeric_properties[:3]:
+            pascal_prop = prop["property_name"][:1].upper() + prop["property_name"][1:]
+            methods.append(
+                {
+                    "method_id": f"{class_id}.sum{pascal_prop}",
+                    "method_name": f"sum{pascal_prop}",
+                    "method_owner_class": class_id,
+                    "method_scope": "base_class",
+                    "business_domain": cls.get("business_domain"),
+                    "description": f"Aggregate sum of {prop['property_name']} for {class_id}.",
+                    "target_classes": [class_id],
+                    "operation_intent": "aggregate",
+                    "required_parameters": [],
+                    "optional_parameters": ["filter_criteria", "time_period"],
+                    "required_semantics": [f"aggregate {prop['property_id']}"],
+                    "forbidden_semantics": ["do not join another class unless a derived class method is selected"],
+                    "source_properties": [prop["property_id"]],
+                    "construction_source": "base_class_method_rule",
+                }
+            )
+            methods.append(
+                {
+                    "method_id": f"{class_id}.rankBy{pascal_prop}",
+                    "method_name": f"rankBy{pascal_prop}",
+                    "method_owner_class": class_id,
+                    "method_scope": "base_class",
+                    "business_domain": cls.get("business_domain"),
+                    "description": f"Rank {class_id} by {prop['property_name']}.",
+                    "target_classes": [class_id],
+                    "operation_intent": "rank",
+                    "required_parameters": [],
+                    "optional_parameters": ["filter_criteria", "limit", "order"],
+                    "required_semantics": [f"rank by {prop['property_id']}"],
+                    "forbidden_semantics": ["do not join another class unless a derived class method is selected"],
+                    "source_properties": [prop["property_id"]],
+                    "construction_source": "base_class_method_rule",
+                }
+            )
+
+    return sorted(methods, key=lambda item: item["method_id"])
 
 
 def deterministic_unsupported_candidates(benchmark_spec):
@@ -589,6 +894,64 @@ def normalize_method_candidates(method_candidates, valid_class_ids):
     return normalized
 
 
+def audit_object_first_methods(method_candidates, class_methods, base_classes, derived_classes):
+    base_class_ids = {item["class_id"] for item in base_classes}
+    derived_class_ids = {item["class_id"] for item in derived_classes}
+    valid_class_ids = base_class_ids | derived_class_ids
+    findings = []
+
+    for method in method_candidates + class_methods:
+        method_id = method["method_id"]
+        owner_class = method.get("method_owner_class")
+        target_classes = method.get("target_classes", [])
+
+        if not owner_class:
+            findings.append(
+                {
+                    "severity": "HIGH",
+                    "category": "missing_method_owner_class",
+                    "method_id": method_id,
+                    "message": "Every method must have exactly one owner class.",
+                }
+            )
+        elif owner_class not in valid_class_ids:
+            findings.append(
+                {
+                    "severity": "HIGH",
+                    "category": "unknown_method_owner_class",
+                    "method_id": method_id,
+                    "owner_class": owner_class,
+                    "message": "Method owner class is not defined in base or derived classes.",
+                }
+            )
+
+        if len(target_classes) != 1:
+            findings.append(
+                {
+                    "severity": "HIGH",
+                    "category": "invalid_target_class_count",
+                    "method_id": method_id,
+                    "target_classes": target_classes,
+                    "message": "Object-first ontology requires each method to target exactly one owner class.",
+                }
+            )
+
+        if method.get("method_scope") == "derived_class" and owner_class in derived_class_ids:
+            derived_class = next(item for item in derived_classes if item["class_id"] == owner_class)
+            if len(derived_class.get("source_classes", [])) > 2:
+                findings.append(
+                    {
+                        "severity": "HIGH",
+                        "category": "derived_class_too_wide",
+                        "method_id": method_id,
+                        "owner_class": owner_class,
+                        "message": "Derived class must combine at most two base classes.",
+                    }
+                )
+
+    return findings
+
+
 def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, config_path, proxy_mode):
     inventory_dir = Path(inventory_dir)
     output_dir = Path(output_dir)
@@ -602,6 +965,8 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
     classes = deterministic_classes(database_id, tables)
     properties = deterministic_properties(columns)
     relations = deterministic_relations(relationships)
+    derived_classes = deterministic_derived_classes()
+    class_methods = build_class_method_candidates(classes, properties)
     method_candidates = deterministic_method_candidates(benchmark_spec)
     unsupported_candidates = deterministic_unsupported_candidates(benchmark_spec)
 
@@ -612,8 +977,10 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
         "proxy_mode": proxy_mode,
         "deterministic_counts": {
             "classes": len(classes),
+            "derived_classes": len(derived_classes),
             "properties": len(properties),
             "relations": len(relations),
+            "class_methods": len(class_methods),
             "method_candidates": len(method_candidates),
             "unsupported_scope_candidates": len(unsupported_candidates),
         },
@@ -640,17 +1007,34 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
 
         classes = merge_class_enrichments(classes, llm_output.get("class_enrichments", []))
         if llm_output.get("method_enrichments"):
-            method_candidates = [
-                item
+            method_enrichment_by_id = {
+                item.get("method_id"): item
                 for item in llm_output["method_enrichments"]
-                if item.get("method_id") != "M_NON_SQL"
-            ]
-            valid_class_ids = {item["class_id"] for item in classes}
-            method_candidates = normalize_method_candidates(method_candidates, valid_class_ids)
+                if item.get("method_id")
+            }
+            for method in method_candidates:
+                enrichment = method_enrichment_by_id.get(method["method_id"])
+                if not enrichment:
+                    continue
+                method["description"] = enrichment.get("description") or method["description"]
+                method["required_parameters"] = enrichment.get("required_parameters", method["required_parameters"])
+                method["optional_parameters"] = enrichment.get("optional_parameters", method["optional_parameters"])
+                method["required_semantics"] = sorted(set(method["required_semantics"] + enrichment.get("required_semantics", [])))
+                method["forbidden_semantics"] = sorted(set(method["forbidden_semantics"] + enrichment.get("forbidden_semantics", [])))
+                method["llm_confidence"] = enrichment.get("confidence")
         if llm_output.get("unsupported_scope_candidates"):
             unsupported_candidates = llm_output["unsupported_scope_candidates"]
 
         trace["llm"] = llm_trace
+
+    valid_class_ids = {item["class_id"] for item in classes + derived_classes}
+    method_candidates = normalize_method_candidates(method_candidates, valid_class_ids)
+    object_first_audit = audit_object_first_methods(
+        method_candidates=method_candidates,
+        class_methods=class_methods,
+        base_classes=classes,
+        derived_classes=derived_classes,
+    )
 
     manifest = {
         "database_id": database_id,
@@ -660,26 +1044,36 @@ def build_object_ontology(database_id, inventory_dir, output_dir, use_llm, confi
         "input_inventory_dir": str(inventory_dir),
         "output_files": {
             "ontology_classes": str(output_dir / "ontology_classes.json"),
+            "ontology_derived_classes": str(output_dir / "ontology_derived_classes.json"),
             "ontology_properties": str(output_dir / "ontology_properties.json"),
             "ontology_relations": str(output_dir / "ontology_relations.json"),
+            "ontology_class_methods": str(output_dir / "ontology_class_methods.json"),
             "ontology_method_candidates": str(output_dir / "ontology_method_candidates.json"),
             "unsupported_scope_candidates": str(output_dir / "unsupported_scope_candidates.json"),
+            "object_ontology_audit": str(output_dir / "object_ontology_audit.json"),
             "object_ontology_trace": str(output_dir / "object_ontology_trace.json"),
         },
         "counts": {
-            "classes": len(classes),
+            "base_classes": len(classes),
+            "derived_classes": len(derived_classes),
             "properties": len(properties),
             "relations": len(relations),
+            "class_methods": len(class_methods),
             "method_candidates": len(method_candidates),
             "unsupported_scope_candidates": len(unsupported_candidates),
+            "audit_findings": len(object_first_audit),
+            "high_findings": len([item for item in object_first_audit if item["severity"] == "HIGH"]),
         },
     }
 
     save_json({"database_id": database_id, "classes": classes}, output_dir / "ontology_classes.json")
+    save_json({"database_id": database_id, "derived_classes": derived_classes}, output_dir / "ontology_derived_classes.json")
     save_json({"database_id": database_id, "properties": properties}, output_dir / "ontology_properties.json")
     save_json({"database_id": database_id, "relations": relations}, output_dir / "ontology_relations.json")
+    save_json({"database_id": database_id, "class_methods": class_methods}, output_dir / "ontology_class_methods.json")
     save_json({"database_id": database_id, "method_candidates": method_candidates}, output_dir / "ontology_method_candidates.json")
     save_json({"database_id": database_id, "unsupported_scope_candidates": unsupported_candidates}, output_dir / "unsupported_scope_candidates.json")
+    save_json({"database_id": database_id, "audit_findings": object_first_audit}, output_dir / "object_ontology_audit.json")
     save_json(trace, output_dir / "object_ontology_trace.json")
     save_json(manifest, output_dir / "object_ontology_manifest.json")
     return manifest

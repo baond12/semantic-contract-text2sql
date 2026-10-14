@@ -182,9 +182,13 @@ def build_method_contracts(
         })
 
         class_tables = sorted({
-            class_by_id[class_id]["source_table"]
+            table
             for class_id in method.get("target_classes", [])
             if class_id in class_by_id
+            for table in class_by_id[class_id].get(
+                "source_tables",
+                [class_by_id[class_id].get("source_table")] if class_by_id[class_id].get("source_table") else [],
+            )
         })
         required_tables = sorted(set(sql_tables + class_tables))
         required_properties = build_required_properties(properties, sql_columns)
@@ -239,6 +243,8 @@ def build_method_contracts(
                 "description": method.get("description"),
                 "business_intent_ids": sorted(set(business_by_method.get(method_id, []))),
                 "operation_intent": method.get("operation_intent"),
+                "method_owner_class": method.get("method_owner_class"),
+                "method_scope": method.get("method_scope"),
                 "allowed_sql_operation": normalize_operation(method.get("operation_intent")),
                 "target_classes": method.get("target_classes", []),
                 "required_tables": required_tables,
@@ -450,6 +456,12 @@ def build_method_contract_artifacts(
     tables = load_json(inventory_dir / "tables.json")
     columns = load_json(inventory_dir / "columns.json")
     classes = load_json(object_ontology_dir / "ontology_classes.json")["classes"]
+    derived_classes_path = object_ontology_dir / "ontology_derived_classes.json"
+    if derived_classes_path.exists():
+        derived_classes = load_json(derived_classes_path)["derived_classes"]
+    else:
+        derived_classes = []
+    all_classes = classes + derived_classes
     properties = load_json(object_ontology_dir / "ontology_properties.json")["properties"]
     relations = load_json(object_ontology_dir / "ontology_relations.json")["relations"]
     method_candidates = load_json(object_ontology_dir / "ontology_method_candidates.json")["method_candidates"]
@@ -462,7 +474,7 @@ def build_method_contract_artifacts(
         business_intents=business_intents,
         task_slots=task_slots,
         task_scenarios=task_scenarios,
-        classes=classes,
+        classes=all_classes,
         properties=properties,
         relations=relations,
         tables=tables,
@@ -488,6 +500,8 @@ def build_method_contract_artifacts(
                     "method_id": item["method_id"],
                     "description": item.get("description"),
                     "operation_intent": item.get("operation_intent"),
+                    "method_owner_class": item.get("method_owner_class"),
+                    "method_scope": item.get("method_scope"),
                     "target_classes": item.get("target_classes"),
                     "required_slots": item.get("required_slots"),
                     "optional_slots": item.get("optional_slots"),
@@ -519,7 +533,7 @@ def build_method_contract_artifacts(
     audit_findings = audit_method_contracts(
         method_contracts=method_contracts,
         method_candidates=method_candidates,
-        classes=classes,
+        classes=all_classes,
         task_slots=task_slots,
     )
     readiness_status = "READY" if not [item for item in audit_findings if item["severity"] == "HIGH"] else "NOT_READY"

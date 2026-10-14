@@ -71,8 +71,10 @@ def required_files(root):
         root / "01_database_inventory" / "relationships.json",
         root / "01_database_inventory" / "benchmark_spec_snapshot.json",
         root / "02_object_ontology" / "ontology_classes.json",
+        root / "02_object_ontology" / "ontology_derived_classes.json",
         root / "02_object_ontology" / "ontology_properties.json",
         root / "02_object_ontology" / "ontology_relations.json",
+        root / "02_object_ontology" / "ontology_class_methods.json",
         root / "02_object_ontology" / "ontology_method_candidates.json",
         root / "03_business_task_ontology" / "business_intents.json",
         root / "03_business_task_ontology" / "operation_intents.json",
@@ -94,6 +96,8 @@ def read_core_artifacts(root):
         "columns": load_json(root / "01_database_inventory" / "columns.json"),
         "relationships": load_json(root / "01_database_inventory" / "relationships.json"),
         "classes": load_json(root / "02_object_ontology" / "ontology_classes.json")["classes"],
+        "derived_classes": load_json(root / "02_object_ontology" / "ontology_derived_classes.json")["derived_classes"],
+        "class_methods": load_json(root / "02_object_ontology" / "ontology_class_methods.json")["class_methods"],
         "properties": load_json(root / "02_object_ontology" / "ontology_properties.json")["properties"],
         "relations": load_json(root / "02_object_ontology" / "ontology_relations.json")["relations"],
         "methods": load_json(root / "02_object_ontology" / "ontology_method_candidates.json")["method_candidates"],
@@ -112,7 +116,9 @@ def audit_cross_layer(artifacts):
     findings = []
     table_names = {item["table"] for item in artifacts["tables"]}
     column_ids = {item["column_id"] for item in artifacts["columns"]}
-    class_ids = {item["class_id"] for item in artifacts["classes"]}
+    base_class_ids = {item["class_id"] for item in artifacts["classes"]}
+    derived_class_ids = {item["class_id"] for item in artifacts["derived_classes"]}
+    class_ids = base_class_ids | derived_class_ids
     property_ids = {item["property_id"] for item in artifacts["properties"]}
     relation_ids = {item["relation_id"] for item in artifacts["relations"]}
     method_ids = {item["method_id"] for item in artifacts["methods"]}
@@ -126,6 +132,16 @@ def audit_cross_layer(artifacts):
     for cls in artifacts["classes"]:
         if cls.get("source_table") not in table_names:
             findings.append(high("class_missing_source_table", cls["class_id"], cls.get("source_table")))
+
+    for cls in artifacts["derived_classes"]:
+        if len(cls.get("source_classes", [])) > 2:
+            findings.append(high("derived_class_too_wide", cls["class_id"], cls.get("source_classes")))
+        for source_class in cls.get("source_classes", []):
+            if source_class not in base_class_ids:
+                findings.append(high("derived_class_missing_source_class", cls["class_id"], source_class))
+        for source_table in cls.get("source_tables", []):
+            if source_table not in table_names:
+                findings.append(high("derived_class_missing_source_table", cls["class_id"], source_table))
 
     for prop in artifacts["properties"]:
         if prop.get("class_id") not in class_ids:
@@ -144,6 +160,8 @@ def audit_cross_layer(artifacts):
             findings.append(high("relation_missing_target_property", relation["relation_id"], relation.get("target_property")))
 
     for method in artifacts["methods"]:
+        if len(method.get("target_classes", [])) != 1:
+            findings.append(high("method_invalid_target_class_count", method["method_id"], method.get("target_classes", [])))
         for class_id in method.get("target_classes", []):
             if class_id not in class_ids:
                 findings.append(high("method_missing_target_class", method["method_id"], class_id))
@@ -254,6 +272,9 @@ def build_coverage_summary(artifacts):
     return {
         "table_count": len(table_names),
         "column_count": len(column_ids),
+        "base_class_count": len(artifacts["classes"]),
+        "derived_class_count": len(artifacts["derived_classes"]),
+        "class_method_count": len(artifacts["class_methods"]),
         "class_count": len(artifacts["classes"]),
         "property_count": len(artifacts["properties"]),
         "method_count": len(artifacts["methods"]),

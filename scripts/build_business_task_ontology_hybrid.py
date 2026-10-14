@@ -486,6 +486,11 @@ def build_business_task_ontology(database_id, inventory_dir, object_ontology_dir
     benchmark_spec = load_json(inventory_dir / "benchmark_spec_snapshot.json")
     database_overview = load_json(inventory_dir / "database_overview.json")
     classes = load_json(object_ontology_dir / "ontology_classes.json")["classes"]
+    derived_classes_path = object_ontology_dir / "ontology_derived_classes.json"
+    if derived_classes_path.exists():
+        derived_classes = load_json(derived_classes_path)["derived_classes"]
+    else:
+        derived_classes = []
     method_candidates = load_json(object_ontology_dir / "ontology_method_candidates.json")["method_candidates"]
     unsupported_scope_candidates = load_json(object_ontology_dir / "unsupported_scope_candidates.json")["unsupported_scope_candidates"]
 
@@ -524,8 +529,9 @@ def build_business_task_ontology(database_id, inventory_dir, object_ontology_dir
                 "class_name": item.get("class_name"),
                 "business_domain": item.get("business_domain"),
                 "description": item.get("description"),
+                "ontology_layer": item.get("ontology_layer", "base_class"),
             }
-            for item in classes
+            for item in classes + derived_classes
         ]
         intent_context = {
             "database_id": database_id,

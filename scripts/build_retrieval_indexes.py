@@ -165,17 +165,24 @@ def build_value_cards(task_ontology_dir):
 def build_class_cards(object_ontology_dir):
     path = Path(object_ontology_dir) / "ontology_classes.json"
     items = load_json(path)["classes"]
+    derived_path = Path(object_ontology_dir) / "ontology_derived_classes.json"
+    derived_items = []
+    if derived_path.exists():
+        derived_items = load_json(derived_path)["derived_classes"]
     cards = []
-    for item in items:
+    for item in items + derived_items:
         text = join_text(
             item.get("class_id"),
             item.get("class_name"),
             item.get("description"),
             "source_table: " + as_text(item.get("source_table")),
+            "source_tables: " + as_text(item.get("source_tables", [])),
+            "source_classes: " + as_text(item.get("source_classes", [])),
             "business_domain: " + as_text(item.get("business_domain")),
             "class_role: " + as_text(item.get("class_role")),
             "default_display_property: " + as_text(item.get("default_display_property")),
             "primary_key_columns: " + as_text(item.get("primary_key_columns", [])),
+            "semantic_rule: " + as_text(item.get("semantic_rule")),
         )
         cards.append(
             make_card(
@@ -186,6 +193,8 @@ def build_class_cards(object_ontology_dir):
                 metadata={
                     "class_id": item["class_id"],
                     "source_table": item.get("source_table"),
+                    "source_tables": item.get("source_tables", []),
+                    "ontology_layer": item.get("ontology_layer", "base_class"),
                     "business_domain": item.get("business_domain"),
                 },
                 source_file=str(path),

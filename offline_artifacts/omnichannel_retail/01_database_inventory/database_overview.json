@@ -1,0 +1,70 @@
+{
+  "database_id": "omnichannel_retail",
+  "sqlite_path": "offline_artifacts/omnichannel_retail/00_sources/omnichannel_retail.sqlite3",
+  "schema_path": "offline_artifacts/omnichannel_retail/00_sources/schema.sql",
+  "benchmark_spec_path": "benchmarks/omnichannel_retail/text2sql_benchmark_spec.json",
+  "table_count": 20,
+  "column_count": 157,
+  "relationship_count": 31,
+  "index_count": 49,
+  "total_row_count": 2345,
+  "benchmark_summary": {
+    "case_count": 85,
+    "group_count": 17,
+    "groups": {
+      "Advanced SQL": 4,
+      "Ambiguity": 6,
+      "Catalog": 8,
+      "Channel & Store": 9,
+      "Customers": 6,
+      "Inventory": 7,
+      "Multi-turn": 3,
+      "Orders": 8,
+      "Privacy": 1,
+      "Promotion": 2,
+      "Returns": 4,
+      "Revenue": 10,
+      "Schema Gap": 4,
+      "Security": 4,
+      "Shipping": 4,
+      "Supplier": 2,
+      "Support": 3
+    },
+    "difficulties": {
+      "L1": 7,
+      "L2": 19,
+      "L3": 42,
+      "L4": 14,
+      "L5": 3
+    },
+    "expected_actions": {
+      "CLARIFY": 6,
+      "EXECUTE_SQL": 70,
+      "REFUSE": 4,
+      "UNSUPPORTED": 5
+    },
+    "methods": {
+      "M_BASKET_ANALYSIS": 1,
+      "M_CATALOG": 8,
+      "M_CHANNEL_COMPARE": 5,
+      "M_CUSTOMERS": 7,
+      "M_INVENTORY": 7,
+      "M_NON_SQL": 15,
+      "M_ORDERS_COUNT": 6,
+      "M_ORDER_DETAIL": 3,
+      "M_PRODUCTS_SOLD": 4,
+      "M_PROMOTIONS": 2,
+      "M_RETURNS": 4,
+      "M_REVENUE_AOV": 1,
+      "M_REVENUE_GMV": 7,
+      "M_REVENUE_GROSS": 1,
+      "M_REVENUE_GROWTH": 1,
+      "M_REVENUE_NET": 1,
+      "M_SHIPPING": 4,
+      "M_STORE_RANK": 2,
+      "M_SUPPLIERS": 2,
+      "M_SUPPORT": 3,
+      "M_WINDOW_ANALYSIS": 1
+    }
+  }
+}

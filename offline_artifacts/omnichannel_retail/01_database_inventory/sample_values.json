@@ -1,0 +1,4647 @@
+[
+  {
+    "table": "addresses",
+    "column": "address_id",
+    "column_id": "addresses.address_id",
+    "sample_values": [
+      {
+        "value": "ADDR-0001",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0002",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0003",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0004",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0005",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0006",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0007",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "customer_id",
+    "column_id": "addresses.customer_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "recipient_name",
+    "column_id": "addresses.recipient_name",
+    "sample_values": [
+      {
+        "value": "Khách demo 01",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 02",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 03",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 04",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 05",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 06",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 07",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 08",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "phone",
+    "column_id": "addresses.phone",
+    "sample_values": [
+      {
+        "value": "0909990001",
+        "frequency": 1
+      },
+      {
+        "value": "0909990002",
+        "frequency": 1
+      },
+      {
+        "value": "0909990003",
+        "frequency": 1
+      },
+      {
+        "value": "0909990004",
+        "frequency": 1
+      },
+      {
+        "value": "0909990005",
+        "frequency": 1
+      },
+      {
+        "value": "0909990006",
+        "frequency": 1
+      },
+      {
+        "value": "0909990007",
+        "frequency": 1
+      },
+      {
+        "value": "0909990008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "formatted_address",
+    "column_id": "addresses.formatted_address",
+    "sample_values": [
+      {
+        "value": "[MOCK] Số 1, Đường Demo, Phường Bến Nghé, Hồ Chí Minh",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 10, Đường Demo, Phường Hồng Bàng, Hải Phòng",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 11, Đường Demo, Phường Bến Nghé, Hồ Chí Minh",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 12, Đường Demo, Phường Hoàn Kiếm, Hà Nội",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 13, Đường Demo, Phường Hải Châu, Đà Nẵng",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 14, Đường Demo, Phường Ninh Kiều, Cần Thơ",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 15, Đường Demo, Phường Hồng Bàng, Hải Phòng",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 16, Đường Demo, Phường Bến Nghé, Hồ Chí Minh",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "address_line",
+    "column_id": "addresses.address_line",
+    "sample_values": [
+      {
+        "value": "Số 1, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 10, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 11, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 12, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 13, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 14, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 15, Đường Demo",
+        "frequency": 1
+      },
+      {
+        "value": "Số 16, Đường Demo",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "ward",
+    "column_id": "addresses.ward",
+    "sample_values": [
+      {
+        "value": "Phường Bến Nghé",
+        "frequency": 6
+      },
+      {
+        "value": "Phường Hoàn Kiếm",
+        "frequency": 6
+      },
+      {
+        "value": "Phường Hải Châu",
+        "frequency": 6
+      },
+      {
+        "value": "Phường Hồng Bàng",
+        "frequency": 6
+      },
+      {
+        "value": "Phường Ninh Kiều",
+        "frequency": 6
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "district",
+    "column_id": "addresses.district",
+    "sample_values": []
+  },
+  {
+    "table": "addresses",
+    "column": "province",
+    "column_id": "addresses.province",
+    "sample_values": [
+      {
+        "value": "Cần Thơ",
+        "frequency": 6
+      },
+      {
+        "value": "Hà Nội",
+        "frequency": 6
+      },
+      {
+        "value": "Hải Phòng",
+        "frequency": 6
+      },
+      {
+        "value": "Hồ Chí Minh",
+        "frequency": 6
+      },
+      {
+        "value": "Đà Nẵng",
+        "frequency": 6
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "country",
+    "column_id": "addresses.country",
+    "sample_values": [
+      {
+        "value": "Việt Nam",
+        "frequency": 30
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "latitude",
+    "column_id": "addresses.latitude",
+    "sample_values": [
+      {
+        "value": 10.033,
+        "frequency": 2
+      },
+      {
+        "value": 10.0331,
+        "frequency": 2
+      },
+      {
+        "value": 10.033199999999999,
+        "frequency": 2
+      },
+      {
+        "value": 10.776,
+        "frequency": 2
+      },
+      {
+        "value": 10.7761,
+        "frequency": 2
+      },
+      {
+        "value": 10.7762,
+        "frequency": 2
+      },
+      {
+        "value": 16.068,
+        "frequency": 2
+      },
+      {
+        "value": 16.0681,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "longitude",
+    "column_id": "addresses.longitude",
+    "sample_values": [
+      {
+        "value": 105.783,
+        "frequency": 2
+      },
+      {
+        "value": 105.7831,
+        "frequency": 2
+      },
+      {
+        "value": 105.78320000000001,
+        "frequency": 2
+      },
+      {
+        "value": 105.852,
+        "frequency": 2
+      },
+      {
+        "value": 105.85210000000001,
+        "frequency": 2
+      },
+      {
+        "value": 105.85220000000001,
+        "frequency": 2
+      },
+      {
+        "value": 106.683,
+        "frequency": 2
+      },
+      {
+        "value": 106.68310000000001,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "google_place_id",
+    "column_id": "addresses.google_place_id",
+    "sample_values": []
+  },
+  {
+    "table": "addresses",
+    "column": "address_source",
+    "column_id": "addresses.address_source",
+    "sample_values": [
+      {
+        "value": "MOCK",
+        "frequency": 30
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "customer_confirmed_at",
+    "column_id": "addresses.customer_confirmed_at",
+    "sample_values": []
+  },
+  {
+    "table": "addresses",
+    "column": "google_last_checked_at",
+    "column_id": "addresses.google_last_checked_at",
+    "sample_values": []
+  },
+  {
+    "table": "addresses",
+    "column": "is_default",
+    "column_id": "addresses.is_default",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 30
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "created_at",
+    "column_id": "addresses.created_at",
+    "sample_values": [
+      {
+        "value": "2026-08-01 09:00:00",
+        "frequency": 30
+      }
+    ]
+  },
+  {
+    "table": "addresses",
+    "column": "updated_at",
+    "column_id": "addresses.updated_at",
+    "sample_values": []
+  },
+  {
+    "table": "agents",
+    "column": "agent_id",
+    "column_id": "agents.agent_id",
+    "sample_values": [
+      {
+        "value": "AGT-001",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-002",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-003",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-004",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-005",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-006",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-007",
+        "frequency": 1
+      },
+      {
+        "value": "AGT-008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "agent_code",
+    "column_id": "agents.agent_code",
+    "sample_values": [
+      {
+        "value": "AGENT001",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT002",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT003",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT004",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT005",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT006",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT007",
+        "frequency": 1
+      },
+      {
+        "value": "AGENT008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "full_name",
+    "column_id": "agents.full_name",
+    "sample_values": [
+      {
+        "value": "Nhân viên demo 01",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 02",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 03",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 04",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 05",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 06",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 07",
+        "frequency": 1
+      },
+      {
+        "value": "Nhân viên demo 08",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "store_id",
+    "column_id": "agents.store_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 2
+      },
+      {
+        "value": 2,
+        "frequency": 2
+      },
+      {
+        "value": 3,
+        "frequency": 2
+      },
+      {
+        "value": 4,
+        "frequency": 2
+      },
+      {
+        "value": 5,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "email",
+    "column_id": "agents.email",
+    "sample_values": [
+      {
+        "value": "agent01@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent02@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent03@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent04@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent05@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent06@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent07@example.invalid",
+        "frequency": 1
+      },
+      {
+        "value": "agent08@example.invalid",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "phone",
+    "column_id": "agents.phone",
+    "sample_values": [
+      {
+        "value": "0900000001",
+        "frequency": 1
+      },
+      {
+        "value": "0900000002",
+        "frequency": 1
+      },
+      {
+        "value": "0900000003",
+        "frequency": 1
+      },
+      {
+        "value": "0900000004",
+        "frequency": 1
+      },
+      {
+        "value": "0900000005",
+        "frequency": 1
+      },
+      {
+        "value": "0900000006",
+        "frequency": 1
+      },
+      {
+        "value": "0900000007",
+        "frequency": 1
+      },
+      {
+        "value": "0900000008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "team",
+    "column_id": "agents.team",
+    "sample_values": [
+      {
+        "value": "CSKH",
+        "frequency": 5
+      },
+      {
+        "value": "Tư vấn bán hàng",
+        "frequency": 5
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "status",
+    "column_id": "agents.status",
+    "sample_values": [
+      {
+        "value": "ACTIVE",
+        "frequency": 10
+      }
+    ]
+  },
+  {
+    "table": "agents",
+    "column": "created_at",
+    "column_id": "agents.created_at",
+    "sample_values": [
+      {
+        "value": "2026-04-01 09:00:00",
+        "frequency": 10
+      }
+    ]
+  },
+  {
+    "table": "brands",
+    "column": "brand_id",
+    "column_id": "brands.brand_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "brands",
+    "column": "brand_name",
+    "column_id": "brands.brand_name",
+    "sample_values": [
+      {
+        "value": "AVA",
+        "frequency": 1
+      },
+      {
+        "value": "AVA+",
+        "frequency": 1
+      },
+      {
+        "value": "Acer",
+        "frequency": 1
+      },
+      {
+        "value": "Anker",
+        "frequency": 1
+      },
+      {
+        "value": "Apple",
+        "frequency": 1
+      },
+      {
+        "value": "Asia",
+        "frequency": 1
+      },
+      {
+        "value": "Asus",
+        "frequency": 1
+      },
+      {
+        "value": "Aukey",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "categories",
+    "column": "category_id",
+    "column_id": "categories.category_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "categories",
+    "column": "category_name",
+    "column_id": "categories.category_name",
+    "sample_values": [
+      {
+        "value": "Laptop Acer",
+        "frequency": 4
+      },
+      {
+        "value": "Laptop Dell",
+        "frequency": 4
+      },
+      {
+        "value": "Laptop Lenovo",
+        "frequency": 4
+      },
+      {
+        "value": "Laptop Asus",
+        "frequency": 3
+      },
+      {
+        "value": "Laptop HP",
+        "frequency": 3
+      },
+      {
+        "value": "Laptop MSI",
+        "frequency": 3
+      },
+      {
+        "value": "Adapter sạc",
+        "frequency": 1
+      },
+      {
+        "value": "Adapter sạc Anker",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "categories",
+    "column": "parent_category_id",
+    "column_id": "categories.parent_category_id",
+    "sample_values": [
+      {
+        "value": 107,
+        "frequency": 10
+      },
+      {
+        "value": 106,
+        "frequency": 9
+      },
+      {
+        "value": 161,
+        "frequency": 9
+      },
+      {
+        "value": 6,
+        "frequency": 8
+      },
+      {
+        "value": 56,
+        "frequency": 8
+      },
+      {
+        "value": 65,
+        "frequency": 8
+      },
+      {
+        "value": 125,
+        "frequency": 8
+      },
+      {
+        "value": 162,
+        "frequency": 8
+      }
+    ]
+  },
+  {
+    "table": "channels",
+    "column": "channel_id",
+    "column_id": "channels.channel_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "channels",
+    "column": "channel_code",
+    "column_id": "channels.channel_code",
+    "sample_values": [
+      {
+        "value": "FACEBOOK",
+        "frequency": 1
+      },
+      {
+        "value": "OFFLINE",
+        "frequency": 1
+      },
+      {
+        "value": "SHOPEE",
+        "frequency": 1
+      },
+      {
+        "value": "TIKTOK",
+        "frequency": 1
+      },
+      {
+        "value": "WEB",
+        "frequency": 1
+      },
+      {
+        "value": "ZALO",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "channels",
+    "column": "channel_name",
+    "column_id": "channels.channel_name",
+    "sample_values": [
+      {
+        "value": "Facebook Messenger",
+        "frequency": 1
+      },
+      {
+        "value": "Shopee",
+        "frequency": 1
+      },
+      {
+        "value": "TikTok Shop",
+        "frequency": 1
+      },
+      {
+        "value": "Tại cửa hàng",
+        "frequency": 1
+      },
+      {
+        "value": "Website",
+        "frequency": 1
+      },
+      {
+        "value": "Zalo OA",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "channels",
+    "column": "channel_type",
+    "column_id": "channels.channel_type",
+    "sample_values": [
+      {
+        "value": "marketplace",
+        "frequency": 2
+      },
+      {
+        "value": "chat",
+        "frequency": 1
+      },
+      {
+        "value": "offline",
+        "frequency": 1
+      },
+      {
+        "value": "social",
+        "frequency": 1
+      },
+      {
+        "value": "web",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "chat_id",
+    "column_id": "chats.chat_id",
+    "sample_values": [
+      {
+        "value": "CHAT-001-01",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-001-02",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-001-03",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-001-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-002-01",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-002-02",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-002-03",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-002-04",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "conversation_id",
+    "column_id": "chats.conversation_id",
+    "sample_values": [
+      {
+        "value": "CONV-001",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-002",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-003",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-004",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-005",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-006",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-007",
+        "frequency": 4
+      },
+      {
+        "value": "CONV-008",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "agent_id",
+    "column_id": "chats.agent_id",
+    "sample_values": [
+      {
+        "value": "AGT-001",
+        "frequency": 6
+      },
+      {
+        "value": "AGT-002",
+        "frequency": 6
+      },
+      {
+        "value": "AGT-003",
+        "frequency": 6
+      },
+      {
+        "value": "AGT-004",
+        "frequency": 6
+      },
+      {
+        "value": "AGT-005",
+        "frequency": 6
+      },
+      {
+        "value": "AGT-006",
+        "frequency": 4
+      },
+      {
+        "value": "AGT-007",
+        "frequency": 4
+      },
+      {
+        "value": "AGT-008",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "customer_id",
+    "column_id": "chats.customer_id",
+    "sample_values": [
+      {
+        "value": 11,
+        "frequency": 8
+      },
+      {
+        "value": 12,
+        "frequency": 8
+      },
+      {
+        "value": 13,
+        "frequency": 8
+      },
+      {
+        "value": 30,
+        "frequency": 8
+      },
+      {
+        "value": 1,
+        "frequency": 4
+      },
+      {
+        "value": 4,
+        "frequency": 4
+      },
+      {
+        "value": 5,
+        "frequency": 4
+      },
+      {
+        "value": 7,
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "product_id",
+    "column_id": "chats.product_id",
+    "sample_values": [
+      {
+        "value": "100003",
+        "frequency": 4
+      },
+      {
+        "value": "100005",
+        "frequency": 4
+      },
+      {
+        "value": "100013",
+        "frequency": 4
+      },
+      {
+        "value": "100021",
+        "frequency": 4
+      },
+      {
+        "value": "100032",
+        "frequency": 4
+      },
+      {
+        "value": "100047",
+        "frequency": 4
+      },
+      {
+        "value": "100051",
+        "frequency": 4
+      },
+      {
+        "value": "200002",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "channel_id",
+    "column_id": "chats.channel_id",
+    "sample_values": [
+      {
+        "value": 6,
+        "frequency": 28
+      },
+      {
+        "value": 1,
+        "frequency": 24
+      },
+      {
+        "value": 4,
+        "frequency": 20
+      },
+      {
+        "value": 3,
+        "frequency": 16
+      },
+      {
+        "value": 2,
+        "frequency": 12
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "chat_time",
+    "column_id": "chats.chat_time",
+    "sample_values": [
+      {
+        "value": "2026-09-02 09:09:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-02 09:11:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-02 09:13:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-02 09:15:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:16:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:18:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:20:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:22:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "sender_type",
+    "column_id": "chats.sender_type",
+    "sample_values": [
+      {
+        "value": "AGENT",
+        "frequency": 50
+      },
+      {
+        "value": "CUSTOMER",
+        "frequency": 50
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "content",
+    "column_id": "chats.content",
+    "sample_values": [
+      {
+        "value": "[MOCK] Cho mình tư vấn thời gian giao và chi phí.",
+        "frequency": 25
+      },
+      {
+        "value": "[MOCK] Nhân viên xác nhận thông tin và hỗ trợ tạo đơn.",
+        "frequency": 25
+      },
+      {
+        "value": "[MOCK] Nhân viên đã kiểm tra tình trạng hàng.",
+        "frequency": 25
+      },
+      {
+        "value": "[MOCK] Khách hỏi sản phẩm Bàn Phím Có Dây Logitech K120",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Khách hỏi sản phẩm Bếp từ đôi âm Sunhouse SHB82082-VMD",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Khách hỏi sản phẩm Bộ 3 nồi inox 5 đáy nắp kính Sunhouse SHG799",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Khách hỏi sản phẩm Bộ dao inox Elmich EL8410",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Khách hỏi sản phẩm Bộ tô 2 món nhựa PP LocknLock HPP961GRN",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "intent_label",
+    "column_id": "chats.intent_label",
+    "sample_values": [
+      {
+        "value": "product_inquiry",
+        "frequency": 100
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "sentiment_label",
+    "column_id": "chats.sentiment_label",
+    "sample_values": [
+      {
+        "value": "NEUTRAL",
+        "frequency": 100
+      }
+    ]
+  },
+  {
+    "table": "chats",
+    "column": "created_at",
+    "column_id": "chats.created_at",
+    "sample_values": [
+      {
+        "value": "2026-09-02 09:09:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-02 09:11:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-02 09:13:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-02 09:15:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:16:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:18:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:20:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 09:22:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "customers",
+    "column": "customer_id",
+    "column_id": "customers.customer_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "customers",
+    "column": "customer_code",
+    "column_id": "customers.customer_code",
+    "sample_values": [
+      {
+        "value": "CUST-0001",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0002",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0003",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0004",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0005",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0006",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0007",
+        "frequency": 1
+      },
+      {
+        "value": "CUST-0008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "customers",
+    "column": "region_id",
+    "column_id": "customers.region_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 6
+      },
+      {
+        "value": 2,
+        "frequency": 6
+      },
+      {
+        "value": 3,
+        "frequency": 6
+      },
+      {
+        "value": 4,
+        "frequency": 6
+      },
+      {
+        "value": 5,
+        "frequency": 6
+      }
+    ]
+  },
+  {
+    "table": "customers",
+    "column": "customer_segment",
+    "column_id": "customers.customer_segment",
+    "sample_values": [
+      {
+        "value": "Retail",
+        "frequency": 10
+      },
+      {
+        "value": "VIP",
+        "frequency": 10
+      },
+      {
+        "value": "Wholesale",
+        "frequency": 10
+      }
+    ]
+  },
+  {
+    "table": "customers",
+    "column": "joined_at",
+    "column_id": "customers.joined_at",
+    "sample_values": [
+      {
+        "value": "2026-01-04",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-07",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-10",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-13",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-16",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-19",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-22",
+        "frequency": 1
+      },
+      {
+        "value": "2026-01-25",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "column": "snapshot_id",
+    "column_id": "inventory_snapshots.snapshot_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "column": "store_id",
+    "column_id": "inventory_snapshots.store_id",
+    "sample_values": [
+      {
+        "value": 4,
+        "frequency": 192
+      },
+      {
+        "value": 3,
+        "frequency": 182
+      },
+      {
+        "value": 1,
+        "frequency": 177
+      },
+      {
+        "value": 2,
+        "frequency": 173
+      },
+      {
+        "value": 5,
+        "frequency": 171
+      }
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "column": "product_id",
+    "column_id": "inventory_snapshots.product_id",
+    "sample_values": [
+      {
+        "value": "100002",
+        "frequency": 4
+      },
+      {
+        "value": "100008",
+        "frequency": 4
+      },
+      {
+        "value": "100014",
+        "frequency": 4
+      },
+      {
+        "value": "100018",
+        "frequency": 4
+      },
+      {
+        "value": "100029",
+        "frequency": 4
+      },
+      {
+        "value": "100030",
+        "frequency": 4
+      },
+      {
+        "value": "100043",
+        "frequency": 4
+      },
+      {
+        "value": "100044",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "column": "snapshot_date",
+    "column_id": "inventory_snapshots.snapshot_date",
+    "sample_values": [
+      {
+        "value": "2026-10-13",
+        "frequency": 895
+      }
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "column": "qty_on_hand",
+    "column_id": "inventory_snapshots.qty_on_hand",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 148
+      },
+      {
+        "value": 1,
+        "frequency": 48
+      },
+      {
+        "value": 4,
+        "frequency": 30
+      },
+      {
+        "value": 2,
+        "frequency": 29
+      },
+      {
+        "value": 5,
+        "frequency": 27
+      },
+      {
+        "value": 12,
+        "frequency": 27
+      },
+      {
+        "value": 3,
+        "frequency": 23
+      },
+      {
+        "value": 9,
+        "frequency": 21
+      }
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "column": "qty_reserved",
+    "column_id": "inventory_snapshots.qty_reserved",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 325
+      },
+      {
+        "value": 1,
+        "frequency": 205
+      },
+      {
+        "value": 2,
+        "frequency": 190
+      },
+      {
+        "value": 3,
+        "frequency": 175
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "order_item_id",
+    "column_id": "order_items.order_item_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "order_id",
+    "column_id": "order_items.order_id",
+    "sample_values": [
+      {
+        "value": 12,
+        "frequency": 3
+      },
+      {
+        "value": 16,
+        "frequency": 3
+      },
+      {
+        "value": 23,
+        "frequency": 3
+      },
+      {
+        "value": 24,
+        "frequency": 3
+      },
+      {
+        "value": 28,
+        "frequency": 3
+      },
+      {
+        "value": 29,
+        "frequency": 3
+      },
+      {
+        "value": 31,
+        "frequency": 3
+      },
+      {
+        "value": 33,
+        "frequency": 3
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "product_id",
+    "column_id": "order_items.product_id",
+    "sample_values": [
+      {
+        "value": "300046",
+        "frequency": 3
+      },
+      {
+        "value": "100021",
+        "frequency": 2
+      },
+      {
+        "value": "100025",
+        "frequency": 2
+      },
+      {
+        "value": "100051",
+        "frequency": 2
+      },
+      {
+        "value": "200002",
+        "frequency": 2
+      },
+      {
+        "value": "200048",
+        "frequency": 2
+      },
+      {
+        "value": "200049",
+        "frequency": 2
+      },
+      {
+        "value": "200053",
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "quantity",
+    "column_id": "order_items.quantity",
+    "sample_values": [
+      {
+        "value": 2,
+        "frequency": 37
+      },
+      {
+        "value": 3,
+        "frequency": 35
+      },
+      {
+        "value": 1,
+        "frequency": 31
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "unit_price",
+    "column_id": "order_items.unit_price",
+    "sample_values": [
+      {
+        "value": 390000,
+        "frequency": 4
+      },
+      {
+        "value": 90000,
+        "frequency": 3
+      },
+      {
+        "value": 160000,
+        "frequency": 3
+      },
+      {
+        "value": 430000,
+        "frequency": 3
+      },
+      {
+        "value": 1490000,
+        "frequency": 3
+      },
+      {
+        "value": 18990000,
+        "frequency": 3
+      },
+      {
+        "value": 195000,
+        "frequency": 2
+      },
+      {
+        "value": 295000,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "line_discount",
+    "column_id": "order_items.line_discount",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 89
+      },
+      {
+        "value": 19500,
+        "frequency": 1
+      },
+      {
+        "value": 39800,
+        "frequency": 1
+      },
+      {
+        "value": 43000,
+        "frequency": 1
+      },
+      {
+        "value": 48000,
+        "frequency": 1
+      },
+      {
+        "value": 59000,
+        "frequency": 1
+      },
+      {
+        "value": 79000,
+        "frequency": 1
+      },
+      {
+        "value": 117000,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "column": "promotion_id",
+    "column_id": "order_items.promotion_id",
+    "sample_values": [
+      {
+        "value": 4,
+        "frequency": 12
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "order_id",
+    "column_id": "orders.order_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "order_code",
+    "column_id": "orders.order_code",
+    "sample_values": [
+      {
+        "value": "ORD-DEMO-00001",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00002",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00003",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00004",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00005",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00006",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00007",
+        "frequency": 1
+      },
+      {
+        "value": "ORD-DEMO-00008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "customer_id",
+    "column_id": "orders.customer_id",
+    "sample_values": [
+      {
+        "value": 30,
+        "frequency": 4
+      },
+      {
+        "value": 4,
+        "frequency": 3
+      },
+      {
+        "value": 10,
+        "frequency": 3
+      },
+      {
+        "value": 11,
+        "frequency": 3
+      },
+      {
+        "value": 12,
+        "frequency": 3
+      },
+      {
+        "value": 13,
+        "frequency": 3
+      },
+      {
+        "value": 17,
+        "frequency": 3
+      },
+      {
+        "value": 24,
+        "frequency": 3
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "channel_id",
+    "column_id": "orders.channel_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 12
+      },
+      {
+        "value": 2,
+        "frequency": 10
+      },
+      {
+        "value": 5,
+        "frequency": 10
+      },
+      {
+        "value": 4,
+        "frequency": 7
+      },
+      {
+        "value": 6,
+        "frequency": 7
+      },
+      {
+        "value": 3,
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "store_id",
+    "column_id": "orders.store_id",
+    "sample_values": [
+      {
+        "value": 4,
+        "frequency": 12
+      },
+      {
+        "value": 1,
+        "frequency": 11
+      },
+      {
+        "value": 5,
+        "frequency": 10
+      },
+      {
+        "value": 2,
+        "frequency": 9
+      },
+      {
+        "value": 3,
+        "frequency": 8
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "chat_id",
+    "column_id": "orders.chat_id",
+    "sample_values": [
+      {
+        "value": "CHAT-001-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-002-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-003-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-004-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-005-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-006-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-007-04",
+        "frequency": 1
+      },
+      {
+        "value": "CHAT-008-04",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "agent_id",
+    "column_id": "orders.agent_id",
+    "sample_values": [
+      {
+        "value": "AGT-001",
+        "frequency": 3
+      },
+      {
+        "value": "AGT-002",
+        "frequency": 3
+      },
+      {
+        "value": "AGT-003",
+        "frequency": 3
+      },
+      {
+        "value": "AGT-004",
+        "frequency": 3
+      },
+      {
+        "value": "AGT-005",
+        "frequency": 3
+      },
+      {
+        "value": "AGT-006",
+        "frequency": 2
+      },
+      {
+        "value": "AGT-007",
+        "frequency": 2
+      },
+      {
+        "value": "AGT-008",
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "ordered_at",
+    "column_id": "orders.ordered_at",
+    "sample_values": [
+      {
+        "value": "2026-09-02 09:39:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 10:36:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 12:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-04 11:21:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-04 13:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-05 11:25:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-05 14:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-06 10:43:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "status",
+    "column_id": "orders.status",
+    "sample_values": [
+      {
+        "value": "delivered",
+        "frequency": 15
+      },
+      {
+        "value": "paid",
+        "frequency": 14
+      },
+      {
+        "value": "cancelled",
+        "frequency": 7
+      },
+      {
+        "value": "placed",
+        "frequency": 7
+      },
+      {
+        "value": "shipped",
+        "frequency": 7
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "gross_amount",
+    "column_id": "orders.gross_amount",
+    "sample_values": [
+      {
+        "value": 60000,
+        "frequency": 1
+      },
+      {
+        "value": 79000,
+        "frequency": 1
+      },
+      {
+        "value": 398000,
+        "frequency": 1
+      },
+      {
+        "value": 590000,
+        "frequency": 1
+      },
+      {
+        "value": 665000,
+        "frequency": 1
+      },
+      {
+        "value": 700000,
+        "frequency": 1
+      },
+      {
+        "value": 1120000,
+        "frequency": 1
+      },
+      {
+        "value": 2165000,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "discount_amount",
+    "column_id": "orders.discount_amount",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 43
+      },
+      {
+        "value": 39800,
+        "frequency": 1
+      },
+      {
+        "value": 117000,
+        "frequency": 1
+      },
+      {
+        "value": 216500,
+        "frequency": 1
+      },
+      {
+        "value": 1681000,
+        "frequency": 1
+      },
+      {
+        "value": 2062000,
+        "frequency": 1
+      },
+      {
+        "value": 8977000,
+        "frequency": 1
+      },
+      {
+        "value": 17371000,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "column": "shipping_fee",
+    "column_id": "orders.shipping_fee",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 44
+      },
+      {
+        "value": 25000,
+        "frequency": 6
+      }
+    ]
+  },
+  {
+    "table": "payments",
+    "column": "payment_id",
+    "column_id": "payments.payment_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "payments",
+    "column": "order_id",
+    "column_id": "payments.order_id",
+    "sample_values": [
+      {
+        "value": 12,
+        "frequency": 2
+      },
+      {
+        "value": 18,
+        "frequency": 2
+      },
+      {
+        "value": 30,
+        "frequency": 2
+      },
+      {
+        "value": 36,
+        "frequency": 2
+      },
+      {
+        "value": 42,
+        "frequency": 2
+      },
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "payments",
+    "column": "payment_method",
+    "column_id": "payments.payment_method",
+    "sample_values": [
+      {
+        "value": "online",
+        "frequency": 35
+      },
+      {
+        "value": "COD",
+        "frequency": 12
+      },
+      {
+        "value": "transfer",
+        "frequency": 8
+      }
+    ]
+  },
+  {
+    "table": "payments",
+    "column": "status",
+    "column_id": "payments.status",
+    "sample_values": [
+      {
+        "value": "success",
+        "frequency": 36
+      },
+      {
+        "value": "failed",
+        "frequency": 12
+      },
+      {
+        "value": "pending",
+        "frequency": 7
+      }
+    ]
+  },
+  {
+    "table": "payments",
+    "column": "amount",
+    "column_id": "payments.amount",
+    "sample_values": [
+      {
+        "value": 690000,
+        "frequency": 2
+      },
+      {
+        "value": 12790000,
+        "frequency": 2
+      },
+      {
+        "value": 41180000,
+        "frequency": 2
+      },
+      {
+        "value": 74560000,
+        "frequency": 2
+      },
+      {
+        "value": 75810000,
+        "frequency": 2
+      },
+      {
+        "value": 85000,
+        "frequency": 1
+      },
+      {
+        "value": 104000,
+        "frequency": 1
+      },
+      {
+        "value": 383200,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "payments",
+    "column": "paid_at",
+    "column_id": "payments.paid_at",
+    "sample_values": [
+      {
+        "value": "2026-09-02 10:09:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 11:06:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-03 12:30:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-05 11:55:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-05 14:30:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-06 11:13:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-06 15:30:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-07 10:10:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "product_suppliers",
+    "column": "product_id",
+    "column_id": "product_suppliers.product_id",
+    "sample_values": [
+      {
+        "value": "100001",
+        "frequency": 2
+      },
+      {
+        "value": "100002",
+        "frequency": 2
+      },
+      {
+        "value": "100003",
+        "frequency": 2
+      },
+      {
+        "value": "100004",
+        "frequency": 2
+      },
+      {
+        "value": "100005",
+        "frequency": 2
+      },
+      {
+        "value": "100006",
+        "frequency": 2
+      },
+      {
+        "value": "100012",
+        "frequency": 2
+      },
+      {
+        "value": "100013",
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "product_suppliers",
+    "column": "supplier_id",
+    "column_id": "product_suppliers.supplier_id",
+    "sample_values": [
+      {
+        "value": 2,
+        "frequency": 41
+      },
+      {
+        "value": 8,
+        "frequency": 40
+      },
+      {
+        "value": 12,
+        "frequency": 35
+      },
+      {
+        "value": 1,
+        "frequency": 34
+      },
+      {
+        "value": 6,
+        "frequency": 34
+      },
+      {
+        "value": 3,
+        "frequency": 33
+      },
+      {
+        "value": 7,
+        "frequency": 33
+      },
+      {
+        "value": 5,
+        "frequency": 32
+      }
+    ]
+  },
+  {
+    "table": "product_suppliers",
+    "column": "is_primary",
+    "column_id": "product_suppliers.is_primary",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 300
+      },
+      {
+        "value": 0,
+        "frequency": 93
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "product_id",
+    "column_id": "products.product_id",
+    "sample_values": [
+      {
+        "value": "100001",
+        "frequency": 1
+      },
+      {
+        "value": "100002",
+        "frequency": 1
+      },
+      {
+        "value": "100003",
+        "frequency": 1
+      },
+      {
+        "value": "100004",
+        "frequency": 1
+      },
+      {
+        "value": "100005",
+        "frequency": 1
+      },
+      {
+        "value": "100006",
+        "frequency": 1
+      },
+      {
+        "value": "100007",
+        "frequency": 1
+      },
+      {
+        "value": "100008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "sku",
+    "column_id": "products.sku",
+    "sample_values": [
+      {
+        "value": "ACE-ASPIRE-GO-15-AG15-52P-52WT-ULTRA-5-115U-NX-JWKSV-001",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-ASPIRE-GO-15-AG15-72P-500W-CORE-5-120U-NX-JRRSV-007",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-ASPIRE-LITE-14-AL14-44P-R0SP-R7-7730U-NX-DMCSV-003",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-GAMING-ASPIRE-7-A715-59G-59RD-CORE-5-210H-NH-DXUSV-001",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-GAMING-NITRO-PROPANEL-AN16S-61-R193-R9-AI-365-NH-QXTSV-001",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-GAMING-NITRO-PROPANEL-ANV16-72-71T9-CORE-7-240H-NH-QUNSV-001",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-GAMING-PREDATOR-HELIOS-NEO-16-AI-PHN16-73-757W-ULTRA-7-255HX-NH-QVQSV-001",
+        "frequency": 1
+      },
+      {
+        "value": "ACE-NITRO-PROPANEL-ANV15-52-50RB-CORE-5-210H-NH-QUASV-002",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "name",
+    "column_id": "products.name",
+    "sample_values": [
+      {
+        "value": "Acer Aspire Go 15 AG15-52P-52WT Ultra 5 115U (NX.JWKSV.001)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Aspire Go 15 AG15-72P-500W Core 5 120U (NX.JRRSV.007)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Aspire Lite 14 AL14-44P-R0SP R7 7730U (NX.DMCSV.003)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Gaming Aspire 7 A715-59G-59RD Core 5 210H (NH.DXUSV.001)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Gaming Nitro ProPanel AN16S 61 R193 R9 AI 365 (NH.QXTSV.001)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Gaming Nitro ProPanel ANV16-72-71T9 Core 7 240H (NH.QUNSV.001)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Gaming Predator Helios Neo 16 AI PHN16 73 757W Ultra 7 255HX (NH.QVQSV.001)",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Nitro ProPanel ANV15-52-50RB Core 5 210H (NH.QUASV.002)",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "product_url",
+    "column_id": "products.product_url",
+    "sample_values": [
+      {
+        "value": "",
+        "frequency": 300
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "brand_id",
+    "column_id": "products.brand_id",
+    "sample_values": [
+      {
+        "value": 5,
+        "frequency": 16
+      },
+      {
+        "value": 68,
+        "frequency": 16
+      },
+      {
+        "value": 59,
+        "frequency": 15
+      },
+      {
+        "value": 37,
+        "frequency": 12
+      },
+      {
+        "value": 54,
+        "frequency": 11
+      },
+      {
+        "value": 3,
+        "frequency": 9
+      },
+      {
+        "value": 7,
+        "frequency": 9
+      },
+      {
+        "value": 15,
+        "frequency": 9
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "category_id",
+    "column_id": "products.category_id",
+    "sample_values": [
+      {
+        "value": 7,
+        "frequency": 5
+      },
+      {
+        "value": 8,
+        "frequency": 5
+      },
+      {
+        "value": 9,
+        "frequency": 5
+      },
+      {
+        "value": 10,
+        "frequency": 5
+      },
+      {
+        "value": 11,
+        "frequency": 5
+      },
+      {
+        "value": 12,
+        "frequency": 5
+      },
+      {
+        "value": 13,
+        "frequency": 5
+      },
+      {
+        "value": 84,
+        "frequency": 5
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "promotion_id",
+    "column_id": "products.promotion_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 7
+      },
+      {
+        "value": 2,
+        "frequency": 5
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "original_price",
+    "column_id": "products.original_price",
+    "sample_values": [
+      {
+        "value": 25990000,
+        "frequency": 6
+      },
+      {
+        "value": 490000,
+        "frequency": 5
+      },
+      {
+        "value": 22990000,
+        "frequency": 5
+      },
+      {
+        "value": 33990000,
+        "frequency": 5
+      },
+      {
+        "value": 150000,
+        "frequency": 4
+      },
+      {
+        "value": 590000,
+        "frequency": 4
+      },
+      {
+        "value": 19990000,
+        "frequency": 4
+      },
+      {
+        "value": 160000,
+        "frequency": 3
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "discount_price",
+    "column_id": "products.discount_price",
+    "sample_values": [
+      {
+        "value": 24990000,
+        "frequency": 6
+      },
+      {
+        "value": 130000,
+        "frequency": 5
+      },
+      {
+        "value": 590000,
+        "frequency": 5
+      },
+      {
+        "value": 750000,
+        "frequency": 5
+      },
+      {
+        "value": 790000,
+        "frequency": 5
+      },
+      {
+        "value": 1190000,
+        "frequency": 5
+      },
+      {
+        "value": 90000,
+        "frequency": 4
+      },
+      {
+        "value": 390000,
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "currency",
+    "column_id": "products.currency",
+    "sample_values": [
+      {
+        "value": "VND",
+        "frequency": 300
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "discount_percentage",
+    "column_id": "products.discount_percentage",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 23
+      },
+      {
+        "value": 12,
+        "frequency": 14
+      },
+      {
+        "value": 13,
+        "frequency": 12
+      },
+      {
+        "value": 14,
+        "frequency": 10
+      },
+      {
+        "value": 5,
+        "frequency": 9
+      },
+      {
+        "value": 9,
+        "frequency": 9
+      },
+      {
+        "value": 16,
+        "frequency": 9
+      },
+      {
+        "value": 6,
+        "frequency": 8
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "is_in_stock",
+    "column_id": "products.is_in_stock",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 272
+      },
+      {
+        "value": 0,
+        "frequency": 28
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "stock_quantity",
+    "column_id": "products.stock_quantity",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 28
+      },
+      {
+        "value": 95,
+        "frequency": 7
+      },
+      {
+        "value": 88,
+        "frequency": 6
+      },
+      {
+        "value": 96,
+        "frequency": 6
+      },
+      {
+        "value": 99,
+        "frequency": 5
+      },
+      {
+        "value": 104,
+        "frequency": 5
+      },
+      {
+        "value": 21,
+        "frequency": 4
+      },
+      {
+        "value": 23,
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "delivery_locations",
+    "column_id": "products.delivery_locations",
+    "sample_values": [
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Đà Nẵng\", \"Cần Thơ\", \"Hải Phòng\", \"Nha Trang\"]",
+        "frequency": 70
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\"]",
+        "frequency": 16
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Đà Nẵng\", \"Cần Thơ\", \"Nha Trang\"]",
+        "frequency": 14
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Đà Nẵng\", \"Hải Phòng\", \"Nha Trang\"]",
+        "frequency": 13
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Đà Nẵng\", \"Cần Thơ\", \"Hải Phòng\"]",
+        "frequency": 12
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Cần Thơ\", \"Hải Phòng\", \"Nha Trang\"]",
+        "frequency": 10
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Cần Thơ\"]",
+        "frequency": 9
+      },
+      {
+        "value": "[\"Hồ Chí Minh\", \"Hà Nội\", \"Hải Phòng\"]",
+        "frequency": 9
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "specifications",
+    "column_id": "products.specifications",
+    "sample_values": [
+      {
+        "value": "{\"material\": \"Inox 3 lớp nguyên khối\", \"size_or_capacity\": \"16, 20, 24 cm\", \"compatible_stoves\": [\"Bếp từ\", \"Bếp gas\", \"Bếp hồng ngoại\", \"Bếp điện\"], \"dishwasher_safe\": true, \"coating\": \"Không\", \"made_in\": \"Việt Nam\", \"features\": [\"Đáy từ dùng được bếp từ\", \"Tay cầm tán đinh chắc chắn\", \"Nắp kính cường lực\", \"Inox an toàn cho sức khỏe, không gỉ\"]}",
+        "frequency": 2
+      },
+      {
+        "value": "{\"material\": \"Lưỡi inox, cán nhựa\", \"size_or_capacity\": \"Bộ 5 món\", \"compatible_stoves\": \"Không áp dụng\", \"dishwasher_safe\": false, \"coating\": \"Không\", \"made_in\": \"Trung Quốc\", \"features\": [\"Lưỡi sắc bén, chống gỉ\", \"Cán cầm chắc tay chống trượt\", \"Đầy đủ dao cho các nhu cầu chặt, thái, gọt\"]}",
+        "frequency": 2
+      },
+      {
+        "value": "{\"material\": \"Nhôm\", \"size_or_capacity\": \"Đường kính 28 cm\", \"compatible_stoves\": [\"Bếp từ\", \"Bếp gas\", \"Bếp hồng ngoại\", \"Bếp điện\"], \"dishwasher_safe\": false, \"coating\": \"Chống dính Titanium\", \"made_in\": \"Trung Quốc\", \"features\": [\"Đáy từ dùng được bếp từ\", \"Tay cầm cách nhiệt chống nóng\", \"Điểm báo nhiệt Thermo-Spot\", \"Lớp chống dính hạn chế bám thức ăn\"]}",
+        "frequency": 2
+      },
+      {
+        "value": "{\"material\": \"Nhựa PP\", \"size_or_capacity\": \"Bộ 2 tô\", \"compatible_stoves\": \"Không áp dụng\", \"dishwasher_safe\": true, \"coating\": \"Không\", \"made_in\": \"Trung Quốc\", \"features\": [\"Nhẹ, khó vỡ\", \"An toàn với thực phẩm\", \"Dùng được lò vi sóng\"]}",
+        "frequency": 2
+      },
+      {
+        "value": "{\"material\": \"Nhựa PP, cán inox, bông microfiber\", \"size_or_capacity\": \"Thùng vắt 360 độ\", \"compatible_stoves\": \"Không áp dụng\", \"dishwasher_safe\": false, \"coating\": \"Không\", \"made_in\": \"Trung Quốc\", \"features\": [\"Bông lau microfiber thấm hút tốt\", \"Cán dài điều chỉnh được độ cao\", \"Đầu lau xoay 360 độ lau gầm giường, góc nhà\"]}",
+        "frequency": 2
+      },
+      {
+        "value": "{\"cpu\": \"AMD Ryzen 3 3200U\", \"ram\": \"8 GB\", \"storage\": \"512 GB SSD\", \"screen\": \"15.6 inch Full HD, 60 Hz\", \"gpu\": \"AMD Radeon Vega 3\", \"battery\": \"3-cell Li-ion, 42 Wh\", \"weight\": \"1.75 kg\", \"os\": \"Windows 11 Home SL\", \"ports\": [\"1 x USB Type-C\", \"2 x USB 3.2\", \"HDMI\", \"Jack tai nghe 3.5 mm\"], \"manufacture_year\": 2026, \"features\": [\"Đèn bàn phím\", \"Webcam Full HD\"]}",
+        "frequency": 1
+      },
+      {
+        "value": "{\"cpu\": \"AMD Ryzen 5 7235HS\", \"ram\": \"16 GB\", \"storage\": \"512 GB SSD\", \"screen\": \"15.6 inch Full HD, 144 Hz\", \"gpu\": \"NVIDIA GeForce RTX 3050 6 GB\", \"battery\": \"4-cell Li-ion, 80 Wh\", \"weight\": \"2.30 kg\", \"os\": \"Windows 11 Home SL\", \"ports\": [\"1 x USB Type-C\", \"2 x USB 3.2\", \"HDMI\", \"LAN (RJ45)\", \"Jack tai nghe 3.5 mm\"], \"manufacture_year\": 2024, \"features\": [\"Đèn bàn phím RGB\", \"Tản nhiệt kép hiệu năng cao\", \"Hỗ trợ MUX Switch\", \"Office Home 2024 bản quyền\"]}",
+        "frequency": 1
+      },
+      {
+        "value": "{\"cpu\": \"AMD Ryzen 5 7520U\", \"ram\": \"16 GB\", \"storage\": \"512 GB SSD\", \"screen\": \"15.6 inch Full HD\", \"gpu\": \"AMD Radeon 610M\", \"battery\": \"3-cell Li-ion, 42 Wh\", \"weight\": \"1.75 kg\", \"os\": \"Windows 11 Home SL\", \"ports\": [\"1 x USB Type-C\", \"2 x USB 3.2\", \"HDMI\", \"Jack tai nghe 3.5 mm\"], \"manufacture_year\": 2023, \"features\": [\"Đèn bàn phím\", \"Webcam Full HD\", \"Bảo mật vân tay\", \"Office Home 2024 bản quyền\"]}",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "warranty",
+    "column_id": "products.warranty",
+    "sample_values": [
+      {
+        "value": "{\"months\": 12, \"warranty_type\": \"Bảo hành chính hãng\", \"return_policy\": \"Lỗi 1 đổi 1 trong 30 ngày (nếu lỗi kỹ thuật)\"}",
+        "frequency": 101
+      },
+      {
+        "value": "{\"months\": 12, \"warranty_type\": \"Bảo hành chính hãng\", \"return_policy\": \"Hư gì đổi nấy 12 tháng tại siêu thị (nếu lỗi do nhà sản xuất)\"}",
+        "frequency": 88
+      },
+      {
+        "value": "{\"months\": 12, \"warranty_type\": \"Bảo hành chính hãng\", \"return_policy\": \"Hư gì đổi nấy trong 30 ngày (nếu lỗi do nhà sản xuất)\"}",
+        "frequency": 28
+      },
+      {
+        "value": "{\"months\": 6, \"warranty_type\": \"Bảo hành chính hãng\", \"return_policy\": \"Hư gì đổi nấy trong 30 ngày (nếu lỗi do nhà sản xuất)\"}",
+        "frequency": 23
+      },
+      {
+        "value": "{\"months\": 24, \"warranty_type\": \"Bảo hành chính hãng\", \"return_policy\": \"Hư gì đổi nấy 12 tháng tại siêu thị (nếu lỗi do nhà sản xuất)\"}",
+        "frequency": 18
+      },
+      {
+        "value": "{\"months\": 24, \"warranty_type\": \"Bảo hành chính hãng\", \"return_policy\": \"Lỗi 1 đổi 1 trong 30 ngày (nếu lỗi kỹ thuật)\"}",
+        "frequency": 11
+      },
+      {
+        "value": "{\"months\": 12, \"warranty_type\": \"Bảo hành chính hãng Apple\", \"return_policy\": \"Hư gì đổi nấy 12 tháng tại siêu thị (nếu lỗi do nhà sản xuất)\"}",
+        "frequency": 7
+      },
+      {
+        "value": "{\"months\": 0, \"warranty_type\": \"Không bảo hành\", \"return_policy\": \"Hư gì đổi nấy trong 30 ngày (nếu lỗi do nhà sản xuất)\"}",
+        "frequency": 5
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "images",
+    "column_id": "products.images",
+    "sample_values": [
+      {
+        "value": "[]",
+        "frequency": 300
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "created_at",
+    "column_id": "products.created_at",
+    "sample_values": [
+      {
+        "value": "2026-10-13 09:40:55",
+        "frequency": 300
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "description",
+    "column_id": "products.description",
+    "sample_values": [
+      {
+        "value": "Chảo Tefal nhôm đường kính 28 cm, phù hợp chiên, xào món ăn hằng ngày cho gia đình. Bề mặt phủ lớp chống dính titanium giúp chiên trứng, cá không dính, nấu ít dầu mỡ và dễ vệ sinh. Đáy từ giúp chảo dùng được trên bếp từ, bếp gas và bếp hồng ngoại.",
+        "frequency": 2
+      },
+      {
+        "value": "AVA+ Buds Life Air 2 Pro là tai nghe True Wireless có chống ồn chủ động trong tầm giá dễ tiếp cận. Thiết kế dạng que quen thuộc, đeo vừa vặn và nhẹ nhàng.",
+        "frequency": 1
+      },
+      {
+        "value": "AVA+ FreeGo F60 là loa Bluetooth nhỏ gọn, giá phải chăng cho nhu cầu nghe nhạc hằng ngày. Loa hỗ trợ thẻ nhớ và có đèn LED trang trí trẻ trung.",
+        "frequency": 1
+      },
+      {
+        "value": "AVA+ FreeGo W30 là tai nghe True Wireless giá rẻ, thiết kế nhỏ gọn và dễ sử dụng. Sản phẩm phù hợp với học sinh, sinh viên cần một chiếc tai nghe không dây để nghe nhạc, xem video hằng ngày.",
+        "frequency": 1
+      },
+      {
+        "value": "AVA+ FreeGo Y60 sở hữu thiết kế trẻ trung với hộp sạc bo tròn, kết nối Bluetooth 5.3 ổn định. Tai nghe có chế độ game độ trễ thấp, thích hợp cho người dùng phổ thông.",
+        "frequency": 1
+      },
+      {
+        "value": "AVA+ LiveBass E1 là tai nghe có dây giá rẻ, đầu cắm 3.5 mm tương thích rộng rãi. Thiết kế nhét tai nhỏ gọn, có micro đàm thoại tiện lợi khi gọi điện.",
+        "frequency": 1
+      },
+      {
+        "value": "AVA+ Q7 là pin sạc dự phòng dung lượng lớn 20000mAh với mức giá phổ thông. Sản phẩm phù hợp cho nhu cầu sạc cơ bản của học sinh, sinh viên.",
+        "frequency": 1
+      },
+      {
+        "value": "Acer Aspire Go 15 AG15-52P-52WT Ultra 5 115U là laptop AI tích hợp NPU, chạy Intel Core Ultra 5 115U với 16 GB RAM, hỗ trợ các tính năng Copilot và xử lý AI ngay trên máy. Màn hình 15.6 inch Full HD cho trải nghiệm làm việc, học tập thoải mái. Máy phù hợp cho dân văn phòng, sinh viên muốn tận dụng các công cụ AI để tăng năng suất.",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "products",
+    "column": "description_embedding",
+    "column_id": "products.description_embedding",
+    "sample_values": [
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 2
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      },
+      {
+        "value": {
+          "value_type": "bytes",
+          "byte_length": 3072
+        },
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "promotions",
+    "column": "promotion_id",
+    "column_id": "promotions.promotion_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "promotions",
+    "column": "promo_code",
+    "column_id": "promotions.promo_code",
+    "sample_values": [
+      {
+        "value": "DEMO_BASKET10",
+        "frequency": 1
+      },
+      {
+        "value": "SRC_STUDENT05",
+        "frequency": 1
+      },
+      {
+        "value": "SRC_STUDENT10",
+        "frequency": 1
+      },
+      {
+        "value": "SRC_STUDENT20",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "promotions",
+    "column": "promo_name",
+    "column_id": "promotions.promo_name",
+    "sample_values": [
+      {
+        "value": "Demo ưu đãi bổ sung cho đơn hàng",
+        "frequency": 1
+      },
+      {
+        "value": "Sinh viên giảm 10%",
+        "frequency": 1
+      },
+      {
+        "value": "Sinh viên giảm 20%",
+        "frequency": 1
+      },
+      {
+        "value": "Sinh viên giảm 5%",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "promotions",
+    "column": "start_date",
+    "column_id": "promotions.start_date",
+    "sample_values": [
+      {
+        "value": "2026-01-01",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "promotions",
+    "column": "end_date",
+    "column_id": "promotions.end_date",
+    "sample_values": [
+      {
+        "value": "2026-12-31",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "promotions",
+    "column": "discount_pct",
+    "column_id": "promotions.discount_pct",
+    "sample_values": [
+      {
+        "value": 10,
+        "frequency": 2
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 20,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "regions",
+    "column": "region_id",
+    "column_id": "regions.region_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "regions",
+    "column": "region_code",
+    "column_id": "regions.region_code",
+    "sample_values": [
+      {
+        "value": "CT",
+        "frequency": 1
+      },
+      {
+        "value": "DN",
+        "frequency": 1
+      },
+      {
+        "value": "HCM",
+        "frequency": 1
+      },
+      {
+        "value": "HN",
+        "frequency": 1
+      },
+      {
+        "value": "HP",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "regions",
+    "column": "region_name",
+    "column_id": "regions.region_name",
+    "sample_values": [
+      {
+        "value": "Cần Thơ",
+        "frequency": 1
+      },
+      {
+        "value": "Hà Nội",
+        "frequency": 1
+      },
+      {
+        "value": "Hải Phòng",
+        "frequency": 1
+      },
+      {
+        "value": "Hồ Chí Minh",
+        "frequency": 1
+      },
+      {
+        "value": "Đà Nẵng",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "return_id",
+    "column_id": "returns.return_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "order_item_id",
+    "column_id": "returns.order_item_id",
+    "sample_values": [
+      {
+        "value": 26,
+        "frequency": 1
+      },
+      {
+        "value": 33,
+        "frequency": 1
+      },
+      {
+        "value": 73,
+        "frequency": 1
+      },
+      {
+        "value": 80,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "return_qty",
+    "column_id": "returns.return_qty",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "refund_amount",
+    "column_id": "returns.refund_amount",
+    "sample_values": [
+      {
+        "value": 0,
+        "frequency": 2
+      },
+      {
+        "value": 155000,
+        "frequency": 1
+      },
+      {
+        "value": 31990000,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "status",
+    "column_id": "returns.status",
+    "sample_values": [
+      {
+        "value": "approved",
+        "frequency": 2
+      },
+      {
+        "value": "rejected",
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "requested_at",
+    "column_id": "returns.requested_at",
+    "sample_values": [
+      {
+        "value": "2026-09-18 10:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-21 12:40:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-21 13:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-24 12:31:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "returns",
+    "column": "decided_at",
+    "column_id": "returns.decided_at",
+    "sample_values": [
+      {
+        "value": "2026-09-19 10:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-22 12:40:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-22 13:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-25 12:31:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "shipment_id",
+    "column_id": "shipments.shipment_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "order_id",
+    "column_id": "shipments.order_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      },
+      {
+        "value": 9,
+        "frequency": 1
+      },
+      {
+        "value": 11,
+        "frequency": 1
+      },
+      {
+        "value": 15,
+        "frequency": 1
+      },
+      {
+        "value": 16,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "shipping_address_id",
+    "column_id": "shipments.shipping_address_id",
+    "sample_values": [
+      {
+        "value": "ADDR-0004",
+        "frequency": 2
+      },
+      {
+        "value": "ADDR-0010",
+        "frequency": 2
+      },
+      {
+        "value": "ADDR-0030",
+        "frequency": 2
+      },
+      {
+        "value": "ADDR-0001",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0003",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0005",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0007",
+        "frequency": 1
+      },
+      {
+        "value": "ADDR-0008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "carrier",
+    "column_id": "shipments.carrier",
+    "sample_values": [
+      {
+        "value": "GHN",
+        "frequency": 7
+      },
+      {
+        "value": "Viettel Post",
+        "frequency": 7
+      },
+      {
+        "value": "GHTK",
+        "frequency": 4
+      },
+      {
+        "value": "J&T",
+        "frequency": 4
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "shipped_at",
+    "column_id": "shipments.shipped_at",
+    "sample_values": [
+      {
+        "value": "2026-09-03 09:39:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-04 10:36:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-06 11:25:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-07 15:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-08 10:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-10 11:56:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-10 12:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-11 12:01:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "delivered_at",
+    "column_id": "shipments.delivered_at",
+    "sample_values": [
+      {
+        "value": "2026-09-05 09:39:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-08 11:25:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-09 15:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-12 11:56:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-12 12:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-15 10:41:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-16 10:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-19 12:40:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "shipping_status",
+    "column_id": "shipments.shipping_status",
+    "sample_values": [
+      {
+        "value": "delivered",
+        "frequency": 15
+      },
+      {
+        "value": "in_transit",
+        "frequency": 7
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_recipient_name",
+    "column_id": "shipments.ship_to_recipient_name",
+    "sample_values": [
+      {
+        "value": "Khách demo 04",
+        "frequency": 2
+      },
+      {
+        "value": "Khách demo 10",
+        "frequency": 2
+      },
+      {
+        "value": "Khách demo 30",
+        "frequency": 2
+      },
+      {
+        "value": "Khách demo 01",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 03",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 05",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 07",
+        "frequency": 1
+      },
+      {
+        "value": "Khách demo 08",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_phone",
+    "column_id": "shipments.ship_to_phone",
+    "sample_values": [
+      {
+        "value": "0909990004",
+        "frequency": 2
+      },
+      {
+        "value": "0909990010",
+        "frequency": 2
+      },
+      {
+        "value": "0909990030",
+        "frequency": 2
+      },
+      {
+        "value": "0909990001",
+        "frequency": 1
+      },
+      {
+        "value": "0909990003",
+        "frequency": 1
+      },
+      {
+        "value": "0909990005",
+        "frequency": 1
+      },
+      {
+        "value": "0909990007",
+        "frequency": 1
+      },
+      {
+        "value": "0909990008",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_formatted_address",
+    "column_id": "shipments.ship_to_formatted_address",
+    "sample_values": [
+      {
+        "value": "[MOCK] Số 10, Đường Demo, Phường Hồng Bàng, Hải Phòng",
+        "frequency": 2
+      },
+      {
+        "value": "[MOCK] Số 30, Đường Demo, Phường Hồng Bàng, Hải Phòng",
+        "frequency": 2
+      },
+      {
+        "value": "[MOCK] Số 4, Đường Demo, Phường Ninh Kiều, Cần Thơ",
+        "frequency": 2
+      },
+      {
+        "value": "[MOCK] Số 1, Đường Demo, Phường Bến Nghé, Hồ Chí Minh",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 12, Đường Demo, Phường Hoàn Kiếm, Hà Nội",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 13, Đường Demo, Phường Hải Châu, Đà Nẵng",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 15, Đường Demo, Phường Hồng Bàng, Hải Phòng",
+        "frequency": 1
+      },
+      {
+        "value": "[MOCK] Số 16, Đường Demo, Phường Bến Nghé, Hồ Chí Minh",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_ward",
+    "column_id": "shipments.ship_to_ward",
+    "sample_values": [
+      {
+        "value": "Phường Hồng Bàng",
+        "frequency": 6
+      },
+      {
+        "value": "Phường Hoàn Kiếm",
+        "frequency": 5
+      },
+      {
+        "value": "Phường Ninh Kiều",
+        "frequency": 5
+      },
+      {
+        "value": "Phường Hải Châu",
+        "frequency": 4
+      },
+      {
+        "value": "Phường Bến Nghé",
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_district",
+    "column_id": "shipments.ship_to_district",
+    "sample_values": []
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_province",
+    "column_id": "shipments.ship_to_province",
+    "sample_values": [
+      {
+        "value": "Hải Phòng",
+        "frequency": 6
+      },
+      {
+        "value": "Cần Thơ",
+        "frequency": 5
+      },
+      {
+        "value": "Hà Nội",
+        "frequency": 5
+      },
+      {
+        "value": "Đà Nẵng",
+        "frequency": 4
+      },
+      {
+        "value": "Hồ Chí Minh",
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_country",
+    "column_id": "shipments.ship_to_country",
+    "sample_values": [
+      {
+        "value": "Việt Nam",
+        "frequency": 22
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_latitude",
+    "column_id": "shipments.ship_to_latitude",
+    "sample_values": [
+      {
+        "value": 10.0331,
+        "frequency": 3
+      },
+      {
+        "value": 20.861,
+        "frequency": 3
+      },
+      {
+        "value": 10.033,
+        "frequency": 2
+      },
+      {
+        "value": 10.7761,
+        "frequency": 2
+      },
+      {
+        "value": 16.068,
+        "frequency": 2
+      },
+      {
+        "value": 20.8611,
+        "frequency": 2
+      },
+      {
+        "value": 21.029,
+        "frequency": 2
+      },
+      {
+        "value": 21.0291,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "shipments",
+    "column": "ship_to_longitude",
+    "column_id": "shipments.ship_to_longitude",
+    "sample_values": [
+      {
+        "value": 105.7831,
+        "frequency": 3
+      },
+      {
+        "value": 106.683,
+        "frequency": 3
+      },
+      {
+        "value": 105.783,
+        "frequency": 2
+      },
+      {
+        "value": 105.852,
+        "frequency": 2
+      },
+      {
+        "value": 105.85210000000001,
+        "frequency": 2
+      },
+      {
+        "value": 106.68310000000001,
+        "frequency": 2
+      },
+      {
+        "value": 106.7001,
+        "frequency": 2
+      },
+      {
+        "value": 108.22,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "stores",
+    "column": "store_id",
+    "column_id": "stores.store_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "stores",
+    "column": "store_code",
+    "column_id": "stores.store_code",
+    "sample_values": [
+      {
+        "value": "CT-01",
+        "frequency": 1
+      },
+      {
+        "value": "DN-01",
+        "frequency": 1
+      },
+      {
+        "value": "HCM-01",
+        "frequency": 1
+      },
+      {
+        "value": "HN-01",
+        "frequency": 1
+      },
+      {
+        "value": "HP-01",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "stores",
+    "column": "store_name",
+    "column_id": "stores.store_name",
+    "sample_values": [
+      {
+        "value": "Cửa hàng demo Cần Thơ",
+        "frequency": 1
+      },
+      {
+        "value": "Cửa hàng demo Hà Nội",
+        "frequency": 1
+      },
+      {
+        "value": "Cửa hàng demo Hải Phòng",
+        "frequency": 1
+      },
+      {
+        "value": "Cửa hàng demo Hồ Chí Minh",
+        "frequency": 1
+      },
+      {
+        "value": "Cửa hàng demo Đà Nẵng",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "stores",
+    "column": "region_id",
+    "column_id": "stores.region_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "stores",
+    "column": "city",
+    "column_id": "stores.city",
+    "sample_values": [
+      {
+        "value": "Cần Thơ",
+        "frequency": 1
+      },
+      {
+        "value": "Hà Nội",
+        "frequency": 1
+      },
+      {
+        "value": "Hải Phòng",
+        "frequency": 1
+      },
+      {
+        "value": "Hồ Chí Minh",
+        "frequency": 1
+      },
+      {
+        "value": "Đà Nẵng",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "stores",
+    "column": "opened_on",
+    "column_id": "stores.opened_on",
+    "sample_values": [
+      {
+        "value": "2024-01-05",
+        "frequency": 5
+      }
+    ]
+  },
+  {
+    "table": "suppliers",
+    "column": "supplier_id",
+    "column_id": "suppliers.supplier_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "suppliers",
+    "column": "supplier_name",
+    "column_id": "suppliers.supplier_name",
+    "sample_values": [
+      {
+        "value": "Nhà cung cấp demo 01",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 02",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 03",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 04",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 05",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 06",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 07",
+        "frequency": 1
+      },
+      {
+        "value": "Nhà cung cấp demo 08",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "suppliers",
+    "column": "region_id",
+    "column_id": "suppliers.region_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 3
+      },
+      {
+        "value": 2,
+        "frequency": 3
+      },
+      {
+        "value": 3,
+        "frequency": 2
+      },
+      {
+        "value": 4,
+        "frequency": 2
+      },
+      {
+        "value": 5,
+        "frequency": 2
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "ticket_id",
+    "column_id": "support_tickets.ticket_id",
+    "sample_values": [
+      {
+        "value": 1,
+        "frequency": 1
+      },
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 3,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 7,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "order_id",
+    "column_id": "support_tickets.order_id",
+    "sample_values": [
+      {
+        "value": 2,
+        "frequency": 1
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 6,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      },
+      {
+        "value": 10,
+        "frequency": 1
+      },
+      {
+        "value": 12,
+        "frequency": 1
+      },
+      {
+        "value": 14,
+        "frequency": 1
+      },
+      {
+        "value": 16,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "customer_id",
+    "column_id": "support_tickets.customer_id",
+    "sample_values": [
+      {
+        "value": 12,
+        "frequency": 3
+      },
+      {
+        "value": 9,
+        "frequency": 2
+      },
+      {
+        "value": 10,
+        "frequency": 2
+      },
+      {
+        "value": 19,
+        "frequency": 2
+      },
+      {
+        "value": 4,
+        "frequency": 1
+      },
+      {
+        "value": 5,
+        "frequency": 1
+      },
+      {
+        "value": 8,
+        "frequency": 1
+      },
+      {
+        "value": 11,
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "issue_type",
+    "column_id": "support_tickets.issue_type",
+    "sample_values": [
+      {
+        "value": "delivery_issue",
+        "frequency": 5
+      },
+      {
+        "value": "order_status",
+        "frequency": 5
+      },
+      {
+        "value": "product_question",
+        "frequency": 5
+      },
+      {
+        "value": "return_question",
+        "frequency": 5
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "priority",
+    "column_id": "support_tickets.priority",
+    "sample_values": [
+      {
+        "value": "Critical",
+        "frequency": 5
+      },
+      {
+        "value": "High",
+        "frequency": 5
+      },
+      {
+        "value": "Low",
+        "frequency": 5
+      },
+      {
+        "value": "Medium",
+        "frequency": 5
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "status",
+    "column_id": "support_tickets.status",
+    "sample_values": [
+      {
+        "value": "in_progress",
+        "frequency": 7
+      },
+      {
+        "value": "resolved",
+        "frequency": 7
+      },
+      {
+        "value": "open",
+        "frequency": 6
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "created_at",
+    "column_id": "support_tickets.created_at",
+    "sample_values": [
+      {
+        "value": "2026-09-05 10:36:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-05 12:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-07 11:25:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-07 14:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-09 10:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-09 10:37:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-11 11:56:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-11 12:00:00",
+        "frequency": 1
+      }
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "column": "resolved_at",
+    "column_id": "support_tickets.resolved_at",
+    "sample_values": [
+      {
+        "value": "2026-09-09 11:25:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-09 14:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-15 10:34:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-15 14:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-21 11:53:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-21 14:00:00",
+        "frequency": 1
+      },
+      {
+        "value": "2026-09-27 13:29:00",
+        "frequency": 1
+      }
+    ]
+  }
+]

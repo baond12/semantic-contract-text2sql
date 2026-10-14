@@ -1,0 +1,312 @@
+[
+  {
+    "relationship_id": "addresses.customer_id->customers.customer_id",
+    "source_table": "addresses",
+    "source_column": "customer_id",
+    "target_table": "customers",
+    "target_column": "customer_id",
+    "on_update": "CASCADE",
+    "on_delete": "CASCADE",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "agents.store_id->stores.store_id",
+    "source_table": "agents",
+    "source_column": "store_id",
+    "target_table": "stores",
+    "target_column": "store_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "categories.parent_category_id->categories.category_id",
+    "source_table": "categories",
+    "source_column": "parent_category_id",
+    "target_table": "categories",
+    "target_column": "category_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "chats.channel_id->channels.channel_id",
+    "source_table": "chats",
+    "source_column": "channel_id",
+    "target_table": "channels",
+    "target_column": "channel_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "chats.product_id->products.product_id",
+    "source_table": "chats",
+    "source_column": "product_id",
+    "target_table": "products",
+    "target_column": "product_id",
+    "on_update": "CASCADE",
+    "on_delete": "SET NULL",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "chats.customer_id->customers.customer_id",
+    "source_table": "chats",
+    "source_column": "customer_id",
+    "target_table": "customers",
+    "target_column": "customer_id",
+    "on_update": "CASCADE",
+    "on_delete": "RESTRICT",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "chats.agent_id->agents.agent_id",
+    "source_table": "chats",
+    "source_column": "agent_id",
+    "target_table": "agents",
+    "target_column": "agent_id",
+    "on_update": "CASCADE",
+    "on_delete": "SET NULL",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "customers.region_id->regions.region_id",
+    "source_table": "customers",
+    "source_column": "region_id",
+    "target_table": "regions",
+    "target_column": "region_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "inventory_snapshots.product_id->products.product_id",
+    "source_table": "inventory_snapshots",
+    "source_column": "product_id",
+    "target_table": "products",
+    "target_column": "product_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "inventory_snapshots.store_id->stores.store_id",
+    "source_table": "inventory_snapshots",
+    "source_column": "store_id",
+    "target_table": "stores",
+    "target_column": "store_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "order_items.promotion_id->promotions.promotion_id",
+    "source_table": "order_items",
+    "source_column": "promotion_id",
+    "target_table": "promotions",
+    "target_column": "promotion_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "order_items.product_id->products.product_id",
+    "source_table": "order_items",
+    "source_column": "product_id",
+    "target_table": "products",
+    "target_column": "product_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "order_items.order_id->orders.order_id",
+    "source_table": "order_items",
+    "source_column": "order_id",
+    "target_table": "orders",
+    "target_column": "order_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "orders.agent_id->agents.agent_id",
+    "source_table": "orders",
+    "source_column": "agent_id",
+    "target_table": "agents",
+    "target_column": "agent_id",
+    "on_update": "CASCADE",
+    "on_delete": "SET NULL",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "orders.chat_id->chats.chat_id",
+    "source_table": "orders",
+    "source_column": "chat_id",
+    "target_table": "chats",
+    "target_column": "chat_id",
+    "on_update": "CASCADE",
+    "on_delete": "SET NULL",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "orders.store_id->stores.store_id",
+    "source_table": "orders",
+    "source_column": "store_id",
+    "target_table": "stores",
+    "target_column": "store_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "orders.channel_id->channels.channel_id",
+    "source_table": "orders",
+    "source_column": "channel_id",
+    "target_table": "channels",
+    "target_column": "channel_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "orders.customer_id->customers.customer_id",
+    "source_table": "orders",
+    "source_column": "customer_id",
+    "target_table": "customers",
+    "target_column": "customer_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "payments.order_id->orders.order_id",
+    "source_table": "payments",
+    "source_column": "order_id",
+    "target_table": "orders",
+    "target_column": "order_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "product_suppliers.supplier_id->suppliers.supplier_id",
+    "source_table": "product_suppliers",
+    "source_column": "supplier_id",
+    "target_table": "suppliers",
+    "target_column": "supplier_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "product_suppliers.product_id->products.product_id",
+    "source_table": "product_suppliers",
+    "source_column": "product_id",
+    "target_table": "products",
+    "target_column": "product_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "products.promotion_id->promotions.promotion_id",
+    "source_table": "products",
+    "source_column": "promotion_id",
+    "target_table": "promotions",
+    "target_column": "promotion_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "products.category_id->categories.category_id",
+    "source_table": "products",
+    "source_column": "category_id",
+    "target_table": "categories",
+    "target_column": "category_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "products.brand_id->brands.brand_id",
+    "source_table": "products",
+    "source_column": "brand_id",
+    "target_table": "brands",
+    "target_column": "brand_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "returns.order_item_id->order_items.order_item_id",
+    "source_table": "returns",
+    "source_column": "order_item_id",
+    "target_table": "order_items",
+    "target_column": "order_item_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "shipments.shipping_address_id->addresses.address_id",
+    "source_table": "shipments",
+    "source_column": "shipping_address_id",
+    "target_table": "addresses",
+    "target_column": "address_id",
+    "on_update": "CASCADE",
+    "on_delete": "SET NULL",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "shipments.order_id->orders.order_id",
+    "source_table": "shipments",
+    "source_column": "order_id",
+    "target_table": "orders",
+    "target_column": "order_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "stores.region_id->regions.region_id",
+    "source_table": "stores",
+    "source_column": "region_id",
+    "target_table": "regions",
+    "target_column": "region_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "suppliers.region_id->regions.region_id",
+    "source_table": "suppliers",
+    "source_column": "region_id",
+    "target_table": "regions",
+    "target_column": "region_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "support_tickets.customer_id->customers.customer_id",
+    "source_table": "support_tickets",
+    "source_column": "customer_id",
+    "target_table": "customers",
+    "target_column": "customer_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  },
+  {
+    "relationship_id": "support_tickets.order_id->orders.order_id",
+    "source_table": "support_tickets",
+    "source_column": "order_id",
+    "target_table": "orders",
+    "target_column": "order_id",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION",
+    "match": "NONE"
+  }
+]

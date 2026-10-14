@@ -25,10 +25,25 @@ def save_json(data, path):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def make_json_safe_value(value):
+    if isinstance(value, bytes):
+        return {
+            "value_type": "bytes",
+            "byte_length": len(value),
+        }
+    return value
+
+
 def fetch_all_dicts(connection, sql, params=()):
     connection.row_factory = sqlite3.Row
     rows = connection.execute(sql, params).fetchall()
-    return [dict(row) for row in rows]
+    return [
+        {
+            key: make_json_safe_value(row[key])
+            for key in row.keys()
+        }
+        for row in rows
+    ]
 
 
 def list_user_tables(connection):
@@ -310,4 +325,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -1,0 +1,18 @@
+{
+  "database_id": "omnichannel_retail",
+  "source_files": {
+    "sqlite_path": "offline_artifacts/omnichannel_retail/00_sources/omnichannel_retail.sqlite3",
+    "schema_path": "offline_artifacts/omnichannel_retail/00_sources/schema.sql",
+    "benchmark_spec_path": "benchmarks/omnichannel_retail/text2sql_benchmark_spec.json"
+  },
+  "output_files": {
+    "tables": "offline_artifacts/omnichannel_retail/01_database_inventory/tables.json",
+    "columns": "offline_artifacts/omnichannel_retail/01_database_inventory/columns.json",
+    "relationships": "offline_artifacts/omnichannel_retail/01_database_inventory/relationships.json",
+    "indexes": "offline_artifacts/omnichannel_retail/01_database_inventory/indexes.json",
+    "sample_values": "offline_artifacts/omnichannel_retail/01_database_inventory/sample_values.json",
+    "database_overview": "offline_artifacts/omnichannel_retail/01_database_inventory/database_overview.json",
+    "benchmark_spec_snapshot": "offline_artifacts/omnichannel_retail/01_database_inventory/benchmark_spec_snapshot.json",
+    "schema_snapshot": "offline_artifacts/omnichannel_retail/01_database_inventory/schema_snapshot.sql"
+  }
+}

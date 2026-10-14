@@ -1,0 +1,455 @@
+[
+  {
+    "table": "addresses",
+    "index_name": "idx_addresses_one_default_per_customer",
+    "is_unique": true,
+    "origin": "c",
+    "columns": [
+      "customer_id"
+    ]
+  },
+  {
+    "table": "addresses",
+    "index_name": "idx_addresses_google_place",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "google_place_id"
+    ]
+  },
+  {
+    "table": "addresses",
+    "index_name": "idx_addresses_customer",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "customer_id"
+    ]
+  },
+  {
+    "table": "addresses",
+    "index_name": "sqlite_autoindex_addresses_1",
+    "is_unique": true,
+    "origin": "pk",
+    "columns": [
+      "address_id"
+    ]
+  },
+  {
+    "table": "agents",
+    "index_name": "idx_agents_store",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "store_id"
+    ]
+  },
+  {
+    "table": "agents",
+    "index_name": "sqlite_autoindex_agents_3",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "email"
+    ]
+  },
+  {
+    "table": "agents",
+    "index_name": "sqlite_autoindex_agents_2",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "agent_code"
+    ]
+  },
+  {
+    "table": "agents",
+    "index_name": "sqlite_autoindex_agents_1",
+    "is_unique": true,
+    "origin": "pk",
+    "columns": [
+      "agent_id"
+    ]
+  },
+  {
+    "table": "brands",
+    "index_name": "sqlite_autoindex_brands_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "brand_name"
+    ]
+  },
+  {
+    "table": "channels",
+    "index_name": "sqlite_autoindex_channels_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "channel_code"
+    ]
+  },
+  {
+    "table": "chats",
+    "index_name": "idx_chats_channel_time",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "channel_id",
+      "chat_time"
+    ]
+  },
+  {
+    "table": "chats",
+    "index_name": "idx_chats_product",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "product_id"
+    ]
+  },
+  {
+    "table": "chats",
+    "index_name": "idx_chats_customer_time",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "customer_id",
+      "chat_time"
+    ]
+  },
+  {
+    "table": "chats",
+    "index_name": "idx_chats_agent_time",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "agent_id",
+      "chat_time"
+    ]
+  },
+  {
+    "table": "chats",
+    "index_name": "idx_chats_conversation_time",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "conversation_id",
+      "chat_time"
+    ]
+  },
+  {
+    "table": "chats",
+    "index_name": "sqlite_autoindex_chats_1",
+    "is_unique": true,
+    "origin": "pk",
+    "columns": [
+      "chat_id"
+    ]
+  },
+  {
+    "table": "customers",
+    "index_name": "idx_customers_region",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "region_id"
+    ]
+  },
+  {
+    "table": "customers",
+    "index_name": "sqlite_autoindex_customers_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "customer_code"
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "index_name": "idx_inventory_asof",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "store_id",
+      "product_id",
+      "snapshot_date"
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "index_name": "sqlite_autoindex_inventory_snapshots_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "store_id",
+      "product_id",
+      "snapshot_date"
+    ]
+  },
+  {
+    "table": "order_items",
+    "index_name": "idx_items_product",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "product_id"
+    ]
+  },
+  {
+    "table": "order_items",
+    "index_name": "idx_items_order",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "order_id"
+    ]
+  },
+  {
+    "table": "orders",
+    "index_name": "idx_orders_agent",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "agent_id"
+    ]
+  },
+  {
+    "table": "orders",
+    "index_name": "idx_orders_chat",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "chat_id"
+    ]
+  },
+  {
+    "table": "orders",
+    "index_name": "idx_orders_customer",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "customer_id"
+    ]
+  },
+  {
+    "table": "orders",
+    "index_name": "idx_orders_channel",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "channel_id"
+    ]
+  },
+  {
+    "table": "orders",
+    "index_name": "idx_orders_time_status",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "ordered_at",
+      "status"
+    ]
+  },
+  {
+    "table": "orders",
+    "index_name": "sqlite_autoindex_orders_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "order_code"
+    ]
+  },
+  {
+    "table": "payments",
+    "index_name": "idx_payments_order_status",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "order_id",
+      "status"
+    ]
+  },
+  {
+    "table": "product_suppliers",
+    "index_name": "idx_product_suppliers_supplier",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "supplier_id"
+    ]
+  },
+  {
+    "table": "product_suppliers",
+    "index_name": "sqlite_autoindex_product_suppliers_1",
+    "is_unique": true,
+    "origin": "pk",
+    "columns": [
+      "product_id",
+      "supplier_id"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "idx_products_stock",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "is_in_stock"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "idx_products_price",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "discount_price"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "idx_products_promotion",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "promotion_id"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "idx_products_category",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "category_id"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "idx_products_brand",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "brand_id"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "sqlite_autoindex_products_2",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "sku"
+    ]
+  },
+  {
+    "table": "products",
+    "index_name": "sqlite_autoindex_products_1",
+    "is_unique": true,
+    "origin": "pk",
+    "columns": [
+      "product_id"
+    ]
+  },
+  {
+    "table": "promotions",
+    "index_name": "sqlite_autoindex_promotions_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "promo_code"
+    ]
+  },
+  {
+    "table": "regions",
+    "index_name": "sqlite_autoindex_regions_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "region_code"
+    ]
+  },
+  {
+    "table": "returns",
+    "index_name": "idx_returns_item_status",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "order_item_id",
+      "status"
+    ]
+  },
+  {
+    "table": "shipments",
+    "index_name": "idx_shipments_address",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "shipping_address_id"
+    ]
+  },
+  {
+    "table": "shipments",
+    "index_name": "sqlite_autoindex_shipments_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "order_id"
+    ]
+  },
+  {
+    "table": "stores",
+    "index_name": "idx_stores_region",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "region_id"
+    ]
+  },
+  {
+    "table": "stores",
+    "index_name": "sqlite_autoindex_stores_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "store_code"
+    ]
+  },
+  {
+    "table": "suppliers",
+    "index_name": "idx_suppliers_region",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "region_id"
+    ]
+  },
+  {
+    "table": "suppliers",
+    "index_name": "sqlite_autoindex_suppliers_1",
+    "is_unique": true,
+    "origin": "u",
+    "columns": [
+      "supplier_name"
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "index_name": "idx_tickets_customer",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "customer_id"
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "index_name": "idx_tickets_created",
+    "is_unique": false,
+    "origin": "c",
+    "columns": [
+      "created_at"
+    ]
+  }
+]

@@ -1,0 +1,183 @@
+[
+  {
+    "table": "addresses",
+    "row_count": 30,
+    "column_count": 19,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "address_id"
+    ]
+  },
+  {
+    "table": "agents",
+    "row_count": 10,
+    "column_count": 9,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "agent_id"
+    ]
+  },
+  {
+    "table": "brands",
+    "row_count": 72,
+    "column_count": 2,
+    "table_role_guess": "reference",
+    "primary_key_columns": [
+      "brand_id"
+    ]
+  },
+  {
+    "table": "categories",
+    "row_count": 229,
+    "column_count": 3,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "category_id"
+    ]
+  },
+  {
+    "table": "channels",
+    "row_count": 6,
+    "column_count": 4,
+    "table_role_guess": "reference",
+    "primary_key_columns": [
+      "channel_id"
+    ]
+  },
+  {
+    "table": "chats",
+    "row_count": 100,
+    "column_count": 12,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "chat_id"
+    ]
+  },
+  {
+    "table": "customers",
+    "row_count": 30,
+    "column_count": 5,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "customer_id"
+    ]
+  },
+  {
+    "table": "inventory_snapshots",
+    "row_count": 895,
+    "column_count": 6,
+    "table_role_guess": "fact_or_child_entity",
+    "primary_key_columns": [
+      "snapshot_id"
+    ]
+  },
+  {
+    "table": "order_items",
+    "row_count": 103,
+    "column_count": 7,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "order_item_id"
+    ]
+  },
+  {
+    "table": "orders",
+    "row_count": 50,
+    "column_count": 12,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "order_id"
+    ]
+  },
+  {
+    "table": "payments",
+    "row_count": 55,
+    "column_count": 6,
+    "table_role_guess": "fact_or_child_entity",
+    "primary_key_columns": [
+      "payment_id"
+    ]
+  },
+  {
+    "table": "product_suppliers",
+    "row_count": 393,
+    "column_count": 3,
+    "table_role_guess": "fact_or_child_entity",
+    "primary_key_columns": [
+      "product_id",
+      "supplier_id"
+    ]
+  },
+  {
+    "table": "products",
+    "row_count": 300,
+    "column_count": 20,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "product_id"
+    ]
+  },
+  {
+    "table": "promotions",
+    "row_count": 4,
+    "column_count": 6,
+    "table_role_guess": "reference",
+    "primary_key_columns": [
+      "promotion_id"
+    ]
+  },
+  {
+    "table": "regions",
+    "row_count": 5,
+    "column_count": 3,
+    "table_role_guess": "reference",
+    "primary_key_columns": [
+      "region_id"
+    ]
+  },
+  {
+    "table": "returns",
+    "row_count": 4,
+    "column_count": 7,
+    "table_role_guess": "fact_or_child_entity",
+    "primary_key_columns": [
+      "return_id"
+    ]
+  },
+  {
+    "table": "shipments",
+    "row_count": 22,
+    "column_count": 16,
+    "table_role_guess": "fact_or_child_entity",
+    "primary_key_columns": [
+      "shipment_id"
+    ]
+  },
+  {
+    "table": "stores",
+    "row_count": 5,
+    "column_count": 6,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "store_id"
+    ]
+  },
+  {
+    "table": "suppliers",
+    "row_count": 12,
+    "column_count": 3,
+    "table_role_guess": "entity_or_transaction",
+    "primary_key_columns": [
+      "supplier_id"
+    ]
+  },
+  {
+    "table": "support_tickets",
+    "row_count": 20,
+    "column_count": 8,
+    "table_role_guess": "fact_or_child_entity",
+    "primary_key_columns": [
+      "ticket_id"
+    ]
+  }
+]
